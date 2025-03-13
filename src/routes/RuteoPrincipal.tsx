@@ -25,6 +25,7 @@ export const RuteoPrincipal = ()=>{
             <Route path="/bienvenidaUsuario" element={<LazyBienvenida />} />
             <Route path="/login" element={<LazySesion/>}></Route>
             <Route path="/register" element={<LazyRegistro/>}></Route>
+            
             <Route element={<Vigilante/>}>
                 <Route path="/dash/*" element={<LazyTablero></LazyTablero>}/>                
             </Route>

@@ -2,6 +2,8 @@ export const URLS = {
     URL_BASE: "http://localhost:3550",
     INICIAR_SESION: "/public/accesos/signin",
     REGISTRO: "/public/registros/user",
+    LISTAR_PUBLICACION_PUBLICA: "/public/publicaciones/publico",
+
 
     /****SERVICIOS PRIVADOS ************ */
     LISTAR_USUARIOS: "/privado/usuarios/todos",
@@ -21,6 +23,10 @@ export const URLS = {
     CREAR_PUBLICACION: "/privado/publicaciones/agregar",
     ACTUALIZAR_PUBLICACION: "/privado/publicaciones/update",
     ELIMINAR_PUBLICACION: "/privado/publicaciones/delete",
+
+
+
+    
 
 
 }
