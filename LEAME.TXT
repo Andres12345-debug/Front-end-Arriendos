@@ -88,6 +88,8 @@
     8. CARGAR EL RECURSO 01_formulario_sesion en componente 01_formulario_sesion
     
 #******************************#
+
+npm start
 #******************************#
 #******************************#
 #******************************#

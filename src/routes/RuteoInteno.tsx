@@ -37,7 +37,6 @@ export const RuteoInterno = () => {
         <Routes>
             
             <Route path="welcome" element={<LazyBienvenida/>}></Route>
-
             <Route path="/listarRole" element={<LazyRoleListar/>}></Route>
             <Route path="/adminRole" element={<LazyRoleAdministrar/>}></Route>
             <Route path="/addRole" element={<LazyRoleCrear/>}></Route>

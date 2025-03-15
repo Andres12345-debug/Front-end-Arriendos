@@ -7,6 +7,7 @@ import { Error } from "../app/shared/Error";
 import { TableroPrincipal } from "../app/private/contenedor/TableroPrincipal";
 import { Vigilante } from "../app/seguridad/Vigilante";
 import { Publicaciones } from "../app/public/Publicaciones";
+import { TableroVistaPublica } from "../app/private/contenedor/TableroVistaPublica";
 
 
 
@@ -16,13 +17,16 @@ const LazyRegistro = lazy(()=>import('../app/public/Registro').then(() => ({defa
 const LazyError = lazy(()=>import('../app/shared/Error').then(() => ({default:Error})));
 const LazyTablero = lazy(()=>import('../app/private/contenedor/TableroPrincipal').then(() => ({default:TableroPrincipal})));
 
+const LazyTableroVistaPublica = lazy(()=>import('../app/private/contenedor/TableroVistaPublica').then(() => ({default:TableroVistaPublica})));
+
+
 
 
 
 export const RuteoPrincipal = ()=>{
     return (
         <Routes>
-            <Route path="/bienvenidaUsuario" element={<LazyBienvenida />} />
+            <Route path="/bienvenidaUsuario" element={<LazyTableroVistaPublica />} />
             <Route path="/login" element={<LazySesion/>}></Route>
             <Route path="/register" element={<LazyRegistro/>}></Route>
             

@@ -50,15 +50,15 @@ export const Publicaciones = () => {
                 {arrPubli.length > 0 ? (
                     arrPubli.map((publicacion, index) => (
                         <div className="col-md-4" key={index}>
-                            <div className="card shadow-sm" onClick={() => handleShowModal(publicacion)}
+                            <div className="card shadow-sm bg-dark-subtle" onClick={() => handleShowModal(publicacion)}
                                 onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
                                 onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}                                 >
-                                <div className="card-img-top" style={{ height: "200px", overflow: "hidden" }}>
+                                <div className="card-img-top p-3" style={{ height: "200px", overflow: "hidden" }}>
                                     {publicacion.imagenUrl ? (
                                         <img
                                             src={URLS.URL_BASE + publicacion.imagenUrl}
                                             alt="Publicación"
-                                            className="img-fluid w-100 h-100"
+                                            className="img-fluid w-100 h-100 rounded-3 bi-cursor" 
                                             style={{ objectFit: "cover" }}
                                         />
                                     ) : (
