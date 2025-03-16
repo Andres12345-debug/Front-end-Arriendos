@@ -3,6 +3,7 @@ export const URLS = {
     INICIAR_SESION: "/public/accesos/signin",
     REGISTRO: "/public/registros/user",
     LISTAR_PUBLICACION_PUBLICA: "/public/publicaciones/publico",
+    LISTAR_PUBLICACION_POR_TIPO: "/public/publicaciones/tipoCasa/Casa",
 
 
     /****SERVICIOS PRIVADOS ************ */

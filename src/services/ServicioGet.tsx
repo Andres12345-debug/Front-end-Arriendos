@@ -9,9 +9,6 @@ export class ServicioGet {
 
             }
         }
-
-
-
         const respuesta = fetch(urlServicio, datosEnviar).then((res) => {
             return res.json();
         }).then((losDatos) => {
@@ -39,6 +36,12 @@ export class ServicioGet {
         return respuesta;
     }
 
+    // 🏠 Nuevo método para obtener solo casas
+    public static async obtenerCasas(urlServicio: string): Promise<any> {
+        return this.peticionGet(urlServicio).then((datos) => {
+            return datos.filter((vivienda: any) => vivienda.tipo === "Casa");
+        });
+    }
 
 
 

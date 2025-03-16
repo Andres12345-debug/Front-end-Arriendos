@@ -4,6 +4,7 @@ import { ServicioGet } from "../../services/ServicioGet";
 import { useEffect, useState } from "react";
 import { Publicacion } from "../../models/Publicacion";
 import { Modal } from "react-bootstrap";
+import CarruselCasas from "../private/contenedor/CarrucelCasas";
 
 
 
@@ -44,8 +45,13 @@ export const Publicaciones = () => {
     };
 
     return (
+        
         <div className="container mt-5">
             {/* Publicaciones estilo Instagram */}
+            <div className="container mt-4">
+            <h2 className="text-center">Casas Disponibles</h2>
+            <CarruselCasas />
+        </div>
             <div className="row gy-4">
                 {arrPubli.length > 0 ? (
                     arrPubli.map((publicacion, index) => (

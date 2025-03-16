@@ -7,11 +7,11 @@ import { crearMensaje } from "../../../utilities/funciones/mensaje";
 import { ServicioPut } from "../../../services/ServicioPut";
 import { Link } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
-import { Publicacion } from "../../../models/Publicacion";
+import { Publicacion, TipoVivienda } from "../../../models/Publicacion";
 
 export const PublicacionAdministrar = () => {
     const [arrPublicacion, setArrPublicacion] = useState<Publicacion[]>([]);
-    const [rolSeleccionado, setRolSeleccionado] = useState<Publicacion>(new Publicacion(0,0,"","","","", new Date(), 0,0,0,0,"",0,0));
+    const [rolSeleccionado, setRolSeleccionado] = useState<Publicacion>(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA));
     const [show, setShow] = useState(false);
     const [showActualizar, setShowActualizar] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -41,7 +41,7 @@ export const PublicacionAdministrar = () => {
         const file = e.target.files?.[0];
         if (file) {
             setSelectedFile(file);
-            
+
             // Create preview
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -59,21 +59,21 @@ export const PublicacionAdministrar = () => {
                 ...rolSeleccionado,
                 ...(selectedFile && { imagenFile: selectedFile })
             };
-      
+
             const resultado = await ServicioPut.peticionPut(urlServicio, publicacionActualizar);
-      
+
             if (resultado?.mensaje === "Publicacion actualizada") {
                 crearMensaje('success', "Publicación actualizada satisfactoriamente");
-      
+
                 // Actualiza directamente el estado arrPublicacion
                 setArrPublicacion((prevPublicaciones) =>
                     prevPublicaciones.map((publicacion) =>
-                        publicacion.codPublicacion === rolSeleccionado.codPublicacion 
-                            ? { 
-                                ...publicacion, 
+                        publicacion.codPublicacion === rolSeleccionado.codPublicacion
+                            ? {
+                                ...publicacion,
                                 ...resultado.objeto,
-                                ...(resultado.objeto.imagenUrl && { imagenUrl: resultado.objeto.imagenUrl }) 
-                            } 
+                                ...(resultado.objeto.imagenUrl && { imagenUrl: resultado.objeto.imagenUrl })
+                            }
                             : publicacion
                     )
                 );
@@ -87,8 +87,8 @@ export const PublicacionAdministrar = () => {
             console.error("Error en la actualización:", error);
             crearMensaje('error', "Error en el servidor al intentar actualizar la publicación");
         }
-    };           
-    
+    };
+
 
     useEffect(() => {
         consultarPublicacion();
@@ -126,7 +126,7 @@ export const PublicacionAdministrar = () => {
                                     <td>{objRol.codPublicacion}</td>
                                     <td>{objRol.tituloPublicacion}</td>
                                     <td>{objRol.contenidoPublicacion}</td>
-                                    <td>{objRol.imagenUrl}</td>                                    
+                                    <td>{objRol.imagenUrl}</td>
                                     <td>
                                         <Button
                                             className="btn btn-warning btn-sm mx-1"
@@ -146,7 +146,7 @@ export const PublicacionAdministrar = () => {
                                         >
                                             <i className="fa fa-trash"></i>
                                         </Button>
-                                    </td>                               
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -178,49 +178,66 @@ export const PublicacionAdministrar = () => {
                     <Form>
                         <Form.Group controlId="formTitulo">
                             <Form.Label>Titulo</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                value={rolSeleccionado.tituloPublicacion} 
+                            <Form.Control
+                                type="text"
+                                value={rolSeleccionado.tituloPublicacion}
                                 onChange={(e) =>
                                     setRolSeleccionado({ ...rolSeleccionado, tituloPublicacion: e.target.value })
                                 }
                             />
-                        </Form.Group>                        
-                        
+                        </Form.Group>
+                        <Form.Group controlId="formTipoVivienda">
+                            <Form.Label>Tipo de Vivienda</Form.Label>
+                            <Form.Control
+                                as="select"
+                                value={rolSeleccionado.tipo}
+                                onChange={(e) =>
+                                    setRolSeleccionado({ ...rolSeleccionado, tipo: e.target.value as TipoVivienda })
+                                }
+                            >
+                                {Object.values(TipoVivienda).map((tipo) => (
+                                    <option key={tipo} value={tipo}>
+                                        {tipo}
+                                    </option>
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
+
+
                         <Form.Group controlId="formMetros">
                             <Form.Label>Metros de construccion</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                value={rolSeleccionado.metros} 
+                            <Form.Control
+                                type="text"
+                                value={rolSeleccionado.metros}
                                 onChange={(e) =>
                                     setRolSeleccionado({ ...rolSeleccionado, metros: e.target.value })
                                 }
                             />
-                        </Form.Group>                        
-                        
+                        </Form.Group>
+
                         <Form.Group controlId="formContenido">
                             <Form.Label>Contenido</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                value={rolSeleccionado.contenidoPublicacion} 
+                            <Form.Control
+                                type="text"
+                                value={rolSeleccionado.contenidoPublicacion}
                                 onChange={(e) =>
                                     setRolSeleccionado({ ...rolSeleccionado, contenidoPublicacion: e.target.value })
                                 }
                             />
-                        </Form.Group>                        
-                        
+                        </Form.Group>
+
                         <Form.Group controlId="formImagen">
                             <Form.Label>Imagen</Form.Label>
-                            <Form.Control 
-                                type="file" 
+                            <Form.Control
+                                type="file"
                                 onChange={handleFileChange}
                             />
                             {(previewImage || rolSeleccionado.imagenUrl) && (
                                 <div className="mt-2">
-                                    <img 
-                                        src={previewImage || rolSeleccionado.imagenUrl} 
-                                        alt="Preview" 
-                                        style={{ maxWidth: '200px', maxHeight: '200px' }} 
+                                    <img
+                                        src={previewImage || rolSeleccionado.imagenUrl}
+                                        alt="Preview"
+                                        style={{ maxWidth: '200px', maxHeight: '200px' }}
                                     />
                                 </div>
                             )}

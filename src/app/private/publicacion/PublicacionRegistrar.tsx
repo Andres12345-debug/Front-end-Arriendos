@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { Button, Form, Card, Row, Col } from "react-bootstrap";
 import { ServicioPost } from "../../../services/ServicioPost";
 import { crearMensaje } from "../../../utilities/funciones/mensaje";
-import { Publicacion } from "../../../models/Publicacion";
+import { Publicacion, TipoVivienda } from "../../../models/Publicacion";
 import { URLS } from "../../../utilities/dominios/urls";
 import { Usuario } from "../../../models/Usuario";
 import { ServicioGet } from "../../../services/ServicioGet";
 
 export const PublicacionRegistrar = () => {
   // Estado inicial del formulario
-  const [formData, setFormData] = useState<Publicacion>(() => 
-    new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0,"",0,0) // Añadir codUsuario por defecto
+  const [formData, setFormData] = useState<Publicacion>(() =>
+    new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA) // Añadir codUsuario por defecto
   );
 
   // Estado para almacenar los usuarios
@@ -47,11 +47,11 @@ export const PublicacionRegistrar = () => {
   const crearPublicacion = async () => {
     // Validación de campos
     if (
-      !formData.tituloPublicacion.trim() || 
-      !formData.metros || 
-      !formData.habitaciones || 
-      !formData.banios || 
-      !formData.contenidoPublicacion.trim() || 
+      !formData.tituloPublicacion.trim() ||
+      !formData.metros ||
+      !formData.habitaciones ||
+      !formData.banios ||
+      !formData.contenidoPublicacion.trim() ||
       !imagen // Verificamos que la imagen no sea nula
     ) {
       crearMensaje("error", "Por favor, complete todos los campos obligatorios.");
@@ -70,6 +70,7 @@ export const PublicacionRegistrar = () => {
     formDataToSend.append("fechaCreacionPublicacion", formData.fechaCreacionPublicacion.toISOString());
     formDataToSend.append("parqueadero", formData.parqueadero.toString()); // Añadimos el valor de parqueadero
     formDataToSend.append("estrato", formData.estrato.toString()); // Añadimos el valor de estrato
+    formDataToSend.append("tipo", formData.tipo); // Añadir el tipo de vivienda
     formDataToSend.append("servicios", formData.servicios.toString()); // Añadimos el valor de servicios
     formDataToSend.append("administracion", formData.administracion.toString()); // Añadimos el valor de administración
 
@@ -83,9 +84,9 @@ export const PublicacionRegistrar = () => {
       // Manejar la respuesta
       if (resultado.success) {
         crearMensaje("success", resultado.message || "Publicación registrada con éxito.");
-        
+
         // Resetear formulario
-        setFormData(new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0,"",0,0));
+        setFormData(new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA));
         setImagen(null); // Limpiar la imagen
       } else {
         crearMensaje("error", resultado.message || "Error al crear la publicación.");
@@ -130,13 +131,13 @@ export const PublicacionRegistrar = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, metros: e.target.value })
                     }
-                    placeholder="Ingrese los metros de construccion"                    
+                    placeholder="Ingrese los metros de construccion"
                   />
                 </Form.Group>
               </Col>
 
 
-               
+
 
               {/* Contenido Publicación */}
               <Col sm={12} md={6}>
@@ -204,6 +205,27 @@ export const PublicacionRegistrar = () => {
                 </Form.Group>
               </Col>
 
+              {/* Tipo de Vivienda */}
+              <Col sm={12} md={6}>
+                <Form.Group controlId="formTipoVivienda">
+                  <Form.Label>Tipo de Vivienda</Form.Label>
+                  <Form.Select
+                    value={formData.tipo}
+                    onChange={(e) =>
+                      setFormData({ ...formData, tipo: e.target.value as TipoVivienda })
+                    }
+                  >
+                    {Object.values(TipoVivienda).map((tipo) => (
+                      <option key={tipo} value={tipo}>
+                        {tipo}
+                      </option>
+                    ))}
+                  </Form.Select>
+
+                </Form.Group>
+              </Col>
+
+
               {/* Parqueadero */}
               <Col sm={12} md={6}>
                 <Form.Group controlId="formParqueadero">
@@ -254,7 +276,7 @@ export const PublicacionRegistrar = () => {
                   >
                     <option value="0">Seleccione los servicios</option>
                     <option value="1">Compartidos</option>
-                    <option value="2">Independientes</option> 
+                    <option value="2">Independientes</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
