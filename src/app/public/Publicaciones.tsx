@@ -58,7 +58,7 @@ export const Publicaciones = () => {
                                         <img
                                             src={URLS.URL_BASE + publicacion.imagenUrl}
                                             alt="Publicación"
-                                            className="img-fluid w-100 h-100 rounded-3 bi-cursor" 
+                                            className="img-fluid w-100 h-100 rounded-3 bi-cursor"
                                             style={{ objectFit: "cover" }}
                                         />
                                     ) : (
@@ -123,5 +123,8 @@ export const Publicaciones = () => {
                 </Modal.Body>
             </Modal>
         </div>
+        
+        
+
     );
 };
