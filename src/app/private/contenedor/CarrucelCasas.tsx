@@ -1,23 +1,34 @@
 import { useEffect, useState } from "react";
-import { Carousel } from "react-bootstrap";
 import { Publicacion } from "../../../models/Publicacion";
 import { URLS } from "../../../utilities/dominios/urls";
 import { ServicioGet } from "../../../services/ServicioGet";
 
-const CarrucelCasas = () => {
+// Importamos las imágenes PNG
+import CasaImg from '../../../assets/img/Iconos/6.png';
+import ApartamentoImg from '../../../assets/img/Iconos/5.png';
+import FincaImg from '../../../assets/img/Iconos/4.png';
+import HabitacionImg from '../../../assets/img/Iconos/7.png';
+
+
+const Viviendas = () => {
     const [casas, setCasas] = useState<Publicacion[]>([]);
     const [cargando, setCargando] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [tipoVivienda, setTipoVivienda] = useState<string>("Casa");
 
-    // Obtener publicaciones según el tipo de vivienda seleccionado
+    // Opciones de tipo de vivienda con imágenes PNG
+    const tiposVivienda = [
+        { nombre: "Casa", imagen: CasaImg },
+        { nombre: "Apartamento", imagen: ApartamentoImg },
+        { nombre: "Habitacion", imagen: HabitacionImg },
+        { nombre: "Finca", imagen: FincaImg },
+    ];
+
     const cargarCasas = async () => {
         setCargando(true);
         setError(null);
 
-        // URL correcta según el backend
         const urlServicio = `${URLS.URL_BASE}/public/publicaciones/tipoCasa/${tipoVivienda}`;
-
         try {
             const resultado = await ServicioGet.peticionGetPublica(urlServicio);
             setCasas(Array.isArray(resultado) ? resultado : []);
@@ -29,46 +40,81 @@ const CarrucelCasas = () => {
         }
     };
 
-    // Cargar publicaciones cuando cambia el tipo de vivienda
     useEffect(() => {
         cargarCasas();
     }, [tipoVivienda]);
 
     return (
-        <div className="container mt-4">
-            <h3 className="text-center">Viviendas Destacadas</h3>
+        <div className="container mt-4 rounded-5 BackgroundPublico p-5">
+            {/* Título */}
+            <h2 className="text-center border-bottom pb-2 mt-4">
+                Elige el tipo de <span className="naranjaLetras">vivienda</span>
+            </h2>
 
-            {/* Botones para cambiar el tipo de vivienda */}
-            <div className="text-center mb-3">
-                <button className="btn btn-primary m-2" onClick={() => setTipoVivienda("Casa")}>Casas</button>
-                <button className="btn btn-primary m-2" onClick={() => setTipoVivienda("Apartamento")}>Apartamentos</button>
-                <button className="btn btn-primary m-2" onClick={() => setTipoVivienda("Finca")}>Fincas</button>
+            {/* Cards de selección de tipo de vivienda */}
+            <div className="row g-3">
+                {tiposVivienda.map((tipo) => (
+                    <div key={tipo.nombre} className="col-lg-3 col-md-4 col-sm-6 d-flex">
+                        <div
+                            onMouseEnter={(e) => (e.currentTarget.style.filter = "brightness(80%)")}
+                            onMouseLeave={(e) => (e.currentTarget.style.filter = "brightness(100%)")}
+                            className={`card shadow-sm flex-grow-1 ${tipoVivienda === tipo.nombre ? "border-primary" : ""}`}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => setTipoVivienda(tipo.nombre)}
+                        >
+                            <img
+                                src={tipo.imagen}
+                                alt={tipo.nombre}
+                                className="card-img-top p-2"
+                                style={{ height: "100px", objectFit: "contain" }}
+                            />
+                            <div className="card-body text-center">
+                                <h6 className="card-title">{tipo.nombre}</h6>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
 
+            {/* Contenido de las viviendas */}
             {cargando && <p className="text-center">Cargando...</p>}
             {error && <p className="text-center text-danger">{error}</p>}
 
-            {/* Carrusel con publicaciones */}
-            {casas.length > 0 && (
-                <Carousel>
-                    {casas.map((casa, index) => (
-                        <Carousel.Item key={index}>
+            {/* Listado de viviendas como cards */}
+            <div className="row g-2 mt-4">
+                {casas.map((casa, index) => (
+                    <div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex">
+                        <div className="card shadow-lg p-3 bg-dark-subtle rounded-4 flex-grow-1"
+                            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.03)")}
+                            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                            style={{ cursor: "pointer", transition: "all 0.3s ease-in-out" }}>
+
                             <img
-                                className="d-block w-100"
                                 src={URLS.URL_BASE + casa.imagenUrl}
                                 alt={casa.tituloPublicacion}
-                                style={{ height: "400px", objectFit: "cover" }}
+                                className="card-img-top rounded-3"
+                                style={{ height: "200px", objectFit: "cover" }}
                             />
-                            <Carousel.Caption>
-                                <h5>{casa.tituloPublicacion}</h5>
-                                <p>{casa.contenidoPublicacion}</p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                    ))}
-                </Carousel>
-            )}
+                            <div className="card-body">
+                                <h5 className="card-title">{casa.tituloPublicacion}</h5>
+                                <small className="text-muted">
+                                    Publicado el{" "}
+                                    {new Date(casa.fechaCreacionPublicacion).toLocaleDateString("es-ES", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    })}
+                                </small>
+                                <p className="card-text naranjaLetrasMasOscuras">{casa.tipo}</p>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
         </div>
+
     );
 };
 
-export default CarrucelCasas;
+export default Viviendas;

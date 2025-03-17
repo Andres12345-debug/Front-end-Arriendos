@@ -44,22 +44,21 @@ export const Publicaciones = () => {
         setSelectedPublicacion(null);
     };
 
-    return (
-        
+    return (        
         <div className="container mt-5">
             {/* Publicaciones estilo Instagram */}
             <div className="container mt-4">
-            <h2 className="text-center">Casas Disponibles</h2>
-            <CarruselCasas />
         </div>
             <div className="row gy-4">
+            <h3 className="text-center">Todos</h3>
                 {arrPubli.length > 0 ? (
                     arrPubli.map((publicacion, index) => (
                         <div className="col-md-4" key={index}>
-                            <div className="card shadow-sm bg-dark-subtle" onClick={() => handleShowModal(publicacion)}
-                                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-                                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}                                 >
-                                <div className="card-img-top p-3" style={{ height: "200px", overflow: "hidden" }}>
+                            <div className="card shadow-sm bg-dark-subtle" style={{ cursor: "pointer" }}                                                    
+                             onClick={() => handleShowModal(publicacion)}
+                                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.02)")}
+                                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}>
+                                <div className="card-img-top p-3" style={{ height: "200px", overflow: "hidden"}}>
                                     {publicacion.imagenUrl ? (
                                         <img
                                             src={URLS.URL_BASE + publicacion.imagenUrl}
@@ -84,6 +83,7 @@ export const Publicaciones = () => {
                                             day: "numeric",
                                         })}
                                     </small>
+                                    <p className="card-text">{publicacion.tipo}</p>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +106,7 @@ export const Publicaciones = () => {
                                 src={URLS.URL_BASE + selectedPublicacion.imagenUrl}
                                 alt="Imagen de la publicación"
                                 className="img-fluid mb-3 mb-md-0"
-                                style={{ maxHeight: "400px", objectFit: "cover", borderRadius: "8px", marginRight: "30px" }}
+                                style={{ maxHeight: "400px", objectFit: "cover", borderRadius: "8px", marginRight: "30px", }}
                             />
                         )}
                         <div className="mt-3" style={{ flex: 1 }}>

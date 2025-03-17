@@ -2,6 +2,8 @@ export enum TipoVivienda {
   CASA = 'Casa',
   APARTAMENTO = 'Apartamento',
   FINCA = 'Finca',
+  HABITACION = 'Habitacion',
+
 }
 export class Publicacion {
   public codPublicacion: number;

@@ -131,8 +131,15 @@
 .naranjaLetras {
   color: #ff914d;
 }
+.naranjaLetrasMasOscuras {
+  color: #cf6625;
+}
 .naranjaFondo {
   background-color: #ff914d;
+}
+.BackgroundPublico{
+  background-color: rgba(184, 184, 184, 0.1);
+
 }
 
 h1 {

@@ -6,16 +6,19 @@ import { Carroucel } from "./Carruoucel"
 import { FooterPublico } from "./FooterPublico"
 import { MenuLateral } from "./MenuLateral"
 import MenuPublico from "./MenuPublico"
+import CarruselCasas from "./CarrucelCasas";
+
+
 
 export const TableroVistaPublica = () => {
 
     return (
 
         <div>
-            <MenuPublico></MenuPublico> {/* Llamado al componente */}
+            <MenuPublico></MenuPublico> {/* Llamado al componente */}     
             <div className="pt-16">
-            <Carroucel/>
-            </div>
+            <CarruselCasas />
+            </div>       
             <div className="pt-16"> {/* Add padding to avoid content being hidden behind the fixed menu */}
                 <Publicaciones /> {/* Llamado al componente */}
             </div>            
