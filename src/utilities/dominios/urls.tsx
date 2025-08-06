@@ -1,5 +1,5 @@
 export const URLS = {
-    URL_BASE: "https://ee4ea3c7f3cd.ngrok-free.app",
+    URL_BASE: "https://d038e484ef90.ngrok-free.app ",
     INICIAR_SESION: "/public/accesos/signin",
     REGISTRO: "/public/registros/user",
     LISTAR_PUBLICACION_PUBLICA: "/public/publicaciones/publico",
@@ -24,10 +24,4 @@ export const URLS = {
     CREAR_PUBLICACION: "/privado/publicaciones/agregar",
     ACTUALIZAR_PUBLICACION: "/privado/publicaciones/update",
     ELIMINAR_PUBLICACION: "/privado/publicaciones/delete",
-
-
-
-    
-
-
 }
