@@ -24,12 +24,24 @@ export const PublicacionAdministrar = () => {
         setPreviewImage(null);
     };
 
-    const consultarPublicacion = async () => {
+const consultarPublicacion = async () => {
+    try {
         const urlServicio = URLS.URL_BASE + URLS.LISTAR_PUBLICACION;
         const resultado = await ServicioGet.peticionGet(urlServicio);
-        setArrPublicacion(resultado);
-    };
 
+        if (Array.isArray(resultado)) {
+            setArrPublicacion(resultado);
+        } else if (resultado && Array.isArray(resultado.objeto)) {
+            setArrPublicacion(resultado.objeto);
+        } else {
+            console.error("Formato inesperado del backend:", resultado);
+            setArrPublicacion([]);
+        }
+    } catch (error) {
+        console.error("Error al consultar publicaciones:", error);
+        setArrPublicacion([]);
+    }
+};
     const eliminarRoles = async (codigo: number) => {
         const urlServicio = URLS.URL_BASE + URLS.ELIMINAR_PUBLICACION + '/' + codigo;
         const resultado = await ServicioDelete.peticionDelete(urlServicio);

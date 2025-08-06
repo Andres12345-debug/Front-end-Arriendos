@@ -58,9 +58,24 @@ export const UsuarioAdministrar = () => {
 
     const consultarUsuarios = async () => {
         const urlServicio = URLS.URL_BASE + URLS.LISTAR_USUARIOS;
-        const resultado = await ServicioGet.peticionGet(urlServicio);
-        setArrUsuario(resultado);
-    }
+
+        try {
+            const resultado = await ServicioGet.peticionGet(urlServicio);
+
+            if (Array.isArray(resultado)) {
+                setArrUsuario(resultado);
+            } else if (resultado && Array.isArray(resultado.objeto)) {
+                setArrUsuario(resultado.objeto);
+            } else {
+                console.error("Formato inesperado del backend:", resultado);
+                setArrUsuario([]);
+            }
+        } catch (error) {
+            console.error("Error al consultar usuarios:", error);
+            setArrUsuario([]);
+        }
+    };
+
 
     const eliminarUsuario = async (codigo: number) => {
         const urlServicio = URLS.URL_BASE + URLS.ELIMINAR_USUARIO + '/' + codigo;
@@ -73,7 +88,7 @@ export const UsuarioAdministrar = () => {
         const urlServicio = URLS.URL_BASE + URLS.ACTUALIZAR_USUARIO + '/' + usuarioSeleccionado.codUsuario;
         try {
             const resultado = await ServicioPut.peticionPut(urlServicio, usuarioSeleccionado);
-    
+
             // Verificar específicamente el mensaje de éxito
             if (resultado?.mensaje === "Usuario actualizado") {
                 crearMensaje('success', "Usuario actualizado satisfactoriamente");
@@ -125,7 +140,7 @@ export const UsuarioAdministrar = () => {
                                 <th style={{ width: "15%" }}>Fecha de Nacimiento</th>
                                 <th style={{ width: "10%" }}>Teléfono</th>
                                 <th style={{ width: "10%" }}>Género</th>
-                                <th style={{ width: "15%" }}>Rol</th>    
+                                <th style={{ width: "15%" }}>Rol</th>
                                 <th style={{ width: "15%" }}>Acciones</th>
                             </tr>
                         </thead>

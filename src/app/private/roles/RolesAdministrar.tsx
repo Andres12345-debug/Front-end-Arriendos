@@ -18,10 +18,19 @@ export const RolAdministrar = () => {
     const handleCloseActualizar = () => setShowActualizar(false);
 
     const consultarRoles = async () => {
-        const urlServicio = URLS.URL_BASE + URLS.LISTAR_ROLES;
-        const resultado = await ServicioGet.peticionGet(urlServicio);
+    const urlServicio = URLS.URL_BASE + URLS.LISTAR_ROLES;
+    const resultado = await ServicioGet.peticionGet(urlServicio);
+
+    if (Array.isArray(resultado)) {
         setArrRoles(resultado);
-    };
+    } else if (resultado && Array.isArray(resultado.objeto)) {
+        setArrRoles(resultado.objeto);
+    } else {
+        console.error("Formato inesperado del backend:", resultado);
+        setArrRoles([]);
+    }
+};
+
 
     const eliminarRoles = async (codigo: number) => {
         const urlServicio = URLS.URL_BASE + URLS.ELIMINAR_ROLES + '/' + codigo;
