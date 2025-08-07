@@ -2,6 +2,7 @@
   "name": "front_arriendos_react",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://c3330e32a8b2.ngrok-free.app",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.1",
     "@nestjs/platform-express": "^10.4.11",

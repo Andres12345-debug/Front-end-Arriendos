@@ -18,18 +18,27 @@ export const RolAdministrar = () => {
     const handleCloseActualizar = () => setShowActualizar(false);
 
     const consultarRoles = async () => {
-    const urlServicio = URLS.URL_BASE + URLS.LISTAR_ROLES;
-    const resultado = await ServicioGet.peticionGet(urlServicio);
+        try {
+            const urlServicio = URLS.URL_BASE + URLS.LISTAR_ROLES;
+            console.log("Consultando roles en:", urlServicio);
+            
+            const resultado = await ServicioGet.peticionGet(urlServicio);
 
-    if (Array.isArray(resultado)) {
-        setArrRoles(resultado);
-    } else if (resultado && Array.isArray(resultado.objeto)) {
-        setArrRoles(resultado.objeto);
-    } else {
-        console.error("Formato inesperado del backend:", resultado);
-        setArrRoles([]);
-    }
-};
+            if (Array.isArray(resultado)) {
+                setArrRoles(resultado);
+            } else if (resultado && Array.isArray(resultado.objeto)) {
+                setArrRoles(resultado.objeto);
+            } else {
+                console.error("Formato inesperado del backend:", resultado);
+                crearMensaje('error', "Error al cargar los roles. Verifica la conexión con el servidor.");
+                setArrRoles([]);
+            }
+        } catch (error) {
+            console.error("Error al consultar roles:", error);
+            crearMensaje('error', "Error de conexión con el servidor. Verifica que el backend esté funcionando.");
+            setArrRoles([]);
+        }
+    };
 
 
     const eliminarRoles = async (codigo: number) => {
