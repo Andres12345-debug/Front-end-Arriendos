@@ -1,5 +1,5 @@
 export const URLS = {
-    URL_BASE: "https://abandoned-montreal-closely-deutsche.trycloudflare.com",
+    URL_BASE: "https://gzip-extras-median-sunny.trycloudflare.com",
     INICIAR_SESION: "/public/accesos/signin",
     REGISTRO: "/public/registros/user",
     LISTAR_PUBLICACION_PUBLICA: "/public/publicaciones/publico",
