@@ -11,6 +11,7 @@ export class Publicacion {
   public tituloPublicacion: string;
   public contenidoPublicacion: string;
   public imagenUrl: string;
+  public imagenesUrls: string[]; // ✅ Array para múltiples imágenes
   public fechaCreacionPublicacion: Date;
   public parqueadero: number;
   public estrato: number;
@@ -36,13 +37,15 @@ export class Publicacion {
     met: string,
     habi: number,
     bani: number,
-    tipo: TipoVivienda // ✅ Se agrega el parámetro en el constructor
+    tipo: TipoVivienda, // ✅ Se agrega el parámetro en el constructor
+    imagenes: string[] = [] // ✅ Array para múltiples imágenes con valor por defecto
   ) {
     this.codPublicacion = codP;
     this.codUsuario = codUsu;
     this.tituloPublicacion = tit;
     this.contenidoPublicacion = conte;
     this.imagenUrl = img;
+    this.imagenesUrls = imagenes; // ✅ Asignar array de imágenes
     this.fechaCreacionPublicacion = fec;
     this.parqueadero = par;
     this.estrato = est;

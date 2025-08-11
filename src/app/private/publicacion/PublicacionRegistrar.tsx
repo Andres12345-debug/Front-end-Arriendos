@@ -16,8 +16,9 @@ export const PublicacionRegistrar = () => {
   // Estado para almacenar los usuarios
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
 
-  // Estado para almacenar el archivo de imagen
-  const [imagen, setImagen] = useState<File | null>(null);
+  // Estado para almacenar múltiples archivos de imagen
+  const [imagenes, setImagenes] = useState<File[]>([]);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
 
   // Obtener los usuarios desde el backend
   const obtenerUsuarios = async () => {
@@ -36,11 +37,30 @@ export const PublicacionRegistrar = () => {
     obtenerUsuarios();
   }, []);
 
-  // Método para manejar el archivo de imagen
-  const manejarImagen = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Método para manejar múltiples archivos de imagen
+  const manejarImagenes = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setImagen(e.target.files[0]);
+      const archivosSeleccionados = Array.from(e.target.files);
+  
+      // Guardar las imágenes en el estado
+      setImagenes((prev) => [...prev, ...archivosSeleccionados]);
+  
+      // Generar previews
+      const nuevasPreviews = archivosSeleccionados.map((archivo) =>
+        URL.createObjectURL(archivo)
+      );
+  
+      setPreviewImages((prev) => [...prev, ...nuevasPreviews]);
     }
+  };
+  
+
+  // Método para eliminar una imagen específica
+  const eliminarImagen = (index: number) => {
+    const nuevasImagenes = imagenes.filter((_, i) => i !== index);
+    const nuevasPreviews = previewImages.filter((_, i) => i !== index);
+    setImagenes(nuevasImagenes);
+    setPreviewImages(nuevasPreviews);
   };
 
   // Método para registrar la publicación
@@ -52,9 +72,9 @@ export const PublicacionRegistrar = () => {
       !formData.habitaciones ||
       !formData.banios ||
       !formData.contenidoPublicacion.trim() ||
-      !imagen // Verificamos que la imagen no sea nula
+      imagenes.length === 0 // Verificamos que haya al menos una imagen
     ) {
-      crearMensaje("error", "Por favor, complete todos los campos obligatorios.");
+      crearMensaje("error", "Por favor, complete todos los campos obligatorios y suba al menos una imagen.");
       return;
     }
 
@@ -65,7 +85,12 @@ export const PublicacionRegistrar = () => {
     formDataToSend.append("habitaciones", formData.habitaciones.toString());
     formDataToSend.append("banios", formData.banios.toString());
     formDataToSend.append("contenidoPublicacion", formData.contenidoPublicacion);
-    formDataToSend.append("imagen", imagen); // Aquí agregamos la imagen
+    
+    // Agregar múltiples imágenes
+    imagenes.forEach((imagen, index) => {
+      formDataToSend.append(`imagenes`, imagen);
+    });
+    
     formDataToSend.append("codUsuario", formData.codUsuario.toString());
     formDataToSend.append("fechaCreacionPublicacion", formData.fechaCreacionPublicacion.toISOString());
     formDataToSend.append("parqueadero", formData.parqueadero.toString()); // Añadimos el valor de parqueadero
@@ -87,7 +112,8 @@ export const PublicacionRegistrar = () => {
 
         // Resetear formulario
         setFormData(new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA));
-        setImagen(null); // Limpiar la imagen
+        setImagenes([]); // Limpiar las imágenes
+        setPreviewImages([]); // Limpiar las previews
       } else {
         crearMensaje("error", resultado.message || "Error al crear la publicación.");
       }
@@ -155,15 +181,60 @@ export const PublicacionRegistrar = () => {
                 </Form.Group>
               </Col>
 
-              {/* Imagen URL (Ahora se sube un archivo) */}
-              <Col sm={12} md={6}>
-                <Form.Group controlId="formImagen">
-                  <Form.Label>Imagen</Form.Label>
+              {/* Múltiples imágenes */}
+              <Col sm={12}>
+                <Form.Group controlId="formImagenes">
+                  <Form.Label>Imágenes (selecciona múltiples imágenes)</Form.Label>
                   <Form.Control
                     type="file"
-                    onChange={manejarImagen}
+                    multiple
+                    accept="image/*"
+                    onChange={manejarImagenes}
                   />
+                  <Form.Text className="text-muted">
+                    Puedes seleccionar múltiples imágenes para tu publicación.
+                  </Form.Text>
                 </Form.Group>
+                
+                {/* Vista previa de imágenes */}
+                {previewImages.length > 0 && (
+                  <div className="mt-3">
+                    <Form.Label>Vista previa de imágenes:</Form.Label>
+                    <div className="d-flex flex-wrap gap-2">
+                      {previewImages.map((preview, index) => (
+                        <div key={index} className="position-relative">
+                          <img
+                            src={preview}
+                            alt={`Preview ${index + 1}`}
+                            style={{ 
+                              width: "120px", 
+                              height: "120px", 
+                              objectFit: "cover", 
+                              borderRadius: "8px" 
+                            }}
+                          />
+                          <button
+                            type="button"
+                            className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                            style={{ 
+                              transform: "translate(50%, -50%)", 
+                              borderRadius: "50%",
+                              width: "25px",
+                              height: "25px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              padding: "0"
+                            }}
+                            onClick={() => eliminarImagen(index)}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </Col>
 
               {/* Fecha de Publicación */}

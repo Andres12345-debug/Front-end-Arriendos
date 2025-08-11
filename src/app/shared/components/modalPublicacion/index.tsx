@@ -1,0 +1,1 @@
+export { ModalPublicacion } from './ModalPublicacion';

@@ -51,7 +51,24 @@ export const Carroucel = () => {
                 >
                     {arrPubli.map((publicacion, index) => (
                         <div key={index} className="p-3" onClick={() => handleShowModal(publicacion)}>
-                            {publicacion.imagenUrl ? (
+                            {publicacion.imagenesUrls && publicacion.imagenesUrls.length > 0 ? (
+                                <div style={{ position: "relative" }}>
+                                    <img
+                                        src={URLS.URL_BASE + publicacion.imagenesUrls[0]}
+                                        alt="Publicación"
+                                        className="img-fluid rounded-3"
+                                        style={{ objectFit: "cover", maxHeight: "400px" }}
+                                    />
+                                    {publicacion.imagenesUrls.length > 1 && (
+                                        <div 
+                                            className="position-absolute top-0 end-0 bg-dark text-white px-3 py-2 rounded-3 m-3"
+                                            style={{ fontSize: "1rem", zIndex: 2 }}
+                                        >
+                                            +{publicacion.imagenesUrls.length - 1} más
+                                        </div>
+                                    )}
+                                </div>
+                            ) : publicacion.imagenUrl ? (
                                 <img
                                     src={URLS.URL_BASE + publicacion.imagenUrl}
                                     alt="Publicación"

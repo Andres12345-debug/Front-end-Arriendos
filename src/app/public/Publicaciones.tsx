@@ -3,17 +3,15 @@ import { URLS } from "../../utilities/dominios/urls";
 import { ServicioGet } from "../../services/ServicioGet";
 import { useEffect, useState } from "react";
 import { Publicacion } from "../../models/Publicacion";
-import { Modal } from "react-bootstrap";
 import CarruselCasas from "../private/contenedor/CarrucelCasas";
-
-
-
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { ModalPublicacion } from "../../app/shared/components/modalPublicacion/ModalPublicacion"; // ⬅ Importas tu modal
 
 export const Publicaciones = () => {
-    // Estado para almacenar las publicaciones
     const [arrPubli, setArrPubli] = useState<Publicacion[]>([]);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedPublicacion, setSelectedPublicacion] = useState<Publicacion | null>(null);
 
-    // Consultar publicaciones
     const consultarPublicaciones = async () => {
         const urlServicio = URLS.URL_BASE + URLS.LISTAR_PUBLICACION_PUBLICA;
         try {
@@ -28,17 +26,11 @@ export const Publicaciones = () => {
         consultarPublicaciones();
     }, []);
 
-    // Estado para mostrar el modal
-    const [showModal, setShowModal] = useState(false);
-    const [selectedPublicacion, setSelectedPublicacion] = useState<Publicacion | null>(null);
-
-
-    // Función para abrir el modal con los detalles de la publicación seleccionada
     const handleShowModal = (publicacion: Publicacion) => {
         setSelectedPublicacion(publicacion);
         setShowModal(true);
     };
-    // Función para cerrar el modal
+
     const handleCloseModal = () => {
         setShowModal(false);
         setSelectedPublicacion(null);
@@ -46,24 +38,39 @@ export const Publicaciones = () => {
 
     return (        
         <div className="container mt-5">
-            {/* Publicaciones estilo Instagram */}
-            <div className="container mt-4">
-        </div>
             <div className="row gy-4">
-            <h3 className="text-center">Todos</h3>
+                <h3 className="text-center">Todos</h3>
                 {arrPubli.length > 0 ? (
                     arrPubli.map((publicacion, index) => (
                         <div className="col-md-4" key={index}>
-                            <div className="card shadow-sm bg-dark-subtle" style={{ cursor: "pointer" }}                                                    
-                             onClick={() => handleShowModal(publicacion)}
-                                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.02)")}
-                                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}>
-                                <div className="card-img-top p-3" style={{ height: "200px", overflow: "hidden"}}>
-                                    {publicacion.imagenUrl ? (
+                            <div 
+                                className="card shadow-sm bg-dark-subtle"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleShowModal(publicacion)}
+                            >
+                                <div className="card-img-top p-3" style={{ height: "200px", overflow: "hidden" }}>
+                                    {publicacion.imagenesUrls && publicacion.imagenesUrls.length > 0 ? (
+                                        <>
+                                            <img
+                                                src={URLS.URL_BASE + publicacion.imagenesUrls[0]}
+                                                alt="Publicación"
+                                                className="img-fluid w-100 h-100 rounded-3"
+                                                style={{ objectFit: "cover" }}
+                                            />
+                                            {publicacion.imagenesUrls.length > 1 && (
+                                                <div 
+                                                    className="position-absolute top-0 end-0 bg-dark text-white px-2 py-1 rounded-2 m-2"
+                                                    style={{ fontSize: "0.8rem", zIndex: 2 }}
+                                                >
+                                                    +{publicacion.imagenesUrls.length - 1}
+                                                </div>
+                                            )}
+                                        </>
+                                    ) : publicacion.imagenUrl ? (
                                         <img
                                             src={URLS.URL_BASE + publicacion.imagenUrl}
                                             alt="Publicación"
-                                            className="img-fluid w-100 h-100 rounded-3 bi-cursor"
+                                            className="img-fluid w-100 h-100 rounded-3"
                                             style={{ objectFit: "cover" }}
                                         />
                                     ) : (
@@ -94,43 +101,13 @@ export const Publicaciones = () => {
                     </div>
                 )}
             </div>
-            {/* Modal para mostrar los detalles de la publicación */}
-            <Modal show={showModal} onHide={handleCloseModal} size="xl">
-                <Modal.Header closeButton>
-                    <Modal.Title>{selectedPublicacion?.tituloPublicacion}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="d-flex flex-column flex-md-row align-items-start">
-                        {selectedPublicacion?.imagenUrl && (
-                            <img
-                                src={URLS.URL_BASE + selectedPublicacion.imagenUrl}
-                                alt="Imagen de la publicación"
-                                className="img-fluid mb-3 mb-md-0"
-                                style={{ maxHeight: "400px", objectFit: "cover", borderRadius: "8px", marginRight: "30px", }}
-                            />
-                        )}
-                        <div className="mt-3" style={{ flex: 1 }}>
-                            <h5 className="fw-bold mb-3">{selectedPublicacion?.tituloPublicacion}</h5>
-                            <p className="mb-2"><strong>Descripción:</strong> {selectedPublicacion?.contenidoPublicacion}</p>
-                            <p className="mb-2"><strong>Área:</strong> {selectedPublicacion?.metros} mt² de construcción</p>
-                            <p className="mb-2"><strong>Habitaciones:</strong> Tiene {selectedPublicacion?.habitaciones} habitaciones</p>
-                            <p className="mb-2"><strong>Baños:</strong> Tiene {selectedPublicacion?.banios} baños</p>
-                            <p className={`mb-2 ${selectedPublicacion?.servicios === 1 ? "text-danger" : "text-success"}`}>
-                                <strong>Servicios:</strong> {selectedPublicacion?.servicios === 1 ? "Servicios Compartidos" : "Servicios independientes"}
-                            </p>
-                            <p className={`mb-2 ${selectedPublicacion?.administracion === 1 ? "text-danger" : "text-success"}`}>
-                                <strong>Administración:</strong> {selectedPublicacion?.administracion === 1 ? "Paga administración" : "No paga administración"}
-                            </p>
-                            <p className={`mb-2 ${selectedPublicacion?.parqueadero === 1 ? "text-success" : "text-danger"}`}>
-                                <strong>Parqueadero:</strong> {selectedPublicacion?.parqueadero === 1 ? "Cuenta con parquedero" : "No cuenta con parqueadero"}
-                            </p>
-                        </div>
-                    </div>
-                </Modal.Body>
-            </Modal>
-        </div>
-        
-        
 
+            {/* Modal reutilizable */}
+            <ModalPublicacion
+                show={showModal}
+                handleClose={handleCloseModal}
+                publicacion={selectedPublicacion}
+            />
+        </div>
     );
 };

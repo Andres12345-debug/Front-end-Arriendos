@@ -1,9 +1,9 @@
 export const URLS = {
-    URL_BASE: "https://gzip-extras-median-sunny.trycloudflare.com",
+    URL_BASE: "https://worm-injury-cup-tan.trycloudflare.com",
     INICIAR_SESION: "/public/accesos/signin",
     REGISTRO: "/public/registros/user",
     LISTAR_PUBLICACION_PUBLICA: "/public/publicaciones/publico",
-    LISTAR_PUBLICACION_POR_TIPO: "/public/publicaciones/tipoCasa/Casa",
+    LISTAR_PUBLICACION_POR_TIPO: "/public/publicaciones/tipoCasa/:tipoVivienda",
 
 
     /****SERVICIOS PRIVADOS ************ */
@@ -19,9 +19,9 @@ export const URLS = {
     ELIMINAR_ROLES: "/privado/roles/delete",
 
 
-    
     LISTAR_PUBLICACION: "/privado/publicaciones/todos",
     CREAR_PUBLICACION: "/privado/publicaciones/agregar",
+    CREAR_PUBLICACION_CON_IMAGENES: "/privado/publicaciones/agregar-con-imagenes",
     ACTUALIZAR_PUBLICACION: "/privado/publicaciones/update",
     ELIMINAR_PUBLICACION: "/privado/publicaciones/delete",
 }
