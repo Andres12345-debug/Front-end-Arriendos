@@ -6,6 +6,10 @@ import { FooterPublico } from "../private/contenedor/layout/FooterPublico"
 import { MenuLateral } from "../private/contenedor/layout/MenuLateral"
 import MenuPublico from "../private/contenedor/layout/MenuPublico"
 import CarruselCasas from "../private/contenedor/widgets/CarrucelCasas";
+import Button from "@mui/material/Button";
+import BasicTable from "../shared/components/tabla/BasicTable"
+import CircularProgress from "@mui/material/CircularProgress"
+
 
 
 
@@ -14,13 +18,14 @@ export const TableroVistaPublica = () => {
     return (
 
         <div>
-            <MenuPublico></MenuPublico> {/* Llamado al componente */}     
+            <BasicTable></BasicTable>
+
             <div className="pt-16">
-            <CarruselCasas />
-            </div>       
+                <CarruselCasas />
+            </div>
             <div className="pt-16"> {/* Add padding to avoid content being hidden behind the fixed menu */}
-               {/*   } <Publicaciones /> {/* Llamado al componente */}
-            </div>            
+                {/*   } <Publicaciones /> {/* Llamado al componente */}
+            </div>
             <div className="pt-16">
                 <FooterPublico />{/* Llamado al componente */}
             </div>

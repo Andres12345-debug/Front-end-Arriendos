@@ -4,7 +4,12 @@
   "private": true,
   "proxy": "https://c3330e32a8b2.ngrok-free.app",
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@fortawesome/fontawesome-free": "^6.7.1",
+    "@mui/icons-material": "^7.3.1",
+    "@mui/material": "^7.3.1",
+    "@mui/styled-engine-sc": "^7.3.1",
     "@nestjs/platform-express": "^10.4.11",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -32,6 +37,7 @@
     "react-toastify": "^10.0.6",
     "sass": "^1.81.0",
     "simplebar-react": "^3.2.6",
+    "styled-components": "^6.1.19",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
