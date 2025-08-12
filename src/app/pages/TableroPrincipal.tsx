@@ -1,6 +1,7 @@
-import { RuteoInterno } from "../../../routes/RuteoInteno"
-import { Cabecera } from "./Cabecera"
-import { MenuLateral } from "./MenuLateral"
+import { RuteoInterno } from "../../routes/RuteoInteno"
+import { Cabecera } from "../private/contenedor/layout/Cabecera"
+import { MenuLateral } from "../private/contenedor/layout/MenuLateral"
+
 
 export const TableroPrincipal = () =>{
 

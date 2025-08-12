@@ -1,6 +1,6 @@
 import { lazy } from "react";
 import { Route, Routes } from "react-router-dom"
-import { Bienvenida } from "../app/private/contenedor/Bienvenida";
+import { Bienvenida } from "../app/pages/Bienvenida";
 import { Error } from "../app/shared/Error";
 import { RolesListar } from "../app/private/roles/RolesListar";
 import { RolAdministrar } from "../app/private/roles/RolesAdministrar";
@@ -12,7 +12,7 @@ import { PublicacionRegistrar } from "../app/private/publicacion/PublicacionRegi
 import { PublicacionListar } from "../app/private/publicacion/PublicacionListar";
 import { PublicacionAdministrar } from "../app/private/publicacion/PublicacionAdministrar";
 
-const LazyBienvenida = lazy(()=>import('../app/private/contenedor/Bienvenida').then(() => ({default:Bienvenida})));
+const LazyBienvenida = lazy(()=>import('../app/pages/Bienvenida').then(() => ({default:Bienvenida})));
 const LazyError = lazy(()=>import('../app/shared/Error').then(() => ({default:Error})));
 
 const LazyRoleListar = lazy(()=>import('../app/private/roles/RolesListar').then(() => ({default:RolesListar})));

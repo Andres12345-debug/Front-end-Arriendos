@@ -4,10 +4,10 @@ import { Sesion } from "../app/public/Sesion"
 import { Registro } from "../app/public/Registro";
 
 import { Error } from "../app/shared/Error";
-import { TableroPrincipal } from "../app/private/contenedor/TableroPrincipal";
 import { Vigilante } from "../app/seguridad/Vigilante";
 import { Publicaciones } from "../app/public/Publicaciones";
-import { TableroVistaPublica } from "../app/private/contenedor/TableroVistaPublica";
+import { TableroVistaPublica } from "../app/pages/TableroVistaPublica";
+import { TableroPrincipal } from "../app/pages/TableroPrincipal";
 
 
 
@@ -15,9 +15,9 @@ const LazyBienvenida = lazy(()=>import('../app/public/Publicaciones').then(() =>
 const LazySesion = lazy(()=>import('../app/public/Sesion').then(() => ({default:Sesion})));
 const LazyRegistro = lazy(()=>import('../app/public/Registro').then(() => ({default:Registro})));
 const LazyError = lazy(()=>import('../app/shared/Error').then(() => ({default:Error})));
-const LazyTablero = lazy(()=>import('../app/private/contenedor/TableroPrincipal').then(() => ({default:TableroPrincipal})));
+const LazyTablero = lazy(()=>import('../app/pages/TableroPrincipal').then(() => ({default:TableroPrincipal})));
 
-const LazyTableroVistaPublica = lazy(()=>import('../app/private/contenedor/TableroVistaPublica').then(() => ({default:TableroVistaPublica})));
+const LazyTableroVistaPublica = lazy(()=>import('../app/pages/TableroVistaPublica').then(() => ({default:TableroVistaPublica})));
 
 
 

@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // Importa estilos del carrusel
-import { Publicacion } from "../../../models/Publicacion";
-import { URLS } from "../../../utilities/dominios/urls";
-import { ServicioGet } from "../../../services/ServicioGet";
+import { Publicacion } from "../../../../models/Publicacion";
+import { URLS } from "../../../../utilities/dominios/urls";
+import { ServicioGet } from "../../../../services/ServicioGet";
+
 
 export const Carroucel = () => {
     const [arrPubli, setArrPubli] = useState<Publicacion[]>([]);

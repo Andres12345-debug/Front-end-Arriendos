@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap-icons/font/bootstrap-icons.css"; // Asegúrate de importar Bootstrap Icons
-import logo from "../../../assets/img/LogoMenu/logoPrincipal.svg";
-import "../../../assets/css/estilosGenerales.css";
+import logo from "../../../../assets/img/LogoMenu/logoPrincipal.svg";
+import "../../../../assets/css/estilosGenerales.css";
 
 const MenuPublico = () => {
   return (

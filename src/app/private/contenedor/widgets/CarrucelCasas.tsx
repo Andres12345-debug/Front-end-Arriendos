@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { Publicacion } from "../../../models/Publicacion";
-import { URLS } from "../../../utilities/dominios/urls";
-import { ServicioGet } from "../../../services/ServicioGet";
-import { ModalPublicacion } from "../../../app/shared/components/modalPublicacion"; // <-- importar modal
 
 // Imágenes
-import CasaImg from '../../../assets/img/Iconos/6.png';
-import ApartamentoImg from '../../../assets/img/Iconos/5.png';
-import FincaImg from '../../../assets/img/Iconos/4.png';
-import HabitacionImg from '../../../assets/img/Iconos/7.png';
+import CasaImg from '../../../../assets/img/Iconos/6.png';
+import ApartamentoImg from '../../../../assets/img/Iconos/5.png';
+import FincaImg from '../../../../assets/img/Iconos/4.png';
+import HabitacionImg from '../../../../assets/img/Iconos/7.png';
+import { Publicacion } from "../../../../models/Publicacion";
+import { URLS } from "../../../../utilities/dominios/urls";
+import { ServicioGet } from "../../../../services/ServicioGet";
+import { ModalPublicacion } from "../../../shared/components/modalPublicacion";
 
 const Viviendas = () => {
     const [casas, setCasas] = useState<Publicacion[]>([]);

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
-import { URLS } from "../../../utilities/dominios/urls";
-import { ServicioGet } from "../../../services/ServicioGet";
-import { Publicacion } from "../../../models/Publicacion";
+import { URLS } from "../../utilities/dominios/urls";
+import { ServicioGet } from "../../services/ServicioGet";
+import { Publicacion } from "../../models/Publicacion";
 import { Modal } from "react-bootstrap"; // Asegúrate de tener Bootstrap instalado
 
 export const Bienvenida = () => {

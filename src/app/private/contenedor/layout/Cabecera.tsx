@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import fotoAvatar from "../../../assets/img/fotoSesion.jpg"
+import fotoAvatar from "../../../../assets/img/fotoSesion.jpg"
 import { jwtDecode } from "jwt-decode";
 
 export const Cabecera = () =>{

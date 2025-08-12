@@ -3,7 +3,6 @@ import { URLS } from "../../utilities/dominios/urls";
 import { ServicioGet } from "../../services/ServicioGet";
 import { useEffect, useState } from "react";
 import { Publicacion } from "../../models/Publicacion";
-import CarruselCasas from "../private/contenedor/CarrucelCasas";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { ModalPublicacion } from "../../app/shared/components/modalPublicacion/ModalPublicacion"; // ⬅ Importas tu modal
 

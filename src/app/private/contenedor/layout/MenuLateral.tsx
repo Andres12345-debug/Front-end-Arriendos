@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../../assets/img/logoApp.png";
+import logo from "../../../../assets/img/logoApp.png";
 import SimpleBar from "simplebar-react";
-import fotoAvatar from "../../../assets/img/fotoSesion.jpg";
-import { OPCIONES_MENU } from "../../../utilities/dominios/opcionesMenu";
+import fotoAvatar from "../../../../assets/img/fotoSesion.jpg";
+import { OPCIONES_MENU } from "../../../../utilities/dominios/opcionesMenu";
 
 export const MenuLateral = () => {
     const [show, setShow] = useState(false);
