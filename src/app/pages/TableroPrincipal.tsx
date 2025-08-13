@@ -1,4 +1,4 @@
-import { RuteoInterno } from "../../routes/RuteoInteno"
+import { RuteoInterno } from "../../routes/RuteoInterno"
 import { Cabecera } from "../private/contenedor/layout/Cabecera"
 import { MenuLateral } from "../private/contenedor/layout/MenuLateral"
 

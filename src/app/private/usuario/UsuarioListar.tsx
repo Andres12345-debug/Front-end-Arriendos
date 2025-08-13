@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { URLS } from "../../../utilities/dominios/urls";
+import { URLS } from "../../../utilities/dominios/Urls";
 import { ServicioGet } from "../../../services/ServicioGet";
 import { Usuario } from "../../../models/Usuario";
 import { Role } from "../../../models/Rol";

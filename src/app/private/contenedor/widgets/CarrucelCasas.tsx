@@ -6,11 +6,11 @@ import ApartamentoImg from '../../../../assets/img/Iconos/5.png';
 import FincaImg from '../../../../assets/img/Iconos/4.png';
 import HabitacionImg from '../../../../assets/img/Iconos/7.png';
 import { Publicacion } from "../../../../models/Publicacion";
-import { URLS } from "../../../../utilities/dominios/urls";
+import { URLS } from "../../../../utilities/dominios/Urls";
 import { ServicioGet } from "../../../../services/ServicioGet";
 import { ModalPublicacion } from "../../../shared/components/modalPublicacion";
 
-const Viviendas = () => {
+export const Viviendas = () => {
     const [casas, setCasas] = useState<Publicacion[]>([]);
     const [cargando, setCargando] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -85,8 +85,7 @@ const Viviendas = () => {
                 {casas.map((casa, index) => (
                     <div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex">
                         <div
-                            className="card shadow-lg p-3 bg-dark-subtle rounded-4 flex-grow-1"
-                            style={{ cursor: "pointer", transition: "all 0.3s ease-in-out" }}
+                            className="card shadow-lg p-3 bg-dark-subtle rounded-4 flex-grow-1 pointer-hover"
                             onClick={() => abrirModal(casa)} // <- abre el modal con esa publicación
                         >
                             <div style={{ position: "relative" }}>
@@ -98,7 +97,7 @@ const Viviendas = () => {
                                 />
                             </div>
                             <div className="card-body">
-                                <h5 className="card-title">{casa.tituloPublicacion}</h5>
+                                <h5 className="card-title uppercase">{casa.tituloPublicacion}</h5>
                                 <small className="text-muted">
                                     Publicado el{" "}
                                     {new Date(casa.fechaCreacionPublicacion).toLocaleDateString("es-ES", {
@@ -107,7 +106,6 @@ const Viviendas = () => {
                                         day: "numeric",
                                     })}
                                 </small>
-                                <p className="card-text naranjaLetrasMasOscuras">{casa.tipo}</p>
                             </div>
                         </div>
                     </div>

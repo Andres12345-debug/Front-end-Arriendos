@@ -1,17 +1,19 @@
 import * as React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import FolderIcon from '@mui/icons-material/Person';
 import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { NavItem } from 'react-bootstrap';
 
 export default function TopNavigation() {
-  const [value, setValue] = React.useState('recents');
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
+  
+      const [show, setShow] = React.useState(false);
+      const showClass = show ? "show" : "";
+  
+  
 
   return (
     <>
@@ -24,30 +26,29 @@ export default function TopNavigation() {
           width: '100%',
           bgcolor: 'background.paper',
           zIndex: 1000,
-          boxShadow: 1
+          boxShadow: 2,
         }}
-        value={value}
-        onChange={handleChange}
       >
         <BottomNavigationAction
           label="Recents"
           value="recents"
           icon={<RestoreIcon />}
+          component={Link}
+          to="/land"
+        />
+        <BottomNavigationAction
+          label="Panel"
+          value="panel"
+          icon={<FolderIcon />}
+          component={Link}
+          to="/dash"
         />
         <BottomNavigationAction
           label="Favorites"
           value="favorites"
           icon={<FavoriteIcon />}
-        />
-        <BottomNavigationAction
-          label="Nearby"
-          value="nearby"
-          icon={<LocationOnIcon />}
-        />
-        <BottomNavigationAction
-          label="Person"
-          value="Person"
-          icon={<FolderIcon />}
+          component={Link}
+          to="/favorites"
         />
       </BottomNavigation>
 
@@ -55,4 +56,5 @@ export default function TopNavigation() {
       <div style={{ paddingTop: '56px' }}></div>
     </>
   );
+
 }

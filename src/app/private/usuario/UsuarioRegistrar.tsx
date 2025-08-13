@@ -5,7 +5,7 @@ import { ServicioGet } from "../../../services/ServicioGet";
 import { crearMensaje } from "../../../utilities/funciones/mensaje";
 import { Usuario } from "../../../models/Usuario";
 import { Role } from "../../../models/Rol";
-import { URLS } from "../../../utilities/dominios/urls";
+import { URLS } from "../../../utilities/dominios/Urls";
 
 export const UsuarioRegistrar = () => {
   // Estado del formulario

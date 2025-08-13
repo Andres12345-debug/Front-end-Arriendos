@@ -1,47 +1,62 @@
-import { lazy } from "react"
-import { Route, Routes } from "react-router-dom"
-import { Sesion } from "../app/public/Sesion"
-import { Registro } from "../app/public/Registro";
-
-import { Error } from "../app/shared/Error";
+import { lazy } from "react";
+import { Route, Routes } from "react-router-dom";
 import { Vigilante } from "../app/seguridad/Vigilante";
-import { Publicaciones } from "../app/public/Publicaciones";
-import { TableroVistaPublica } from "../app/pages/TableroVistaPublica";
-import { TableroPrincipal } from "../app/pages/TableroPrincipal";
 
+// Lazy imports (páginas públicas)
+const LazySesion = lazy(() =>
+  import("../app/public/Sesion").then(() => ({
+    default: require("../app/public/Sesion").Sesion
+  }))
+);
+const LazyRegistro = lazy(() =>
+  import("../app/public/Registro").then(() => ({
+    default: require("../app/public/Registro").Registro
+  }))
+);
+const LazyError = lazy(() =>
+  import("../app/shared/Error").then(() => ({
+    default: require("../app/shared/Error").Error
+  }))
+);
 
+// Lazy imports (área pública y privada)
+const LazyTableroVistaPublica = lazy(() =>
+  import("../app/pages/TableroVistaPublica").then(() => ({
+    default: require("../app/pages/TableroVistaPublica").TableroVistaPublica
+  }))
+);
+const LazyViviendas = lazy(() =>
+  import("../app/private/contenedor/widgets/CarrucelCasas")
+);
 
-const LazyBienvenida = lazy(()=>import('../app/public/Publicaciones').then(() => ({default:  Publicaciones})));
-const LazySesion = lazy(()=>import('../app/public/Sesion').then(() => ({default:Sesion})));
-const LazyRegistro = lazy(()=>import('../app/public/Registro').then(() => ({default:Registro})));
-const LazyError = lazy(()=>import('../app/shared/Error').then(() => ({default:Error})));
-const LazyTablero = lazy(()=>import('../app/pages/TableroPrincipal').then(() => ({default:TableroPrincipal})));
+const LazyTablero = lazy(() =>
+  import("../app/pages/TableroPrincipal").then(() => ({
+    default: require("../app/pages/TableroPrincipal").TableroPrincipal
+  }))
+);
 
-const LazyTableroVistaPublica = lazy(()=>import('../app/pages/TableroVistaPublica').then(() => ({default:TableroVistaPublica})));
+export const RuteoPrincipal = () => {
+  return (
+    <Routes>
+      {/* Área pública */}
+      <Route path="/land" element={<LazyTableroVistaPublica />}>
+        {/* Ruta index: /land */}
+        <Route index element={<LazyViviendas />} />
+        {/* Ruta hija: /land/welcome */}
+        <Route path="welcome" element={<LazyViviendas />} />
+      </Route>
 
+      <Route path="/login" element={<LazySesion />} />
+      <Route path="/register" element={<LazyRegistro />} />
 
+      {/* Área privada (protegida por Vigilante) */}
+      <Route element={<Vigilante />}>
+        <Route path="/dash/*" element={<LazyTablero />} />
+      </Route>
 
-
-
-export const RuteoPrincipal = ()=>{
-    return (
-        <Routes>
-            <Route path="/bienvenidaUsuario" element={<LazyTableroVistaPublica />} />
-            <Route path="/login" element={<LazySesion/>}></Route>
-            <Route path="/register" element={<LazyRegistro/>}></Route>
-            
-            <Route element={<Vigilante/>}>
-                <Route path="/dash/*" element={<LazyTablero></LazyTablero>}/>                
-            </Route>
-
-    
-            {/*********OBLIGATORIAS********* */}
-            <Route path="/" element={<LazySesion/>}></Route>
-            <Route path="*" element={<LazyError/>}></Route>
-
-        </Routes>
-    )
-
-
-    
-}
+      {/* Obligatorias */}
+      <Route path="/" element={<LazySesion />} />
+      <Route path="*" element={<LazyError />} />
+    </Routes>
+  );
+};

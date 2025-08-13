@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Role } from "../../../models/Rol";
 import { useNavigate } from "react-router-dom";
-import { URLS } from "../../../utilities/dominios/urls";
+import { URLS } from "../../../utilities/dominios/Urls";
 import { ServicioGet } from "../../../services/ServicioGet";
 import { crearMensaje } from "../../../utilities/funciones/mensaje";
 import { ServicioPost } from "../../../services/ServicioPost";

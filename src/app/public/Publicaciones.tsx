@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { URLS } from "../../utilities/dominios/urls";
+import { URLS } from "../../utilities/dominios/Urls";
 import { ServicioGet } from "../../services/ServicioGet";
 import { useEffect, useState } from "react";
 import { Publicacion } from "../../models/Publicacion";
