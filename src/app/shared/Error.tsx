@@ -3,7 +3,8 @@ export const Error = ()=>{
 
 
     return(
-        <div></div>
+        <div><h1>
+            Ruta erronea</h1></div>
 
     );
 };
