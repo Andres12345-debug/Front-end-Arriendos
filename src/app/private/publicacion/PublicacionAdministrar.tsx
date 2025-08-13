@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Role } from "../../../models/Rol";
-import { URLS } from "../../../utilities/dominios/Urls";
+import { URLS } from "../../../utilities/dominios/urls";
 import { ServicioGet } from "../../../services/ServicioGet";
 import { ServicioDelete } from "../../../services/ServicioDelete";
 import { crearMensaje } from "../../../utilities/funciones/mensaje";

@@ -2,7 +2,7 @@ import { Modal } from "react-bootstrap";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Publicacion } from "../../../../models/Publicacion";
-import { URLS } from "../../../../utilities/dominios/Urls";
+import { URLS } from "../../../../utilities/dominios/urls";
 
 
 

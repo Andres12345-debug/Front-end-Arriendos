@@ -3,7 +3,7 @@ import { Button, Form, Card, Row, Col } from "react-bootstrap";
 import { ServicioPost } from "../../../services/ServicioPost";
 import { crearMensaje } from "../../../utilities/funciones/mensaje";
 import { Publicacion, TipoVivienda } from "../../../models/Publicacion";
-import { URLS } from "../../../utilities/dominios/Urls";
+import { URLS } from "../../../utilities/dominios/urls";
 import { Usuario } from "../../../models/Usuario";
 import { ServicioGet } from "../../../services/ServicioGet";
 

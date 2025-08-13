@@ -1,6 +1,6 @@
 import { Acceso } from "../models/Acceso";
 import { RegistroSesion } from "../models/RegistroSesion";
-import { URLS } from "../utilities/dominios/Urls";
+import { URLS } from "../utilities/dominios/urls";
 
 export class RegistroService {
     public static async iniciarSesion(objAcceso: RegistroSesion): Promise<any> {

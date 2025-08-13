@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { URLS } from "../../../utilities/dominios/Urls"; 
+import { URLS } from "../../../utilities/dominios/urls"; 
 import { ServicioGet } from "../../../services/ServicioGet";
 import { Link } from "react-router-dom";
 import { Role, User } from "../../../models/Rol";
