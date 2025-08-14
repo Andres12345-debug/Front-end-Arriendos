@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import BasicTable from "../shared/components/tabla/Nav";
+import BasicTable from "../shared/components/nav/Nav";
 
 export const TableroVistaPublica = () => {
   return (

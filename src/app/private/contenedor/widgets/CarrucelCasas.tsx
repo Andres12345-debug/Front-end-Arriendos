@@ -9,6 +9,7 @@ import { Publicacion } from "../../../../models/Publicacion";
 import { URLS } from "../../../../utilities/dominios/urls";
 import { ServicioGet } from "../../../../services/ServicioGet";
 import { ModalPublicacion } from "../../../shared/components/modalPublicacion";
+import { Box, Typography } from "@mui/material";
 
 export const Viviendas = () => {
     const [casas, setCasas] = useState<Publicacion[]>([]);
@@ -55,9 +56,18 @@ export const Viviendas = () => {
 
     return (
         <div className="container mt-4 rounded-5 BackgroundPublico p-5">
-            <h2 className="text-center border-bottom pb-2 mt-4">
-                Elige el tipo de <span className="naranjaLetras">vivienda</span>
-            </h2>
+            <Box sx={{ display: 'flex', justifyContent: 'center', flex: 1 }}>
+                <Typography
+                    variant="h6"
+                    component="h1"
+                    color="text.primary"
+                    padding={2}
+                    sx={{ fontWeight: 600, textAlign: 'center' }}
+                >
+                    Selecciona el tipo de vivienda
+                </Typography>
+            </Box>
+
 
             {/* Selector de tipo */}
             <div className="row g-3">
