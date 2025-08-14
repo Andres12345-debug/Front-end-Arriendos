@@ -57,7 +57,7 @@ export default function TopNavigation() {
   const location = useLocation();
 
   return (
-    <AppBar position="fixed" sx={{ bgcolor: 'background.paper', color: 'text.primary' }}>
+    <AppBar position="fixed" sx={{ bgcolor: 'background.paper', color: 'text.primary', zIndex: theme => theme.zIndex.drawer + 1 }}>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         
         {/* Botones de navegación a la izquierda */}

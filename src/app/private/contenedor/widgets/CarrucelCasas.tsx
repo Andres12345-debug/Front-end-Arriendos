@@ -9,7 +9,11 @@ import { Publicacion } from "../../../../models/Publicacion";
 import { URLS } from "../../../../utilities/dominios/urls";
 import { ServicioGet } from "../../../../services/ServicioGet";
 import { ModalPublicacion } from "../../../shared/components/modalPublicacion";
-import { Box, Typography } from "@mui/material";
+
+
+import { useTheme } from "@mui/material/styles";
+import { Card, CardMedia, CardContent, Typography, Box } from "@mui/material";
+
 
 export const Viviendas = () => {
     const [casas, setCasas] = useState<Publicacion[]>([]);
@@ -28,10 +32,12 @@ export const Viviendas = () => {
         { nombre: "Finca", imagen: FincaImg },
     ];
 
+    const theme = useTheme();
+
+
     const consultarPublicaciones = async () => {
         setCargando(true);
         setError(null);
-
         const urlServicio = `${URLS.URL_BASE}${URLS.LISTAR_PUBLICACION_POR_TIPO.replace(':tipoVivienda', tipoVivienda)}`;
 
         try {
@@ -67,20 +73,32 @@ export const Viviendas = () => {
                     Selecciona el tipo de vivienda
                 </Typography>
             </Box>
-
-
             {/* Selector de tipo */}
             <div className="row g-3">
                 {tiposVivienda.map((tipo) => (
-                    <div key={tipo.nombre} className="col-lg-3 col-md-4 col-sm-6 d-flex">
+                    <div key={tipo.nombre} className="col-lg-3 col-md-4 col-sm-6 d-flex pointer-hover">
                         <div
                             className={`card shadow-sm flex-grow-1 ${tipoVivienda === tipo.nombre ? "border-primary" : ""}`}
-                            style={{ cursor: "pointer" }}
                             onClick={() => setTipoVivienda(tipo.nombre)}
+                            style={{
+                                cursor: "pointer",
+                                backgroundColor: theme.palette.mode === "light"
+                                    ? theme.palette.primary.main
+                                    : theme.palette.common.white, // blanco en modo oscuro
+                                color: theme.palette.mode === "light"
+                                    ? theme.palette.common.white
+                                    : theme.palette.text.primary,
+                            }}
                         >
                             <img src={tipo.imagen} alt={tipo.nombre} className="card-img-top p-2" style={{ height: "100px", objectFit: "contain" }} />
                             <div className="card-body text-center">
-                                <h6 className="card-title">{tipo.nombre}</h6>
+                                <h6 className="card-title"
+                                    style={{
+                                        color: theme.palette.mode === "light"
+                                            ? theme.palette.grey[400]
+                                            : theme.palette.grey[600]
+                                    }}
+                                >{tipo.nombre}</h6>
                             </div>
                         </div>
                     </div>
@@ -95,8 +113,17 @@ export const Viviendas = () => {
                 {casas.map((casa, index) => (
                     <div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex">
                         <div
-                            className="card shadow-lg p-3 bg-dark-subtle rounded-4 flex-grow-1 pointer-hover"
-                            onClick={() => abrirModal(casa)} // <- abre el modal con esa publicación
+                            className={`card shadow-lg p-3 rounded-4 flex-grow-1 pointer-hover`}
+                            style={{
+                                backgroundColor: theme.palette.mode === "light"
+                                    ? theme.palette.primary.main
+                                    : theme.palette.common.white, // blanco en modo oscuro
+                                color: theme.palette.mode === "light"
+                                    ? theme.palette.common.white
+                                    : theme.palette.text.primary,
+                                cursor: "pointer"
+                            }}
+                            onClick={() => abrirModal(casa)}
                         >
                             <div style={{ position: "relative" }}>
                                 <img
@@ -108,7 +135,12 @@ export const Viviendas = () => {
                             </div>
                             <div className="card-body">
                                 <h5 className="card-title uppercase">{casa.tituloPublicacion}</h5>
-                                <small className="text-muted">
+                                <small
+                                    style={{
+                                        color: theme.palette.mode === "light"
+                                            ? theme.palette.grey[400]
+                                            : theme.palette.grey[600]
+                                    }}                                >
                                     Publicado el{" "}
                                     {new Date(casa.fechaCreacionPublicacion).toLocaleDateString("es-ES", {
                                         year: "numeric",

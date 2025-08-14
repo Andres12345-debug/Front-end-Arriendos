@@ -39,7 +39,14 @@ export const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
     () =>
       createTheme({
         palette: {
-          mode
+          mode,
+          primary: {
+          main: "#1f9501ff", // azul personalizado
+        }
+        },
+        zIndex:{
+            appBar: 1100,
+            modal: 1300
         },
         typography: {
         fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
