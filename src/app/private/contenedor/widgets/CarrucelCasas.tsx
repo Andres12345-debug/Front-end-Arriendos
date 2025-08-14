@@ -1,21 +1,26 @@
-import { useEffect, useState } from "react";
-
-// Imágenes
-import CasaImg from '../../../../assets/img/Iconos/6.png';
-import ApartamentoImg from '../../../../assets/img/Iconos/5.png';
-import FincaImg from '../../../../assets/img/Iconos/4.png';
-import HabitacionImg from '../../../../assets/img/Iconos/7.png';
+import { useEffect, useState, useRef } from "react";
 import { Publicacion } from "../../../../models/Publicacion";
 import { URLS } from "../../../../utilities/dominios/urls";
 import { ServicioGet } from "../../../../services/ServicioGet";
 import { ModalPublicacion } from "../../../shared/components/modalPublicacion";
-
-
 import { useTheme } from "@mui/material/styles";
 import { Card, CardMedia, CardContent, Typography, Box } from "@mui/material";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
+// Importa las imágenes normalmente (sin React.lazy)
+import CasaImg from '../../../../assets/img/Iconos/6.png';
+import ApartamentoImg from '../../../../assets/img/Iconos/5.png';
+import FincaImg from '../../../../assets/img/Iconos/4.png';
+import HabitacionImg from '../../../../assets/img/Iconos/7.png';
 
 export const Viviendas = () => {
+
+
+    //Scroll
+    const resultadosRef = useRef<HTMLDivElement>(null);
+
+
     const [casas, setCasas] = useState<Publicacion[]>([]);
     const [cargando, setCargando] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -34,7 +39,6 @@ export const Viviendas = () => {
 
     const theme = useTheme();
 
-
     const consultarPublicaciones = async () => {
         setCargando(true);
         setError(null);
@@ -43,6 +47,17 @@ export const Viviendas = () => {
         try {
             const resultado = await ServicioGet.peticionGetPublica(urlServicio);
             setCasas(Array.isArray(resultado) ? resultado : []);
+
+            // Hacer scroll después de que los resultados se hayan cargado
+            setTimeout(() => {
+                if (resultadosRef.current) {
+                    resultadosRef.current.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }, 100); // Pequeño retraso para asegurar la renderización
+
         } catch (error) {
             console.error("Error al obtener publicaciones:", error);
             setError("No se pudieron cargar las viviendas.");
@@ -73,6 +88,7 @@ export const Viviendas = () => {
                     Selecciona el tipo de vivienda
                 </Typography>
             </Box>
+            
             {/* Selector de tipo */}
             <div className="row g-3">
                 {tiposVivienda.map((tipo) => (
@@ -84,13 +100,23 @@ export const Viviendas = () => {
                                 cursor: "pointer",
                                 backgroundColor: theme.palette.mode === "light"
                                     ? theme.palette.primary.main
-                                    : theme.palette.common.white, // blanco en modo oscuro
+                                    : theme.palette.common.white,
                                 color: theme.palette.mode === "light"
                                     ? theme.palette.common.white
                                     : theme.palette.text.primary,
                             }}
                         >
-                            <img src={tipo.imagen} alt={tipo.nombre} className="card-img-top p-2" style={{ height: "100px", objectFit: "contain" }} />
+                            <LazyLoadImage
+                                src={tipo.imagen}
+                                alt={`Icono de ${tipo.nombre}`}
+                                className="card-img-top p-2"
+                                effect="blur"
+                                width="100%"
+                                height="100px"
+                                style={{ objectFit: "contain" }}
+                                loading="lazy"
+                                placeholderSrc="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 2'%3E%3C/svg%3E"
+                            />
                             <div className="card-body text-center">
                                 <h6 className="card-title"
                                     style={{
@@ -106,8 +132,9 @@ export const Viviendas = () => {
             </div>
 
             {/* Listado de viviendas */}
-            {cargando && <p className="text-center">Cargando...</p>}
-            {error && <p className="text-center text-danger">{error}</p>}
+  <div ref={resultadosRef}>
+                {cargando && <p className="text-center">Cargando...</p>}
+                {error && <p className="text-center text-danger">{error}</p>}
 
             <div className="row g-2 mt-4">
                 {casas.map((casa, index) => (
@@ -117,7 +144,7 @@ export const Viviendas = () => {
                             style={{
                                 backgroundColor: theme.palette.mode === "light"
                                     ? theme.palette.primary.main
-                                    : theme.palette.common.white, // blanco en modo oscuro
+                                    : theme.palette.common.white,
                                 color: theme.palette.mode === "light"
                                     ? theme.palette.common.white
                                     : theme.palette.text.primary,
@@ -126,11 +153,16 @@ export const Viviendas = () => {
                             onClick={() => abrirModal(casa)}
                         >
                             <div style={{ position: "relative" }}>
-                                <img
+                                <LazyLoadImage
                                     src={URLS.URL_BASE + (casa.imagenesUrls?.[0] || casa.imagenUrl)}
-                                    alt={casa.tituloPublicacion}
+                                    alt={`Vivienda: ${casa.tituloPublicacion}`}
                                     className="card-img-top rounded-3"
-                                    style={{ height: "200px", objectFit: "cover" }}
+                                    effect="blur"
+                                    width="100%"
+                                    height="200px"
+                                    style={{ objectFit: "cover" }}
+                                    loading="lazy"
+                                    placeholderSrc="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 2'%3E%3C/svg%3E"
                                 />
                             </div>
                             <div className="card-body">
@@ -140,7 +172,8 @@ export const Viviendas = () => {
                                         color: theme.palette.mode === "light"
                                             ? theme.palette.grey[400]
                                             : theme.palette.grey[600]
-                                    }}                                >
+                                    }}
+                                >
                                     Publicado el{" "}
                                     {new Date(casa.fechaCreacionPublicacion).toLocaleDateString("es-ES", {
                                         year: "numeric",
@@ -161,6 +194,7 @@ export const Viviendas = () => {
                 publicacion={publicacionSeleccionada}
             />
         </div>
+    </div>
     );
 };
 
