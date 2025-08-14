@@ -55,7 +55,7 @@ export const RuteoPrincipal = () => {
       </Route>
 
       {/* Obligatorias */}
-      <Route path="/" element={<LazySesion />} />
+      <Route path="/" element={<LazyTableroVistaPublica />} />
       <Route path="*" element={<LazyError />} />
     </Routes>
   );

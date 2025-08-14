@@ -1,5 +1,5 @@
 export const URLS = {
-    URL_BASE: "http://localhost:3550",
+    URL_BASE: "https://bradford-qualify-lookup-bride.trycloudflare.com",
     INICIAR_SESION: "/public/accesos/signin",
     REGISTRO: "/public/registros/user",
     LISTAR_PUBLICACION_PUBLICA: "/public/publicaciones/publico",

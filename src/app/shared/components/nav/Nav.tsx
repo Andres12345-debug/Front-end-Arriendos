@@ -65,10 +65,10 @@ export default function TopNavigation() {
           <IconButton component={Link} to="/land" color="inherit">
             <RestoreIcon />
           </IconButton>
-          <IconButton component={Link} to="/dash" color="inherit">
+          <IconButton component={Link} to="/land" color="inherit">
             <FolderIcon />
           </IconButton>
-          <IconButton component={Link} to="/favorites" color="inherit">
+          <IconButton component={Link} to="/land" color="inherit">
             <FavoriteIcon />
           </IconButton>
         </Box>
