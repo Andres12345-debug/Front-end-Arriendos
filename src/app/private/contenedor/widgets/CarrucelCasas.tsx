@@ -87,8 +87,10 @@ export const Viviendas = () => {
                 >
                     Selecciona el tipo de vivienda
                 </Typography>
+
+
             </Box>
-            
+
             {/* Selector de tipo */}
             <div className="row g-3">
                 {tiposVivienda.map((tipo) => (
@@ -103,7 +105,7 @@ export const Viviendas = () => {
                                     : theme.palette.common.white,
                                 color: theme.palette.mode === "light"
                                     ? theme.palette.common.white
-                                    : theme.palette.text.primary,
+                                    : theme.palette.common.black,
                             }}
                         >
                             <LazyLoadImage
@@ -132,69 +134,80 @@ export const Viviendas = () => {
             </div>
 
             {/* Listado de viviendas */}
-  <div ref={resultadosRef}>
+            <div ref={resultadosRef}>
                 {cargando && <p className="text-center">Cargando...</p>}
                 {error && <p className="text-center text-danger">{error}</p>}
 
-            <div className="row g-2 mt-4">
-                {casas.map((casa, index) => (
-                    <div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex">
-                        <div
-                            className={`card shadow-lg p-3 rounded-4 flex-grow-1 pointer-hover`}
-                            style={{
-                                backgroundColor: theme.palette.mode === "light"
-                                    ? theme.palette.primary.main
-                                    : theme.palette.common.white,
-                                color: theme.palette.mode === "light"
-                                    ? theme.palette.common.white
-                                    : theme.palette.text.primary,
-                                cursor: "pointer"
-                            }}
-                            onClick={() => abrirModal(casa)}
-                        >
-                            <div style={{ position: "relative" }}>
-                                <LazyLoadImage
-                                    src={URLS.URL_BASE + (casa.imagenesUrls?.[0] || casa.imagenUrl)}
-                                    alt={`Vivienda: ${casa.tituloPublicacion}`}
-                                    className="card-img-top rounded-3"
-                                    effect="blur"
-                                    width="100%"
-                                    height="200px"
-                                    style={{ objectFit: "cover" }}
-                                    loading="lazy"
-                                    placeholderSrc="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 2'%3E%3C/svg%3E"
-                                />
-                            </div>
-                            <div className="card-body">
-                                <h5 className="card-title uppercase">{casa.tituloPublicacion}</h5>
-                                <small
-                                    style={{
-                                        color: theme.palette.mode === "light"
-                                            ? theme.palette.grey[400]
-                                            : theme.palette.grey[600]
-                                    }}
-                                >
-                                    Publicado el{" "}
-                                    {new Date(casa.fechaCreacionPublicacion).toLocaleDateString("es-ES", {
-                                        year: "numeric",
-                                        month: "long",
-                                        day: "numeric",
-                                    })}
-                                </small>
+                <div className="row g-2 mt-4">
+                    {casas.map((casa, index) => (
+                        <div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex">
+                            <div
+                                className={`card shadow-lg p-3 rounded-4 flex-grow-1 pointer-hover`}
+                                style={{
+                                    backgroundColor: theme.palette.mode === "light"
+                                        ? theme.palette.primary.main
+                                        : theme.palette.common.white,
+                                    color: theme.palette.mode === "light"
+                                        ? theme.palette.common.white
+                                        : theme.palette.text.primary,
+                                    cursor: "pointer"
+                                }}
+                                onClick={() => abrirModal(casa)}
+                            >
+                                <div style={{ position: "relative" }}>
+                                    <LazyLoadImage
+                                        src={URLS.URL_BASE + (casa.imagenesUrls?.[0] || casa.imagenUrl)}
+                                        alt={`Vivienda: ${casa.tituloPublicacion}`}
+                                        className="card-img-top rounded-3"
+                                        effect="blur"
+                                        width="100%"
+                                        height="200px"
+                                        style={{ objectFit: "cover" }}
+                                        loading="lazy"
+                                        placeholderSrc="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 2'%3E%3C/svg%3E"
+                                    />
+                                </div>
+                                <div className="card-body">
+                                    <Typography
+                                        className="uppercase"
+                                        sx={{
+                                            color: (theme) =>
+                                                theme.palette.mode === "light"
+                                                    ? theme.palette.common.white
+                                                    : theme.palette.common.black,
+                                        }}
+                                    >
+                                        {casa.tituloPublicacion}
+                                    </Typography>
+
+                                    <small
+                                        style={{
+                                            color: theme.palette.mode === "light"
+                                                 ? theme.palette.common.white
+                                                : theme.palette.common.black,
+                                        }}
+                                    >
+                                        Publicado el{" "}
+                                        {new Date(casa.fechaCreacionPublicacion).toLocaleDateString("es-ES", {
+                                            year: "numeric",
+                                            month: "long",
+                                            day: "numeric",
+                                        })}
+                                    </small>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
 
-            {/* Modal */}
-            <ModalPublicacion
-                show={modalAbierto}
-                handleClose={() => setModalAbierto(false)}
-                publicacion={publicacionSeleccionada}
-            />
-        </div>
-    </div>
+                {/* Modal */}
+                <ModalPublicacion
+                    show={modalAbierto}
+                    handleClose={() => setModalAbierto(false)}
+                    publicacion={publicacionSeleccionada}
+                />
+            </div>
+        </div >
     );
 };
 

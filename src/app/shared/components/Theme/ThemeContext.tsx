@@ -41,8 +41,16 @@ export const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
         palette: {
           mode,
           primary: {
-          main: "#1f9501ff", // azul personalizado
-        }
+          main: "#e16614ff", // azul personalizado
+        },
+         secondary: {
+          main: "#d31900", // azul personalizado
+        },
+        text: {
+          primary: mode === "light" ? "#1a1a1a" : "#ffffff" + " !important",   // color principal del texto
+          secondary: mode === "light" ? "#555555" : "#cccccc" + " !important", // color secundario del texto
+          disabled: mode === "light" ? "#aaaaaa" : "#777777" + " !important",  // color de texto deshabilitado
+        },
         },
         zIndex:{
             appBar: 1100,

@@ -4,6 +4,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Publicacion } from "../../../../models/Publicacion";
 import { URLS } from "../../../../utilities/dominios/urls";
 import { useEffect } from "react";
+import { useTheme } from "@mui/material/styles";
+
 
 interface ModalPublicacionProps {
   show: boolean;
@@ -16,6 +18,9 @@ export const ModalPublicacion: React.FC<ModalPublicacionProps> = ({
   handleClose,
   publicacion
 }) => {
+
+   //usamos el tema
+      const theme = useTheme();
   // Efecto para manejar los metadatos SEO
   useEffect(() => {
     if (show && publicacion) {
@@ -36,6 +41,10 @@ export const ModalPublicacion: React.FC<ModalPublicacionProps> = ({
         }
         tag.content = content;
       };
+
+
+     
+
 
       const updateOGTag = (property: string, content: string) => {
         let tag = document.querySelector(`meta[property="${property}"]`) as HTMLMetaElement;
@@ -61,9 +70,11 @@ export const ModalPublicacion: React.FC<ModalPublicacionProps> = ({
   }, [show, publicacion]);
 
   return (
-    <Modal show={show} onHide={handleClose} size="xl" centered aria-labelledby="property-modal-title">
+    <Modal show={show} onHide={handleClose} size="xl" centered aria-labelledby="property-modal-title"
+      style={{ backgroundColor: 'rgba(0, 0, 0, 0.64)' }}>
       <Modal.Header closeButton>
-        <Modal.Title id="property-modal-title" itemProp="name">
+        <Modal.Title id="property-modal-title"
+          itemProp="name">
           {publicacion?.tituloPublicacion}
         </Modal.Title>
       </Modal.Header>
@@ -72,9 +83,9 @@ export const ModalPublicacion: React.FC<ModalPublicacionProps> = ({
           {/* Carrusel de imágenes */}
           <div className="col-12 col-md-6 mb-3 mb-md-0" itemProp="image" itemScope itemType="https://schema.org/ImageObject">
             {publicacion?.imagenesUrls && publicacion.imagenesUrls.length > 0 ? (
-              <Carousel 
-                infiniteLoop 
-                showArrows 
+              <Carousel
+                infiniteLoop
+                showArrows
                 showThumbs={false}
                 dynamicHeight={true}
                 aria-label="Galería de imágenes de la propiedad"
@@ -104,11 +115,11 @@ export const ModalPublicacion: React.FC<ModalPublicacionProps> = ({
                   src={URLS.URL_BASE + publicacion.imagenUrl}
                   alt={`Imagen principal de la propiedad ${publicacion.tituloPublicacion}`}
                   className="img-fluid"
-                  style={{ 
-                    maxHeight: "60vh", 
+                  style={{
+                    maxHeight: "60vh",
                     maxWidth: "100%",
-                    objectFit: "contain", 
-                    borderRadius: "8px" 
+                    objectFit: "contain",
+                    borderRadius: "8px"
                   }}
                   loading="lazy"
                   decoding="async"
@@ -116,9 +127,9 @@ export const ModalPublicacion: React.FC<ModalPublicacionProps> = ({
                 />
               </div>
             ) : (
-              <div className="bg-secondary text-white d-flex align-items-center justify-content-center" 
-                style={{ 
-                  height: "300px", 
+              <div className="bg-secondary text-white d-flex align-items-center justify-content-center"
+                style={{
+                  height: "300px",
                   borderRadius: "8px",
                   width: "100%"
                 }}
@@ -130,12 +141,12 @@ export const ModalPublicacion: React.FC<ModalPublicacionProps> = ({
 
           {/* Información de la propiedad con microdatos */}
           <div className="col-12 col-md-6" itemProp="description">
-            <p><strong>Descripción:</strong> <span itemProp="description">{publicacion?.contenidoPublicacion}</span></p>
+            <p>{publicacion?.contenidoPublicacion}</p>
             <p><strong>Área:</strong> <span itemProp="floorSize">{publicacion?.metros} m²</span></p>
             <p><strong>Habitaciones:</strong> <span itemProp="numberOfRooms">{publicacion?.habitaciones}</span></p>
             <p><strong>Baños:</strong> <span itemProp="numberOfBathroomsTotal">{publicacion?.banios}</span></p>
             <p><strong>Servicios:</strong> {publicacion?.servicios === 1 ? "Compartidos" : "Independientes"}</p>
-            
+
           </div>
         </div>
       </Modal.Body>

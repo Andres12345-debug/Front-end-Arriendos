@@ -98,3 +98,30 @@ npm start
 #******************************#
 #******************************#
 #******************************#
+
+
+
+Ya viene predefinido
+ <Typography>
+                    Texto solo con color, sin fondo
+</Typography>
+
+Ejemplo
+<Typography
+                    variant="h6"
+                    component="h1"
+                    color="text.primary"
+                    padding={2}
+                    sx={{ fontWeight: 600, textAlign: 'center' }}>
+                    Texto solo con color, sin fondo
+                </Typography>
+
+                O sino toda completa a un <p>
+
+
+ style={{
+                        cursor: "pointer",
+                        color: theme.palette.mode === "light"
+                            ? theme.palette.primary.main // color de letra
+                            : theme.palette.text.primary,
+    }}
