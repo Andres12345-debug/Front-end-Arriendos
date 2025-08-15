@@ -13,6 +13,7 @@ import CasaImg from '../../../../assets/img/Iconos/6.png';
 import ApartamentoImg from '../../../../assets/img/Iconos/5.png';
 import FincaImg from '../../../../assets/img/Iconos/4.png';
 import HabitacionImg from '../../../../assets/img/Iconos/7.png';
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const Viviendas = () => {
 
@@ -66,17 +67,23 @@ export const Viviendas = () => {
         }
     };
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         consultarPublicaciones();
     }, [tipoVivienda]);
 
     const abrirModal = (publicacion: Publicacion) => {
-        setPublicacionSeleccionada(publicacion);
+        
+        navigate(`publicacion/${publicacion.codPublicacion}`);
+
+        //Abre modal, para despues
+        //setPublicacionSeleccionada(publicacion);
         setModalAbierto(true);
     };
 
     return (
-        <div className="container mt-4 rounded-5 BackgroundPublico p-5">
+        <div className="container  rounded-5 BackgroundPublico p-5">
             <Box sx={{ display: 'flex', justifyContent: 'center', flex: 1 }}>
                 <Typography
                     variant="h6"
@@ -183,7 +190,7 @@ export const Viviendas = () => {
                                     <small
                                         style={{
                                             color: theme.palette.mode === "light"
-                                                 ? theme.palette.common.white
+                                                ? theme.palette.common.white
                                                 : theme.palette.common.black,
                                         }}
                                     >

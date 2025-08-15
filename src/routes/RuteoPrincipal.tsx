@@ -35,6 +35,13 @@ const LazyTablero = lazy(() =>
   }))
 );
 
+const LazyDetallePublicacion = lazy(() =>
+  import("../app/pages/DetallePublicacion").then(() => ({
+    default: require("../app/pages/DetallePublicacion").DetallePublicacion
+  }))
+);
+
+
 export const RuteoPrincipal = () => {
   return (
     <Routes>
@@ -44,7 +51,10 @@ export const RuteoPrincipal = () => {
         <Route index element={<LazyViviendas />} />
         {/* Ruta hija: /land/welcome */}
         <Route path="welcome" element={<LazyViviendas />} />
+        <Route path="publicacion/:codPublicacion" element={<LazyDetallePublicacion />} />
+
       </Route>
+
 
       <Route path="/login" element={<LazySesion />} />
       <Route path="/register" element={<LazyRegistro />} />

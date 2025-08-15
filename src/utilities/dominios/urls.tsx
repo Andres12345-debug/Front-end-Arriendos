@@ -4,6 +4,8 @@ export const URLS = {
     REGISTRO: "/public/registros/user",
     LISTAR_PUBLICACION_PUBLICA: "/public/publicaciones/publico",
     LISTAR_PUBLICACION_POR_TIPO: "/public/publicaciones/tipoCasa/:tipoVivienda",
+    LISTAR_PUBLICACION_POR_ID: "/public/publicaciones/one/:codPublicacion",
+
 
 
     /****SERVICIOS PRIVADOS ************ */

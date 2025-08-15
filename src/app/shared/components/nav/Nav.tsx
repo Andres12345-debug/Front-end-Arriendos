@@ -11,7 +11,7 @@ import FolderIcon from '@mui/icons-material/Person';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { DarkMode, LightMode } from '@mui/icons-material';
 import { useThemeContext } from '../../components/Theme/ThemeContext';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -57,35 +57,49 @@ export default function TopNavigation() {
   const location = useLocation();
 
   return (
-    <AppBar position="fixed" sx={{ bgcolor: 'background.paper', color: 'text.primary', zIndex: theme => theme.zIndex.drawer + 1 }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        
-        {/* Botones de navegación a la izquierda */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <IconButton component={Link} to="/land" color="inherit">
-            <RestoreIcon />
-          </IconButton>
-          <IconButton component={Link} to="/land" color="inherit">
-            <FolderIcon />
-          </IconButton>
-          <IconButton component={Link} to="/land" color="inherit">
-            <FavoriteIcon />
-          </IconButton>
-        </Box>
+    <>
+      <AppBar
+        position="fixed"
+        sx={{
+          bgcolor: 'background.paper',
+          color: 'text.primary',
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+      >
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          {/* Botones izquierda */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <IconButton component={Link} to="/land" color="inherit">
+              <RestoreIcon />
+            </IconButton>
+            <IconButton component={Link} to="/land" color="inherit">
+              <FolderIcon />
+            </IconButton>
+            <IconButton component={Link} to="/land" color="inherit">
+              <FavoriteIcon />
+            </IconButton>
+          </Box>
 
-        {/* Buscador al centro */}
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase placeholder="Buscar…" inputProps={{ 'aria-label': 'buscar' }} />
-        </Search>
+          {/* Buscador */}
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Buscar…"
+              inputProps={{ 'aria-label': 'buscar' }}
+            />
+          </Search>
 
-        {/* Botón modo claro/oscuro a la derecha */}
-        <IconButton onClick={toggleTheme} color="inherit">
-          {mode === 'light' ? <DarkMode /> : <LightMode />}
-        </IconButton>
-      </Toolbar>
-    </AppBar>
+          {/* Modo claro/oscuro */}
+          <IconButton onClick={toggleTheme} color="inherit">
+            {mode === 'light' ? <DarkMode /> : <LightMode />}
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      {/* Espaciador para que el contenido no quede debajo */}
+      <Toolbar />
+    </>
   );
 }

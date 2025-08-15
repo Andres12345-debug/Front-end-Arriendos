@@ -5,6 +5,10 @@ import { Publicacion } from "../../../../models/Publicacion";
 import { URLS } from "../../../../utilities/dominios/urls";
 import { useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
+import { IconButton } from "@mui/material";
+import FolderIcon from '@mui/icons-material/Person';
+import { Link, useLocation } from 'react-router-dom';
+
 
 
 interface ModalPublicacionProps {
@@ -19,8 +23,8 @@ export const ModalPublicacion: React.FC<ModalPublicacionProps> = ({
   publicacion
 }) => {
 
-   //usamos el tema
-      const theme = useTheme();
+  //usamos el tema
+  const theme = useTheme();
   // Efecto para manejar los metadatos SEO
   useEffect(() => {
     if (show && publicacion) {
@@ -43,7 +47,7 @@ export const ModalPublicacion: React.FC<ModalPublicacionProps> = ({
       };
 
 
-     
+
 
 
       const updateOGTag = (property: string, content: string) => {
@@ -72,9 +76,11 @@ export const ModalPublicacion: React.FC<ModalPublicacionProps> = ({
   return (
     <Modal show={show} onHide={handleClose} size="xl" centered aria-labelledby="property-modal-title"
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.64)' }}>
-      <Modal.Header closeButton>
+      <Modal.Header closeButton
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}>
         <Modal.Title id="property-modal-title"
-          itemProp="name">
+          itemProp="name"
+          style={{ textTransform: "uppercase" }}>
           {publicacion?.tituloPublicacion}
         </Modal.Title>
       </Modal.Header>
