@@ -1,5 +1,5 @@
 export const URLS = {
-    URL_BASE: "https://facilitate-results-showers-renaissance.trycloudflare.com",
+    URL_BASE: "http://localhost:3550",
     INICIAR_SESION: "/public/accesos/signin",
     REGISTRO: "/public/registros/user",
     LISTAR_PUBLICACION_PUBLICA: "/public/publicaciones/publico",

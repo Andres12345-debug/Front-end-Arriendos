@@ -1,19 +1,21 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { Publicacion } from "../../../../models/Publicacion";
 import { URLS } from "../../../../utilities/dominios/urls";
 import { ServicioGet } from "../../../../services/ServicioGet";
 import { ModalPublicacion } from "../../../shared/components/modalPublicacion";
 import { useTheme } from "@mui/material/styles";
-import { Card, CardMedia, CardContent, Typography, Box } from "@mui/material";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+
+import { Typography, Box } from "@mui/material";
+
 
 // Importa las imágenes normalmente (sin React.lazy)
 import CasaImg from '../../../../assets/img/Iconos/6.png';
 import ApartamentoImg from '../../../../assets/img/Iconos/5.png';
 import FincaImg from '../../../../assets/img/Iconos/4.png';
 import HabitacionImg from '../../../../assets/img/Iconos/7.png';
-import { Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 export const Viviendas = () => {
 
@@ -29,7 +31,7 @@ export const Viviendas = () => {
 
     // Estado para el modal
     const [modalAbierto, setModalAbierto] = useState(false);
-    const [publicacionSeleccionada, setPublicacionSeleccionada] = useState<Publicacion | null>(null);
+    const [publicacionSeleccionada] = useState<Publicacion | null>(null);
 
     const tiposVivienda = [
         { nombre: "Casa", imagen: CasaImg },
@@ -40,38 +42,30 @@ export const Viviendas = () => {
 
     const theme = useTheme();
 
-    const consultarPublicaciones = async () => {
-        setCargando(true);
-        setError(null);
-        const urlServicio = `${URLS.URL_BASE}${URLS.LISTAR_PUBLICACION_POR_TIPO.replace(':tipoVivienda', tipoVivienda)}`;
+    const consultarPublicaciones = useCallback(async () => {
+    setCargando(true);
+    setError(null);
+    const urlServicio = `${URLS.URL_BASE}${URLS.LISTAR_PUBLICACION_POR_TIPO.replace(':tipoVivienda', tipoVivienda)}`;
 
-        try {
-            const resultado = await ServicioGet.peticionGetPublica(urlServicio);
-            setCasas(Array.isArray(resultado) ? resultado : []);
-
-            // Hacer scroll después de que los resultados se hayan cargado
-            setTimeout(() => {
-                if (resultadosRef.current) {
-                    resultadosRef.current.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            }, 100); // Pequeño retraso para asegurar la renderización
-
-        } catch (error) {
-            console.error("Error al obtener publicaciones:", error);
-            setError("No se pudieron cargar las viviendas.");
-        } finally {
-            setCargando(false);
-        }
-    };
+    try {
+        const resultado = await ServicioGet.peticionGetPublica(urlServicio);
+        setCasas(Array.isArray(resultado) ? resultado : []);
+        setTimeout(() => {
+            resultadosRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    } catch (error) {
+        console.error("Error al obtener publicaciones:", error);
+        setError("No se pudieron cargar las viviendas.");
+    } finally {
+        setCargando(false);
+    }
+}, [tipoVivienda]);
 
     const navigate = useNavigate();
 
     useEffect(() => {
         consultarPublicaciones();
-    }, [tipoVivienda]);
+    }, [consultarPublicaciones]);
 
     const abrirModal = (publicacion: Publicacion) => {
         

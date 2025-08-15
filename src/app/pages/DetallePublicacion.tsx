@@ -42,7 +42,8 @@ export const DetallePublicacion = () => {
 
   return (
     <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h1"
+      color="text.secondary">
         {publicacion.tituloPublicacion}
       </Typography>
       <Typography variant="body1" paragraph>
@@ -64,9 +65,11 @@ export const DetallePublicacion = () => {
       </Typography>
 
       {/* Galería de imágenes */}
-      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mt: 3 }}>
+      <Box
+      sx={{ display: "flex", flexWrap: "wrap", gap: 2, mt: 3 }}>
         {publicacion.imagenesUrls?.map((url, idx) => (
-          <Box
+          <Box          
+      className="pointer-hover"
             key={idx}
             component="img"
             src={`${URLS.URL_BASE}${url}`}

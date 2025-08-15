@@ -12,6 +12,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { DarkMode, LightMode } from '@mui/icons-material';
 import { useThemeContext } from '../../components/Theme/ThemeContext';
 import { Box } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -68,7 +70,19 @@ export default function TopNavigation() {
       >
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           {/* Botones izquierda */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+              '& .MuiSvgIcon-root': {
+                color: theme =>
+                  theme.palette.mode === 'light'
+                    ? theme.palette.text.secondary // en claro
+                    : theme.palette.common.white    // en oscuro
+              }
+            }}
+          >
             <IconButton component={Link} to="/land" color="inherit">
               <RestoreIcon />
             </IconButton>
@@ -77,6 +91,9 @@ export default function TopNavigation() {
             </IconButton>
             <IconButton component={Link} to="/land" color="inherit">
               <FavoriteIcon />
+            </IconButton>
+            <IconButton component={Link} to="/land" color="inherit">
+              <HomeIcon />
             </IconButton>
           </Box>
 
