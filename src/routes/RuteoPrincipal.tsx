@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Vigilante } from "../app/seguridad/Vigilante";
 
 // Lazy imports (páginas públicas)
@@ -46,14 +46,14 @@ export const RuteoPrincipal = () => {
   return (
     <Routes>
       {/* Área pública */}
-      <Route path="/land" element={<LazyTableroVistaPublica />}>
-        {/* Ruta index: /land */}
-        <Route index element={<LazyViviendas />} />
-        {/* Ruta hija: /land/welcome */}
-        <Route path="welcome" element={<LazyViviendas />} />
-        <Route path="publicacion/:codPublicacion" element={<LazyDetallePublicacion />} />
 
+
+      <Route path="/land" element={<LazyTableroVistaPublica />}>
+        <Route index element={<LazyViviendas />} />                {/* /land */}
+        <Route path="welcome" element={<LazyViviendas />} />      {/* /land/welcome */}
+        <Route path="publicacion/:codPublicacion" element={<LazyDetallePublicacion />} />  {/* /land/publicacion/123 */}
       </Route>
+
 
 
       <Route path="/login" element={<LazySesion />} />
@@ -65,7 +65,7 @@ export const RuteoPrincipal = () => {
       </Route>
 
       {/* Obligatorias */}
-      <Route path="/" element={<LazyTableroVistaPublica />} />
+      <Route path="/" element={<Navigate to="/land" replace />} />
       <Route path="*" element={<LazyError />} />
     </Routes>
   );
