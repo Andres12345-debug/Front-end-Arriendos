@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -13,7 +13,6 @@ import { DarkMode, LightMode } from '@mui/icons-material';
 import { useThemeContext } from '../../components/Theme/ThemeContext';
 import { Box } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,7 +55,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function TopNavigation() {
   const { mode, toggleTheme } = useThemeContext();
-  const location = useLocation();
+  const navigate = useNavigate();
+
+  // 🔎 Estado del buscador
+  const [busqueda, setBusqueda] = React.useState("");
+
+  // ⏳ Debounce para evitar navegar en cada tecla
+  React.useEffect(() => {
+    const handler = setTimeout(() => {
+      if (busqueda.trim() !== "") {
+        navigate(`/land/buscar/${busqueda}`);
+      }
+    }, 600); // espera 600ms después de escribir
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [busqueda, navigate]);
 
   return (
     <>
@@ -76,11 +91,11 @@ export default function TopNavigation() {
               alignItems: 'center',
               gap: 1,
               '& .MuiSvgIcon-root': {
-                color: theme =>
+                color: (theme) =>
                   theme.palette.mode === 'light'
-                    ? theme.palette.text.secondary // en claro
-                    : theme.palette.common.white    // en oscuro
-              }
+                    ? theme.palette.text.secondary
+                    : theme.palette.common.white,
+              },
             }}
           >
             <IconButton component={Link} to="/land" color="inherit">
@@ -97,7 +112,7 @@ export default function TopNavigation() {
             </IconButton>
           </Box>
 
-          {/* Buscador */}
+          {/* 🔎 Buscador con búsqueda automática */}
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -105,10 +120,12 @@ export default function TopNavigation() {
             <StyledInputBase
               placeholder="Buscar…"
               inputProps={{ 'aria-label': 'buscar' }}
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
             />
           </Search>
 
-          {/* Modo claro/oscuro */}
+          {/* 🌙 Modo claro/oscuro */}
           <IconButton onClick={toggleTheme} color="inherit">
             {mode === 'light' ? <DarkMode /> : <LightMode />}
           </IconButton>

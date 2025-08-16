@@ -41,6 +41,10 @@ const LazyDetallePublicacion = lazy(() =>
   }))
 );
 
+const LazyBuscarResultados = lazy(() =>
+  import("../app/pages/BuscarResultados")
+);
+
 
 export const RuteoPrincipal = () => {
   return (
@@ -52,6 +56,14 @@ export const RuteoPrincipal = () => {
         <Route index element={<LazyViviendas />} />                {/* /land */}
         <Route path="welcome" element={<LazyViviendas />} />      {/* /land/welcome */}
         <Route path="publicacion/:codPublicacion" element={<LazyDetallePublicacion />} />  {/* /land/publicacion/123 */}
+        {/* 👇 Nueva ruta de búsqueda */}
+        <Route
+          path="buscar/:termino"
+          element={
+            <LazyBuscarResultados />
+          }
+        />
+
       </Route>
 
 

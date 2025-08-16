@@ -2,10 +2,13 @@ export const URLS = {
     URL_BASE: "http://localhost:3550",
     INICIAR_SESION: "/public/accesos/signin",
     REGISTRO: "/public/registros/user",
+
+
+
     LISTAR_PUBLICACION_PUBLICA: "/public/publicaciones/publico",
     LISTAR_PUBLICACION_POR_TIPO: "/public/publicaciones/tipoCasa/:tipoVivienda",
     LISTAR_PUBLICACION_POR_ID: "/public/publicaciones/one/:codPublicacion",
-
+    LISTAR_PUBLICACION_POR_TITULO: "/public/publicaciones/buscar/:titulo",
 
 
     /****SERVICIOS PRIVADOS ************ */
