@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -18,15 +18,11 @@ const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: 20,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
+  '&:hover': { backgroundColor: alpha(theme.palette.common.white, 0.25) },
   marginLeft: theme.spacing(3),
   marginRight: theme.spacing(3),
   width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    width: 'auto',
-  },
+  [theme.breakpoints.up('sm')]: { width: 'auto' },
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -47,31 +43,41 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '40ch',
-    },
+    [theme.breakpoints.up('md')]: { width: '40ch' },
   },
 }));
 
 export default function TopNavigation() {
   const { mode, toggleTheme } = useThemeContext();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // 🔎 Estado del buscador
-  const [busqueda, setBusqueda] = React.useState("");
+  const [busqueda, setBusqueda] = React.useState('');
 
-  // ⏳ Debounce para evitar navegar en cada tecla
+  // Debounce + guardas
   React.useEffect(() => {
-    const handler = setTimeout(() => {
-      if (busqueda.trim() !== "") {
-        navigate(`/land/buscar/${busqueda}`);
-      }
-    }, 600); // espera 600ms después de escribir
+    const q = busqueda.trim();
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [busqueda, navigate]);
+    // si está vacío no hacemos nada
+    if (!q) return;
+
+    const id = setTimeout(() => {
+      // mínimo de caracteres
+      if (q.length < 2) return;
+
+      const target = `/land/buscar/${encodeURIComponent(q)}`;
+
+      // si ya estamos en la misma ruta exacta, no navegamos de nuevo
+      if (location.pathname !== target) {
+        navigate(target);
+      }
+
+      // limpiar el input para que no siga disparando búsquedas
+      setBusqueda('');
+    }, 600);
+
+    return () => clearTimeout(id);
+  }, [busqueda, navigate, location.pathname]);
 
   return (
     <>
@@ -84,7 +90,6 @@ export default function TopNavigation() {
         }}
       >
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          {/* Botones izquierda */}
           <Box
             sx={{
               display: 'flex',
@@ -112,7 +117,7 @@ export default function TopNavigation() {
             </IconButton>
           </Box>
 
-          {/* 🔎 Buscador con búsqueda automática */}
+          {/* Buscador */}
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -125,14 +130,12 @@ export default function TopNavigation() {
             />
           </Search>
 
-          {/* 🌙 Modo claro/oscuro */}
           <IconButton onClick={toggleTheme} color="inherit">
             {mode === 'light' ? <DarkMode /> : <LightMode />}
           </IconButton>
         </Toolbar>
       </AppBar>
 
-      {/* Espaciador para que el contenido no quede debajo */}
       <Toolbar />
     </>
   );

@@ -202,11 +202,6 @@ export const Viviendas = () => {
                 </div>
 
                 {/* Modal */}
-                <ModalPublicacion
-                    show={modalAbierto}
-                    handleClose={() => setModalAbierto(false)}
-                    publicacion={publicacionSeleccionada}
-                />
             </div>
         </div >
     );

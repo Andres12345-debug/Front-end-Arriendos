@@ -19,11 +19,24 @@ export default function BuscarResultados() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const q = (termino || '').trim();
+
+    // si no hay término o es muy corto, no pegamos al backend
+    if (!q || q.length < 2) {
+      setResultados([]);
+      setCargando(false);
+      setError(null);
+      return;
+    }
+
     const buscar = async () => {
       setCargando(true);
       setError(null);
       try {
-        const url = `${URLS.URL_BASE}${URLS.LISTAR_PUBLICACION_POR_TITULO.replace(":titulo", termino || "")}`;
+        const url = `${URLS.URL_BASE}${URLS.LISTAR_PUBLICACION_POR_TITULO.replace(
+          ":titulo",
+          encodeURIComponent(q)
+        )}`;
         const data = await ServicioGet.peticionGetPublica(url);
         setResultados(Array.isArray(data) ? data : []);
         setTimeout(() => {
@@ -36,6 +49,7 @@ export default function BuscarResultados() {
         setCargando(false);
       }
     };
+
     buscar();
   }, [termino]);
 
