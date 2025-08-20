@@ -193,6 +193,16 @@ export const Viviendas = () => {
                                     >
                                         {casa.tituloPublicacion}
                                     </Typography>
+                                    <Typography
+                                        sx={{
+                                            color: (theme) =>
+                                                theme.palette.mode === "light"
+                                                    ? theme.palette.text.disabled
+                                                    : theme.palette.common.black,
+                                        }}
+                                    >
+                                        {`$ ${Number(casa.precio).toLocaleString("es-CO")}`}
+                                    </Typography>
 
                                     <small
                                         style={{

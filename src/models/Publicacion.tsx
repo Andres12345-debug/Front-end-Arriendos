@@ -5,13 +5,20 @@ export enum TipoVivienda {
   HABITACION = 'Habitacion',
 
 }
+
+export enum TipoPublicacion {
+  ARRIENDO = 'Arriendo',
+  VENTA = 'Venta',
+}
+
+
 export class Publicacion {
   public codPublicacion: number;
   public codUsuario: number;
   public tituloPublicacion: string;
   public contenidoPublicacion: string;
   public imagenUrl: string;
-  public imagenesUrls: string[]; // ✅ Array para múltiples imágenes
+  public imagenesUrls: string[]; // Array para múltiples imágenes
   public fechaCreacionPublicacion: Date;
   public parqueadero: number;
   public estrato: number;
@@ -20,7 +27,13 @@ export class Publicacion {
   public metros: string;
   public habitaciones: number;
   public banios: number;
-  public tipo: TipoVivienda; // ✅ Agregado el enum aquí
+  public tipo: TipoVivienda; // Agregado el enum aquí
+  public tipoPublicacion: TipoPublicacion; // Agregado el enum para tipo de publicación
+  public periodoAlquiler: number;
+  public direccion: string;
+  public precio: number;
+
+
 
   constructor(
     codP: number,
@@ -38,6 +51,10 @@ export class Publicacion {
     habi: number,
     bani: number,
     tipo: TipoVivienda, // ✅ Se agrega el parámetro en el constructor
+    tipoPublicacion: TipoPublicacion, // ✅ Se agrega el parámetro en el constructor
+    periodoAlquiler: number,
+    direccion: string,
+    precio: number,
     imagenes: string[] = [] // ✅ Array para múltiples imágenes con valor por defecto
   ) {
     this.codPublicacion = codP;
@@ -55,5 +72,9 @@ export class Publicacion {
     this.habitaciones = habi;
     this.banios = bani;
     this.tipo = tipo; // ✅ Se asigna el valor del tipo de vivienda
+    this.tipoPublicacion = tipoPublicacion;
+    this.periodoAlquiler = periodoAlquiler;
+    this.direccion = direccion;
+    this.precio = precio;
   }
 }

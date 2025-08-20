@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Form, Card, Row, Col } from "react-bootstrap";
 import { ServicioPost } from "../../../services/ServicioPost";
 import { crearMensaje } from "../../../utilities/funciones/mensaje";
-import { Publicacion, TipoVivienda } from "../../../models/Publicacion";
+import { Publicacion, TipoPublicacion, TipoVivienda } from "../../../models/Publicacion";
 import { URLS } from "../../../utilities/dominios/urls";
 import { Usuario } from "../../../models/Usuario";
 import { ServicioGet } from "../../../services/ServicioGet";
@@ -10,7 +10,7 @@ import { ServicioGet } from "../../../services/ServicioGet";
 export const PublicacionRegistrar = () => {
   // Estado inicial del formulario
   const [formData, setFormData] = useState<Publicacion>(() =>
-    new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA) // Añadir codUsuario por defecto
+    new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0) // Añadir codUsuario por defecto
   );
 
   // Estado para almacenar los usuarios
@@ -41,19 +41,24 @@ export const PublicacionRegistrar = () => {
   const manejarImagenes = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const archivosSeleccionados = Array.from(e.target.files);
-  
+
       // Guardar las imágenes en el estado
       setImagenes((prev) => [...prev, ...archivosSeleccionados]);
-  
+
       // Generar previews
       const nuevasPreviews = archivosSeleccionados.map((archivo) =>
         URL.createObjectURL(archivo)
       );
-  
+
       setPreviewImages((prev) => [...prev, ...nuevasPreviews]);
     }
   };
-  
+
+
+  //Para puntos y comas
+  const formatNumber = (value: string) => {
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // agrega puntos
+  };
 
   // Método para eliminar una imagen específica
   const eliminarImagen = (index: number) => {
@@ -85,12 +90,12 @@ export const PublicacionRegistrar = () => {
     formDataToSend.append("habitaciones", formData.habitaciones.toString());
     formDataToSend.append("banios", formData.banios.toString());
     formDataToSend.append("contenidoPublicacion", formData.contenidoPublicacion);
-    
+
     // Agregar múltiples imágenes
     imagenes.forEach((imagen, index) => {
       formDataToSend.append(`imagenes`, imagen);
     });
-    
+
     formDataToSend.append("codUsuario", formData.codUsuario.toString());
     formDataToSend.append("fechaCreacionPublicacion", formData.fechaCreacionPublicacion.toISOString());
     formDataToSend.append("parqueadero", formData.parqueadero.toString()); // Añadimos el valor de parqueadero
@@ -98,6 +103,11 @@ export const PublicacionRegistrar = () => {
     formDataToSend.append("tipo", formData.tipo); // Añadir el tipo de vivienda
     formDataToSend.append("servicios", formData.servicios.toString()); // Añadimos el valor de servicios
     formDataToSend.append("administracion", formData.administracion.toString()); // Añadimos el valor de administración
+
+    formDataToSend.append("tipoPublicacion", formData.tipoPublicacion); // Añadir el tipo de publicación
+    formDataToSend.append("periodoAlquiler", formData.periodoAlquiler.toString()); // Añadimos el valor de periodoAlquiler
+    formDataToSend.append("precio", formData.precio.toString()); // Añadimos el valor de precio
+
 
     // URL del servicio
     const urlServicio = URLS.URL_BASE + URLS.CREAR_PUBLICACION;
@@ -111,7 +121,7 @@ export const PublicacionRegistrar = () => {
         crearMensaje("success", resultado.message || "Publicación registrada con éxito.");
 
         // Resetear formulario
-        setFormData(new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA));
+        setFormData(new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0)); // Reiniciar el formulario
         setImagenes([]); // Limpiar las imágenes
         setPreviewImages([]); // Limpiar las previews
       } else {
@@ -132,149 +142,27 @@ export const PublicacionRegistrar = () => {
         <Card.Body>
           <Form>
             <Row className="mb-3">
-              {/* Título Publicación */}
+
+
+              {/* Tipo de Publicacion */}
               <Col sm={12} md={6}>
-                <Form.Group controlId="formTituloPublicacion">
-                  <Form.Label>Título Publicación</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={formData.tituloPublicacion}
+                <Form.Group controlId="formTipoPublicacion">
+                  <Form.Label>Tipo de Publicación</Form.Label>
+                  <Form.Select
+                    value={formData.tipoPublicacion}
                     onChange={(e) =>
-                      setFormData({ ...formData, tituloPublicacion: e.target.value })
-                    }
-                    placeholder="Ingresa el título completo de la publicación"
-                  />
-                </Form.Group>
-              </Col>
-
-              {/* Metros de consstruccion */}
-              <Col sm={12} md={6}>
-                <Form.Group controlId="formMetros">
-                  <Form.Label>Metros de Construccion</Form.Label>
-                  <Form.Control
-                    type="text"  // Cambiar a textarea para contenido más extenso
-                    value={formData.metros}
-                    onChange={(e) =>
-                      setFormData({ ...formData, metros: e.target.value })
-                    }
-                    placeholder="Ingrese los metros de construccion"
-                  />
-                </Form.Group>
-              </Col>
-
-
-
-
-              {/* Contenido Publicación */}
-              <Col sm={12} md={6}>
-                <Form.Group controlId="formContenidoPublicacion">
-                  <Form.Label>Contenido Publicación</Form.Label>
-                  <Form.Control
-                    as="textarea"  // Cambiar a textarea para contenido más extenso
-                    rows={3}
-                    value={formData.contenidoPublicacion}
-                    onChange={(e) =>
-                      setFormData({ ...formData, contenidoPublicacion: e.target.value })
-                    }
-                    placeholder="Ingrese el contenido de la publicación"
-                  />
-                </Form.Group>
-              </Col>
-
-              {/* Múltiples imágenes */}
-              <Col sm={12}>
-                <Form.Group controlId="formImagenes">
-                  <Form.Label>Imágenes (selecciona múltiples imágenes)</Form.Label>
-                  <Form.Control
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={manejarImagenes}
-                  />
-                  <Form.Text className="text-muted">
-                    Puedes seleccionar múltiples imágenes para tu publicación.
-                  </Form.Text>
-                </Form.Group>
-                
-                {/* Vista previa de imágenes */}
-                {previewImages.length > 0 && (
-                  <div className="mt-3">
-                    <Form.Label>Vista previa de imágenes:</Form.Label>
-                    <div className="d-flex flex-wrap gap-2">
-                      {previewImages.map((preview, index) => (
-                        <div key={index} className="position-relative">
-                          <img
-                            src={preview}
-                            alt={`Preview ${index + 1}`}
-                            style={{ 
-                              width: "120px", 
-                              height: "120px", 
-                              objectFit: "cover", 
-                              borderRadius: "8px" 
-                            }}
-                          />
-                          <button
-                            type="button"
-                            className="btn btn-danger btn-sm position-absolute top-0 end-0"
-                            style={{ 
-                              transform: "translate(50%, -50%)", 
-                              borderRadius: "50%",
-                              width: "25px",
-                              height: "25px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              padding: "0"
-                            }}
-                            onClick={() => eliminarImagen(index)}
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </Col>
-
-              {/* Fecha de Publicación */}
-              <Col sm={12} md={6}>
-                <Form.Group controlId="formFechaCreacionPublicacion">
-                  <Form.Label>Fecha de Publicación</Form.Label>
-                  <Form.Control
-                    type="date"
-                    value={formData.fechaCreacionPublicacion.toISOString().split('T')[0]}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        fechaCreacionPublicacion: new Date(e.target.value)
-                      })
-                    }
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row className="mb-3">
-              <Col sm={12} md={6}>
-                <Form.Group controlId="formRolUsuario">
-                  <Form.Label>Usuario</Form.Label>
-                  <Form.Control
-                    as="select"
-                    value={formData.codUsuario}
-                    onChange={(e) =>
-                      setFormData({ ...formData, codUsuario: parseInt(e.target.value) })
+                      setFormData({ ...formData, tipoPublicacion: e.target.value as TipoPublicacion })
                     }
                   >
-                    <option value="0">Seleccione un usuario</option>
-                    {usuarios.map((usuario) => (
-                      <option key={usuario.codUsuario} value={usuario.codUsuario}>
-                        {usuario.nombreUsuario}
+                    {Object.values(TipoPublicacion).map((tipoPublicacion) => (
+                      <option key={tipoPublicacion} value={tipoPublicacion}>
+                        {tipoPublicacion}
                       </option>
                     ))}
-                  </Form.Control>
+                  </Form.Select>
                 </Form.Group>
               </Col>
+
 
               {/* Tipo de Vivienda */}
               <Col sm={12} md={6}>
@@ -292,25 +180,83 @@ export const PublicacionRegistrar = () => {
                       </option>
                     ))}
                   </Form.Select>
+                </Form.Group>
+              </Col>
 
+              {/* Título Publicación */}
+              <Col sm={12} md={6}>
+                <Form.Group controlId="formTituloPublicacion">
+                  <Form.Label>Título Publicación</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={formData.tituloPublicacion}
+                    onChange={(e) =>
+                      setFormData({ ...formData, tituloPublicacion: e.target.value })
+                    }
+                    placeholder="Ejemplo: Casa en arriendo – Barrio Altamira, Tunja"
+                  />
                 </Form.Group>
               </Col>
 
 
-              {/* Parqueadero */}
+
+
+              {/* Contenido Publicación */}
               <Col sm={12} md={6}>
-                <Form.Group controlId="formParqueadero">
-                  <Form.Label>¿Tiene Parqueadero?</Form.Label>
-                  <Form.Select
-                    value={formData.parqueadero}
+                <Form.Group controlId="formContenidoPublicacion">
+                  <Form.Label>Contenido Publicación</Form.Label>
+                  <Form.Control
+                    as="textarea"  // Cambiar a textarea para contenido más extenso
+                    rows={6}
+                    value={formData.contenidoPublicacion}
                     onChange={(e) =>
-                      setFormData({ ...formData, parqueadero: parseInt(e.target.value) })
+                      setFormData({ ...formData, contenidoPublicacion: e.target.value })
                     }
-                  >
-                    <option value="0">No</option>
-                    <option value="1">Sí</option>
-                  </Form.Select>
+                    placeholder="Especifica el contenido de la publicación, por ejemplo: Hermoso apartamento, con excelente vista"
+                  />
                 </Form.Group>
+              </Col>
+
+              {/* Precio */}
+              <Col sm={12} md={6}>
+                <Form.Group controlId="formPrecio">
+                  <Form.Label>Precio</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={formatNumber(formData.precio.toString())}
+                    onChange={(e) => {
+                      const rawValue = e.target.value.replace(/\./g, ""); // quitar puntos
+                      setFormData({
+                        ...formData,
+                        precio: rawValue === "" ? 0 : Number(rawValue),
+                      });
+                    }}
+                    placeholder="Ejemplo: 1200000"
+                  />
+                </Form.Group>
+                <Form.Text className="text-muted">
+                  Agrega el valor sin puntos ni comas
+                </Form.Text>
+              </Col>
+
+
+
+              {/* Metros de consstruccion */}
+              <Col sm={12} md={6}>
+                <Form.Group controlId="formMetros">
+                  <Form.Label>Metros de Construccion</Form.Label>
+                  <Form.Control
+                    type="text"  // Cambiar a textarea para contenido más extenso
+                    value={formData.metros}
+                    onChange={(e) =>
+                      setFormData({ ...formData, metros: e.target.value })
+                    }
+                    placeholder="Ejemplo: 80"
+                  />
+                </Form.Group>
+                <Form.Text className="text-muted">
+                  Agrega los metros solo numéricos
+                </Form.Text>
               </Col>
 
               {/* Estrato */}
@@ -335,6 +281,26 @@ export const PublicacionRegistrar = () => {
                 </Form.Group>
               </Col>
 
+              {/* Administración */}
+              <Col sm={12} md={6}>
+                <Form.Group controlId="formAdministracion">
+                  <Form.Label>Administración</Form.Label>
+                  <Form.Select
+                    value={formData.administracion}
+                    onChange={(e) =>
+                      setFormData({ ...formData, administracion: parseInt(e.target.value) })
+                    }
+                  >
+                    <option value="0">Seleccione administración</option>
+                    <option value="1">Paga administración</option>
+                    <option value="2">No paga administración</option>
+                  </Form.Select>
+                  <Form.Text className="text-muted">
+                    Indica si se debe pagar administración (El precio debe estar incluido en el precio general).
+                  </Form.Text>
+                </Form.Group>
+              </Col>
+
               {/* Servicios */}
               <Col sm={12} md={6}>
                 <Form.Group controlId="formServicios">
@@ -349,22 +315,24 @@ export const PublicacionRegistrar = () => {
                     <option value="1">Compartidos</option>
                     <option value="2">Independientes</option>
                   </Form.Select>
+                  <Form.Text className="text-muted">
+                    Indica si los servicios básicos (agua, luz, gas, etc.) se deben pagar compartidos o independientes.
+                  </Form.Text>
                 </Form.Group>
               </Col>
 
-              {/* Administración */}
+              {/* Parqueadero */}
               <Col sm={12} md={6}>
-                <Form.Group controlId="formAdministracion">
-                  <Form.Label>Administración</Form.Label>
+                <Form.Group controlId="formParqueadero">
+                  <Form.Label>Cuenta con Parqueadero?</Form.Label>
                   <Form.Select
-                    value={formData.administracion}
+                    value={formData.parqueadero}
                     onChange={(e) =>
-                      setFormData({ ...formData, administracion: parseInt(e.target.value) })
+                      setFormData({ ...formData, parqueadero: parseInt(e.target.value) })
                     }
                   >
-                    <option value="0">Seleccione administración</option>
-                    <option value="1">Con administración</option>
-                    <option value="2">Sin administración</option>
+                    <option value="0">No</option>
+                    <option value="1">Sí</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -418,7 +386,91 @@ export const PublicacionRegistrar = () => {
               </Col>
 
 
+
+              <Row className="mb-3">
+                <Col sm={12} md={6}>
+                  <Form.Group controlId="formRolUsuario">
+                    <Form.Label>Usuario</Form.Label>
+                    <Form.Control
+                      as="select"
+                      value={formData.codUsuario}
+                      onChange={(e) =>
+                        setFormData({ ...formData, codUsuario: parseInt(e.target.value) })
+                      }
+                    >
+                      <option value="0">Seleccione un usuario</option>
+                      {usuarios.map((usuario) => (
+                        <option key={usuario.codUsuario} value={usuario.codUsuario}>
+                          {usuario.nombreUsuario}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              {/* Múltiples imágenes */}
+              <Col sm={12}>
+                <Form.Group controlId="formImagenes">
+                  <Form.Label>Imágenes (selecciona múltiples imágenes)</Form.Label>
+                  <Form.Control
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={manejarImagenes}
+                  />
+                  <Form.Text className="text-muted">
+                    Puedes seleccionar múltiples imágenes para tu publicación.
+                  </Form.Text>
+                </Form.Group>
+
+
+                {/* Vista previa de imágenes */}
+                {previewImages.length > 0 && (
+                  <div className="mt-3">
+                    <Form.Label>Vista previa de imágenes:</Form.Label>
+                    <div className="d-flex flex-wrap gap-2">
+                      {previewImages.map((preview, index) => (
+                        <div key={index} className="position-relative">
+                          <img
+                            src={preview}
+                            alt={`Preview ${index + 1}`}
+                            style={{
+                              width: "120px",
+                              height: "120px",
+                              objectFit: "cover",
+                              borderRadius: "8px"
+                            }}
+                          />
+                          <button
+                            type="button"
+                            className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                            style={{
+                              transform: "translate(50%, -50%)",
+                              borderRadius: "50%",
+                              width: "25px",
+                              height: "25px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              padding: "0"
+                            }}
+                            onClick={() => eliminarImagen(index)}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </Col>
+
+              {/* Fecha de Publicación */}
+
             </Row>
+
+
 
             {/* Botón de Enviar */}
             <Button variant="primary" onClick={crearPublicacion}>

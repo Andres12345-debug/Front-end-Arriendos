@@ -43,11 +43,27 @@ export const DetallePublicacion = () => {
   return (
     <Container sx={{ mt: 4 }}>
       <Typography variant="h1"
-      color="text.secondary">
+        color="text.secondary">
         {publicacion.tituloPublicacion}
       </Typography>
       <Typography variant="body1" paragraph>
         {publicacion.contenidoPublicacion}
+      </Typography>
+<Typography 
+      variant="body2"
+        sx={{
+          color: (theme) =>
+            theme.palette.mode === "light"
+              ? theme.palette.common.black
+              : theme.palette.common.white,
+        }}
+      >
+        Precio:{" "}
+        {new Intl.NumberFormat("es-CO", {
+          style: "currency",
+          currency: "COP",
+          minimumFractionDigits: 0, // sin decimales
+        }).format(publicacion.precio)}
       </Typography>
 
       <Typography variant="body2" color="text.secondary">
@@ -66,10 +82,10 @@ export const DetallePublicacion = () => {
 
       {/* Galería de imágenes */}
       <Box
-      sx={{ display: "flex", flexWrap: "wrap", gap: 2, mt: 3 }}>
+        sx={{ display: "flex", flexWrap: "wrap", gap: 2, mt: 3 }}>
         {publicacion.imagenesUrls?.map((url, idx) => (
-          <Box          
-      className="pointer-hover"
+          <Box
+            className="pointer-hover"
             key={idx}
             component="img"
             src={`${URLS.URL_BASE}${url}`}

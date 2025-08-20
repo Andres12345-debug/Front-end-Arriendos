@@ -49,7 +49,7 @@ export const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
         text: {
           primary: mode === "light" ? "#1a1a1a" : "#ffffff" + " !important",   // color principal del texto
           secondary: mode === "light" ? "#e16614ff" : "#cccccc" + " !important", // color secundario del texto
-          disabled: mode === "light" ? "#aaaaaa" : "#777777" + " !important",  // color de texto deshabilitado
+          disabled: mode === "light" ? "#0b7206ff" : "#777777" + " !important",  // color de texto deshabilitado
         },
         },
         zIndex:{

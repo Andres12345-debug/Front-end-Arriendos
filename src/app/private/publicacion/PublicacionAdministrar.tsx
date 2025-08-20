@@ -8,11 +8,11 @@ import { ServicioPut } from "../../../services/ServicioPut";
 import { ServicioPost } from "../../../services/ServicioPost"; // <-- IMPORTAR
 import { Link } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
-import { Publicacion, TipoVivienda } from "../../../models/Publicacion";
+import { Publicacion, TipoPublicacion, TipoVivienda } from "../../../models/Publicacion";
 
 export const PublicacionAdministrar = () => {
     const [arrPublicacion, setArrPublicacion] = useState<Publicacion[]>([]);
-    const [rolSeleccionado, setRolSeleccionado] = useState<Publicacion>(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA));
+    const [rolSeleccionado, setRolSeleccionado] = useState<Publicacion>(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0));
     const [show, setShow] = useState(false);
     const [showActualizar, setShowActualizar] = useState(false);
     const [showCrear, setShowCrear] = useState(false);
@@ -21,7 +21,7 @@ export const PublicacionAdministrar = () => {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [previewImages, setPreviewImages] = useState<string[]>([]);
 
-    const [nuevaPublicacion, setNuevaPublicacion] = useState<Publicacion>(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA));
+    const [nuevaPublicacion, setNuevaPublicacion] = useState<Publicacion>(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0));
 
     const handleCloser = () => setShow(false);
     const handleCloseActualizar = () => {
@@ -33,7 +33,7 @@ export const PublicacionAdministrar = () => {
         setShowCrear(false);
         setSelectedFiles([]);
         setPreviewImages([]);
-        setNuevaPublicacion(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA));
+        setNuevaPublicacion(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0));
     };
 
     const consultarPublicacion = async () => {
