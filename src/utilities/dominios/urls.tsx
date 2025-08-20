@@ -1,5 +1,5 @@
 export const URLS = {
-    URL_BASE: "https://arrivals-bhutan-modems-embassy.trycloudflare.com",
+    URL_BASE: "https://sand-require-sports-tale.trycloudflare.com",
     INICIAR_SESION: "/public/accesos/signin",
     REGISTRO: "/public/registros/user",
 
