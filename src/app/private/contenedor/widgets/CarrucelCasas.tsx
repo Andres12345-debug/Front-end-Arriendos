@@ -15,7 +15,7 @@ import CasaImg from '../../../../assets/img/Iconos/6.png';
 import ApartamentoImg from '../../../../assets/img/Iconos/5.png';
 import FincaImg from '../../../../assets/img/Iconos/4.png';
 import HabitacionImg from '../../../../assets/img/Iconos/7.png';
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Viviendas = () => {
 
@@ -27,7 +27,7 @@ export const Viviendas = () => {
     const [casas, setCasas] = useState<Publicacion[]>([]);
     const [cargando, setCargando] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [tipoVivienda, setTipoVivienda] = useState<string>("Casa");
+    const [tipoVivienda, setTipoVivienda] = useState<string>("");
 
     // Estado para el modal
     const [modalAbierto, setModalAbierto] = useState(false);
@@ -41,25 +41,40 @@ export const Viviendas = () => {
     ];
 
     const theme = useTheme();
-
     const consultarPublicaciones = useCallback(async () => {
-    setCargando(true);
-    setError(null);
-    const urlServicio = `${URLS.URL_BASE}${URLS.LISTAR_PUBLICACION_POR_TIPO.replace(':tipoVivienda', tipoVivienda)}`;
+        setCargando(true);
+        setError(null);
 
-    try {
-        const resultado = await ServicioGet.peticionGetPublica(urlServicio);
-        setCasas(Array.isArray(resultado) ? resultado : []);
-        setTimeout(() => {
-            resultadosRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-    } catch (error) {
-        console.error("Error al obtener publicaciones:", error);
-        setError("No se pudieron cargar las viviendas.");
-    } finally {
-        setCargando(false);
-    }
-}, [tipoVivienda]);
+        try {
+            // Si no hay tipo de vivienda seleccionado
+            if (!tipoVivienda) {
+                setCasas([]); // o podrías traer todas con otro endpoint
+                setCargando(false);
+                return;
+            }
+
+            const urlServicio = `${URLS.URL_BASE}${URLS.LISTAR_PUBLICACION_POR_TIPO.replace(
+                ":tipoVivienda",
+                tipoVivienda
+            )}`;
+
+            const resultado = await ServicioGet.peticionGetPublica(urlServicio);
+            setCasas(Array.isArray(resultado) ? resultado : []);
+
+            setTimeout(() => {
+                resultadosRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+            }, 100);
+        } catch (error) {
+            console.error("Error al obtener publicaciones:", error);
+            setError("No se pudieron cargar las viviendas.");
+        } finally {
+            setCargando(false);
+        }
+    }, [tipoVivienda]);
+
 
     const navigate = useNavigate();
 
@@ -68,7 +83,7 @@ export const Viviendas = () => {
     }, [consultarPublicaciones]);
 
     const abrirModal = (publicacion: Publicacion) => {
-        
+
         navigate(`publicacion/${publicacion.codPublicacion}`);
 
         //Abre modal, para despues
@@ -88,8 +103,6 @@ export const Viviendas = () => {
                 >
                     Selecciona el tipo de vivienda
                 </Typography>
-
-
             </Box>
 
             {/* Selector de tipo */}
