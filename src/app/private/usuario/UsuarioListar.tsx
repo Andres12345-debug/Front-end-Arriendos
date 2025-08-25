@@ -7,21 +7,47 @@ import { Role } from "../../../models/Rol";
 export const UsuarioListar = () => {
     const [arrUsuario, setArrUsuario] = useState<any[]>([]);
     const [arrRoles, setArrRoles] = useState<Role[]>([]);
-    const [loading, setLoading] = useState(true); // Estado para gestionar la carga
+    const [perfil, setPerfil] = useState<Usuario | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    // Función para consultar el perfil
+    // Función para consultar el perfil
+    const consultarPerfil = async () => {
+        try {
+            const urlPerfil = URLS.URL_BASE + URLS.LISTAR_PERFIL;
+            const data = await ServicioGet.peticionGet(urlPerfil);
+            const apiUser = data.usuario;
+            const perfilMapeado: Usuario = {
+                codUsuario: apiUser.id,
+                nombreUsuario: apiUser.nombre,
+                fechaNacimientoUsuario: apiUser.fechaNacimientoUsuario
+                    ? new Date(apiUser.fechaNacimientoUsuario)
+                    : new Date(),
+                telefonoUsuario: apiUser.telefono,
+                generoUsuario: apiUser.genero ?? 0,
+                codRol: apiUser.codRol ?? 0,
+                rolNombre: apiUser.rol,
+            };
+            setPerfil(perfilMapeado);
+
+
+        } catch (error) {
+            console.error("Error al cargar perfil:", error);
+        }
+    };
+
+
 
     // Función para consultar los roles y usuarios
     const consultarDatos = async () => {
-        setLoading(true);
         try {
-            // Consultar roles
             const urlRoles = URLS.URL_BASE + URLS.LISTAR_ROLES;
             const roles = await ServicioGet.peticionGet(urlRoles);
 
-            // Consultar usuarios
             const urlUsuarios = URLS.URL_BASE + URLS.LISTAR_USUARIOS;
             const usuarios = await ServicioGet.peticionGet(urlUsuarios);
 
-            // Mapear usuarios con los roles
+            // Mapear usuarios con sus roles
             const usuariosConRol = usuarios.map((usuario: Usuario) => {
                 const rol = roles.find((rol: Role) => rol.codRol === usuario.codRol);
                 return {
@@ -30,21 +56,38 @@ export const UsuarioListar = () => {
                 };
             });
 
-            setArrRoles(roles); // Guardar roles
-            setArrUsuario(usuariosConRol); // Guardar usuarios
+            setArrRoles(roles);
+            setArrUsuario(usuariosConRol);
         } catch (error) {
-            console.error("Error al cargar datos:", error);
-        } finally {
-            setLoading(false); // Finalizar la carga
+            console.error("Error al cargar usuarios:", error);
         }
     };
 
     useEffect(() => {
-        consultarDatos(); // Consultar roles y usuarios al montar
+        const cargarTodo = async () => {
+            setLoading(true);
+            await consultarPerfil();
+            await consultarDatos();
+            setLoading(false);
+        };
+        cargarTodo();
     }, []);
 
     return (
         <div className="m-4">
+            {/* --- PERFIL USUARIO LOGUEADO --- */}
+            {perfil && (
+                <div className="card shadow p-4 mb-4 col-md-6">
+                    <h2>{perfil?.nombreUsuario}</h2>
+                    <p>Rol: {perfil?.rolNombre}</p>
+                    <p>Teléfono: {perfil?.telefonoUsuario}</p>
+                    <p>Email: {perfil?.codUsuario}</p>
+
+                </div>
+            )}
+
+
+            {/* --- LISTADO DE USUARIOS --- */}
             <div className="row align-items-center mb-4">
                 <div className="col-lg-6">
                     <h4 className="fst-italic fw-bold display-5">Listar Usuarios</h4>

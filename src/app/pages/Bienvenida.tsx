@@ -18,7 +18,7 @@ export const Bienvenida = () => {
 
     // Consultar publicaciones
     const consultarPublicaciones = async () => {
-        const urlServicio = URLS.URL_BASE + URLS.LISTAR_PUBLICACION;
+        const urlServicio = URLS.URL_BASE + URLS.LISTAR_PUBLICACION_PRIVADA;
         try {
             const resultado = await ServicioGet.peticionGet(urlServicio);
             setArrPubli(Array.isArray(resultado) ? resultado : []);
@@ -26,6 +26,7 @@ export const Bienvenida = () => {
             console.error("Error al obtener publicaciones:", error);
         }
     };
+
     useEffect(() => {
         consultarPublicaciones();
     }, []);
@@ -91,38 +92,38 @@ export const Bienvenida = () => {
             </div>
             {/* Modal para mostrar los detalles de la publicación */}
             <Modal show={showModal} onHide={handleCloseModal}>
-    <Modal.Header closeButton>
-        <Modal.Title>{selectedPublicacion?.tituloPublicacion}</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-        <div className="d-flex flex-column align-items-center text-center">
-            {selectedPublicacion?.imagenUrl && (
-                <img
-                    src={URLS.URL_BASE + selectedPublicacion.imagenUrl}
-                    alt="Imagen de la publicación"
-                    className="img-fluid mb-3"
-                    style={{ maxHeight: "400px", objectFit: "cover", borderRadius: "8px" }}
-                />
-            )}
-            <div className="mt-3">
-                <h5 className="fw-bold">{selectedPublicacion?.tituloPublicacion}</h5>
-                <p>{selectedPublicacion?.contenidoPublicacion}</p>
-                <p>{selectedPublicacion?.metros} mt² de construcción</p>
-                <p>Tiene {selectedPublicacion?.habitaciones} habitaciones</p>
-                <p>Tiene {selectedPublicacion?.banios} baños</p>
-                <p className={selectedPublicacion?.servicios === 1 ? "text-danger" : "text-success"}>
-                    {selectedPublicacion?.servicios === 1 ? "Servicios Compartidos" : "Servicios independientes"}
-                </p>
-                <p className={selectedPublicacion?.administracion === 1 ? "text-danger" : "text-success"}>
-                    {selectedPublicacion?.administracion === 1 ? "Paga administración" : "No paga administración"}
-                </p>
-                <p className={selectedPublicacion?.parqueadero === 1 ? "text-success" : "text-danger"}>
-                    {selectedPublicacion?.parqueadero === 1 ? "Cuenta con parquedero" : "No cuenta con parqueadero"}
-                </p>
-            </div>
-        </div>
-    </Modal.Body>
-</Modal>
+                <Modal.Header closeButton>
+                    <Modal.Title>{selectedPublicacion?.tituloPublicacion}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="d-flex flex-column align-items-center text-center">
+                        {selectedPublicacion?.imagenUrl && (
+                            <img
+                                src={URLS.URL_BASE + selectedPublicacion.imagenUrl}
+                                alt="Imagen de la publicación"
+                                className="img-fluid mb-3"
+                                style={{ maxHeight: "400px", objectFit: "cover", borderRadius: "8px" }}
+                            />
+                        )}
+                        <div className="mt-3">
+                            <h5 className="fw-bold">{selectedPublicacion?.tituloPublicacion}</h5>
+                            <p>{selectedPublicacion?.contenidoPublicacion}</p>
+                            <p>{selectedPublicacion?.metros} mt² de construcción</p>
+                            <p>Tiene {selectedPublicacion?.habitaciones} habitaciones</p>
+                            <p>Tiene {selectedPublicacion?.banios} baños</p>
+                            <p className={selectedPublicacion?.servicios === 1 ? "text-danger" : "text-success"}>
+                                {selectedPublicacion?.servicios === 1 ? "Servicios Compartidos" : "Servicios independientes"}
+                            </p>
+                            <p className={selectedPublicacion?.administracion === 1 ? "text-danger" : "text-success"}>
+                                {selectedPublicacion?.administracion === 1 ? "Paga administración" : "No paga administración"}
+                            </p>
+                            <p className={selectedPublicacion?.parqueadero === 1 ? "text-success" : "text-danger"}>
+                                {selectedPublicacion?.parqueadero === 1 ? "Cuenta con parquedero" : "No cuenta con parqueadero"}
+                            </p>
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
 
         </div>
     );

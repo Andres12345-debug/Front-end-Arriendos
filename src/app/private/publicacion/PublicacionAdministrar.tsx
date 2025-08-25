@@ -9,6 +9,10 @@ import { ServicioPost } from "../../../services/ServicioPost"; // <-- IMPORTAR
 import { Link } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
 import { Publicacion, TipoPublicacion, TipoVivienda } from "../../../models/Publicacion";
+import {
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
+} from "@mui/material";
+
 
 export const PublicacionAdministrar = () => {
     const [arrPublicacion, setArrPublicacion] = useState<Publicacion[]>([]);
@@ -38,7 +42,7 @@ export const PublicacionAdministrar = () => {
 
     const consultarPublicacion = async () => {
         try {
-            const urlServicio = URLS.URL_BASE + URLS.LISTAR_PUBLICACION;
+            const urlServicio = URLS.URL_BASE + URLS.LISTAR_PUBLICACION_PRIVADA;
             const resultado = await ServicioGet.peticionGet(urlServicio);
 
             if (Array.isArray(resultado)) {
@@ -95,57 +99,39 @@ export const PublicacionAdministrar = () => {
     };
 
     const actualizarPublicacion = async () => {
-        const urlServicio = URLS.URL_BASE + URLS.ACTUALIZAR_PUBLICACION + '/' + rolSeleccionado.codPublicacion;
-        try {
-            const formData = new FormData();
+        const objActualizar: any = {
+            tituloPublicacion: rolSeleccionado.tituloPublicacion,
+            contenidoPublicacion: rolSeleccionado.contenidoPublicacion,
+            metros: rolSeleccionado.metros,
+            tipo: rolSeleccionado.tipo,
+            habitaciones: rolSeleccionado.habitaciones,
+            banios: rolSeleccionado.banios,
+            parqueadero: rolSeleccionado.parqueadero,
+            estrato: rolSeleccionado.estrato,
+            servicios: rolSeleccionado.servicios,
+            administracion: rolSeleccionado.administracion,
+            imagenesFiles: selectedFiles // 👈 ahora mandas el array completo
+        };
 
-            formData.append("tituloPublicacion", rolSeleccionado.tituloPublicacion);
-            formData.append("contenidoPublicacion", rolSeleccionado.contenidoPublicacion);
-            formData.append("metros", rolSeleccionado.metros);
-            formData.append("tipo", rolSeleccionado.tipo);
-            formData.append("habitaciones", rolSeleccionado.habitaciones.toString());
-            formData.append("banios", rolSeleccionado.banios.toString());
-            formData.append("parqueadero", rolSeleccionado.parqueadero.toString());
-            formData.append("estrato", rolSeleccionado.estrato.toString());
-            formData.append("servicios", rolSeleccionado.servicios.toString());
-            formData.append("administracion", rolSeleccionado.administracion.toString());
+        const resultado = await ServicioPut.putPublicacion(rolSeleccionado.codPublicacion, objActualizar);
 
-            // OJO: tu backend PUT actual usa FileInterceptor('imagen') (singular).
-            // Si quieres subir múltiples imágenes en el PUT, debes cambiar el backend (FilesInterceptor('imagenes', ...)).
-            if (selectedFiles.length > 0) {
-                // Si el backend espera 'imagen' (singular) comentar esta parte y usar file único:
-                selectedFiles.forEach((archivo) => {
-                    formData.append(`imagenes`, archivo); // solo si backend acepta 'imagenes' en PUT
-                });
-            }
-
-            const resultado = await ServicioPut.peticionPut(urlServicio, formData);
-
-            if (resultado?.mensaje === "Publicacion actualizada") {
-                crearMensaje('success', "Publicación actualizada satisfactoriamente");
-
-                setArrPublicacion((prevPublicaciones) =>
-                    prevPublicaciones.map((publicacion) =>
-                        publicacion.codPublicacion === rolSeleccionado.codPublicacion
-                            ? {
-                                ...publicacion,
-                                ...resultado.objeto,
-                                ...(resultado.objeto.imagenUrl && { imagenUrl: resultado.objeto.imagenUrl })
-                            }
-                            : publicacion
-                    )
-                );
-                setShowActualizar(false);
-                setSelectedFiles([]);
-                setPreviewImages([]);
-            } else {
-                crearMensaje('error', "Fallo al actualizar la publicación");
-            }
-        } catch (error) {
-            console.error("Error en la actualización:", error);
-            crearMensaje('error', "Error en el servidor al intentar actualizar la publicación");
+        if (resultado?.mensaje === "Publicación actualizada") {
+            crearMensaje("success", "Publicación actualizada satisfactoriamente");
+            consultarPublicacion();
+            setShowActualizar(false);
+            setSelectedFiles([]);
+            setPreviewImages([]);
+        } else {
+            crearMensaje("error", "Fallo al actualizar la publicación");
         }
     };
+
+
+
+
+
+
+
 
     // --- NUEVO: crearPublicacion con múltiples imágenes ---
     const crearPublicacion = async () => {
@@ -202,9 +188,6 @@ export const PublicacionAdministrar = () => {
                     <h4 className="fst-italic fw-bold display-4">Administrar Publicaciones</h4>
                 </div>
                 <div className="col-8 d-flex justify-content-end align-items-center">
-                    <Button className="me-3" variant="success" onClick={() => setShowCrear(true)}>
-                        <i className="fa fa-plus"></i> Nueva Publicación
-                    </Button>
                     <ol className="breadcrumb breadcrumb-info breadcrumb-transparent fs-3 mb-0">
                         <li className="breadcrumb-item"><Link to="/dash"><i className="fa fa-home"></i></Link></li>
                         <li className="breadcrumb-item"><a href="#"> Publicacion</a></li>
@@ -215,49 +198,60 @@ export const PublicacionAdministrar = () => {
 
             <div className="d-flex justify-content-center mt-3">
                 <div className="col-md-10">
-                    <table className="table table-sm table-striped table-hover">
-                        <thead className="table-primary text-white fs-2 text-center">
-                            <tr>
-                                <th style={{ width: "20%" }}>titulo</th>
-                                <th style={{ width: "25%" }}>Sub Titulo</th>
-                                <th style={{ width: "20%" }}>Contenido</th>
-                                <th style={{ width: "10%" }}>Imagen</th>
-                                <th style={{ width: "10%" }}>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody className="text-center">
-                            {arrPublicacion.map((objRol, indice) => (
-                                <tr key={indice}>
-                                    <td>{objRol.codPublicacion}</td>
-                                    <td>{objRol.tituloPublicacion}</td>
-                                    <td>{objRol.contenidoPublicacion}</td>
-                                    <td>{objRol.imagenUrl}</td>
-                                    <td>
-                                        <Button
-                                            className="btn btn-warning btn-sm mx-1"
-                                            onClick={() => {
-                                                setRolSeleccionado(objRol);
-                                                setShowActualizar(true);
-                                            }}
-                                        >
-                                            <i className="fa fa-edit"></i>
-                                        </Button>
-                                        <Button
-                                            className="btn btn-danger btn-sm mx-1"
-                                            onClick={() => {
-                                                setRolSeleccionado(objRol);
-                                                setShow(true);
-                                            }}
-                                        >
-                                            <i className="fa fa-trash"></i>
-                                        </Button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
+                        <Table stickyHeader size="small" aria-label="tabla publicaciones">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center" sx={{ fontWeight: "bold", width: "20%" }}>Título</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: "bold", width: "25%" }}>Tipo de propiedad</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: "bold", width: "20%" }}>Metros</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: "bold", width: "15%" }}>Imagen</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: "bold", width: "20%" }}>Acciones</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {arrPublicacion.map((objRol, indice) => (
+                                    <TableRow key={indice} hover>
+                                        <TableCell align="center">{objRol.tituloPublicacion}</TableCell>
+                                        <TableCell align="center">{objRol.tipo}</TableCell>
+                                        <TableCell align="center">{objRol.metros}</TableCell>
+                                        <TableCell align="center">
+                                            {objRol.imagenUrl ? (
+                                                <img
+                                                    src={URLS.URL_BASE + objRol.imagenUrl}
+                                                    alt="Publicación"
+                                                    style={{ width: "80px", height: "80px", objectFit: "cover", borderRadius: "8px" }}
+                                                />
+                                            ) : "Sin imagen"}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Button
+                                                className="btn btn-warning btn-sm mx-1"
+                                                onClick={() => {
+                                                    setRolSeleccionado(objRol);
+                                                    setShowActualizar(true);
+                                                }}
+                                            >
+                                                <i className="fa fa-edit"></i>
+                                            </Button>
+                                            <Button
+                                                className="btn btn-danger btn-sm mx-1"
+                                                onClick={() => {
+                                                    setRolSeleccionado(objRol);
+                                                    setShow(true);
+                                                }}
+                                            >
+                                                <i className="fa fa-trash"></i>
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </div>
             </div>
+
 
             {/* Modal para Eliminar Rol */}
             <Modal show={show} onHide={handleCloser} backdrop="static" keyboard={false}>
@@ -292,6 +286,43 @@ export const PublicacionAdministrar = () => {
                                 }
                             />
                         </Form.Group>
+                        <Form.Group controlId="formContenido">
+                            <Form.Label>Contenido</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={rolSeleccionado.contenidoPublicacion}
+                                onChange={(e) =>
+                                    setRolSeleccionado({ ...rolSeleccionado, contenidoPublicacion: e.target.value })
+                                }
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="formMetros">
+                            <Form.Label>Metros</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={rolSeleccionado.metros}
+                                onChange={(e) =>
+                                    setRolSeleccionado({ ...rolSeleccionado, metros: e.target.value })
+                                }
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="formTipoVivienda">
+                            <Form.Label>Tipo de Vivienda</Form.Label>
+                            <Form.Control
+                                as="select"
+                                value={rolSeleccionado.tipo}
+                                onChange={(e) =>
+                                    setRolSeleccionado({ ...rolSeleccionado, tipo: e.target.value as TipoVivienda })
+                                }
+                            >
+                                {Object.values(TipoVivienda).map((tipo) => (
+                                    <option key={tipo} value={tipo}>
+                                        {tipo}
+                                    </option>
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
+
 
                         {/* ... otros campos ... */}
 
