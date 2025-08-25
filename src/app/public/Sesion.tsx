@@ -182,8 +182,13 @@ export const Sesion = () => {
                 <div className="d-flex justify-content-center align-items-center mt-4">
                     <span className="fw-normal">
                         ¿No tienes una cuenta? &nbsp;
-                        <Link to="/register"
-                        >Clic Aqui</Link>
+                        <Link
+                            to="/register"
+                            style={{ fontSize: "15px", fontWeight: "bold", color: "blue", textDecoration: "underline" }}
+                        >
+                            Clic Aquí
+                        </Link>
+
                     </span>
                 </div>
             </Box>

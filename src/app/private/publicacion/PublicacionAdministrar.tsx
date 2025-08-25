@@ -110,6 +110,8 @@ export const PublicacionAdministrar = () => {
             estrato: rolSeleccionado.estrato,
             servicios: rolSeleccionado.servicios,
             administracion: rolSeleccionado.administracion,
+            precio: rolSeleccionado.precio,
+            contactoWhatsapp: rolSeleccionado.contactoWhatsapp,
             imagenesFiles: selectedFiles // 👈 ahora mandas el array completo
         };
 
@@ -126,55 +128,6 @@ export const PublicacionAdministrar = () => {
         }
     };
 
-
-
-
-
-
-
-
-    // --- NUEVO: crearPublicacion con múltiples imágenes ---
-    const crearPublicacion = async () => {
-        const urlServicio = URLS.URL_BASE + URLS.CREAR_PUBLICACION_CON_IMAGENES;
-        try {
-            const formData = new FormData();
-
-            formData.append("tituloPublicacion", nuevaPublicacion.tituloPublicacion);
-            formData.append("contenidoPublicacion", nuevaPublicacion.contenidoPublicacion);
-            formData.append("metros", nuevaPublicacion.metros);
-            formData.append("tipo", nuevaPublicacion.tipo);
-            formData.append("habitaciones", nuevaPublicacion.habitaciones.toString());
-            formData.append("banios", nuevaPublicacion.banios.toString());
-            formData.append("parqueadero", nuevaPublicacion.parqueadero.toString());
-            formData.append("estrato", nuevaPublicacion.estrato.toString());
-            formData.append("servicios", nuevaPublicacion.servicios.toString());
-            formData.append("administracion", nuevaPublicacion.administracion.toString());
-
-            // Adjuntar imágenes con el campo EXACTO que espera el backend: 'imagenes'
-            if (selectedFiles.length > 0) {
-                selectedFiles.forEach((archivo) => {
-                    formData.append("imagenes", archivo);
-                });
-            }
-
-            // IMPORTANTE: pasar isMultipart = true para que ServicioPost NO agregue Content-Type (el navegador lo define)
-            const resultado = await ServicioPost.peticionPost(urlServicio, formData, true);
-
-            // Tu servicio en Nest devuelve: { success: true, message: '...', data: publicacionGuardada }
-            if (resultado && resultado.success) {
-                crearMensaje('success', "Publicación creada correctamente");
-                consultarPublicacion();
-                handleCloseCrear();
-            } else {
-                console.error("Respuesta al crear publicación:", resultado);
-                crearMensaje('error', resultado?.message || "Fallo al crear la publicación");
-            }
-
-        } catch (error) {
-            console.error("Error creando publicación:", error);
-            crearMensaje('error', "Error en el servidor al crear la publicación");
-        }
-    };
     // --- FIN crearPublicacion ---
 
     useEffect(() => {
@@ -322,9 +275,7 @@ export const PublicacionAdministrar = () => {
                                 ))}
                             </Form.Control>
                         </Form.Group>
-
-
-                        {/* ... otros campos ... */}
+              {/* ... otros campos ... */}
 
                         <Form.Group controlId="formImagenes">
                             <Form.Label>Imágenes (selecciona múltiples imágenes para reemplazar)</Form.Label>
@@ -532,11 +483,7 @@ export const PublicacionAdministrar = () => {
                             )}
                         </Form.Group>
                     </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseCrear}>Cancelar</Button>
-                    <Button variant="success" onClick={() => crearPublicacion()}>Crear</Button>
-                </Modal.Footer>
+                </Modal.Body>               
             </Modal>
         </div>
     );

@@ -411,6 +411,23 @@ export const PublicacionRegistrar = () => {
                 </Col>
               </Row>
 
+              {/* Metros de consstruccion */}
+              <Col sm={12} md={6}>
+                <Form.Group controlId="formContacto">
+                  <Form.Label>Contacto WhatsApp</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={formData.contactoWhatsapp}
+                    onChange={(e) =>
+                      setFormData({ ...formData, contactoWhatsapp: e.target.value })
+                    }
+                  />
+                </Form.Group>
+                <Form.Text className="text-muted">
+                 Solo digitos sin el +57
+                </Form.Text>
+              </Col>
+
 
               {/* Múltiples imágenes */}
               <Col sm={12}>

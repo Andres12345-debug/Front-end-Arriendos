@@ -2,6 +2,9 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { URLS } from "../../utilities/dominios/urls";
 import { ServicioGet } from "../../services/ServicioGet";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import { Fab } from "@mui/material";
+
 import {
   Typography,
   CircularProgress,
@@ -9,7 +12,7 @@ import {
   Box
 } from "@mui/material";
 import { Publicacion } from "../../models/Publicacion";
-import { Padding } from "@mui/icons-material";
+import Link from '@mui/material/Link';
 
 export const DetallePublicacion = () => {
   const { codPublicacion } = useParams<{ codPublicacion: string }>();
@@ -49,8 +52,8 @@ export const DetallePublicacion = () => {
       <Typography variant="body1" paragraph>
         {publicacion.contenidoPublicacion}
       </Typography>
-<Typography 
-      variant="body2"
+      <Typography
+        variant="body2"
         sx={{
           color: (theme) =>
             theme.palette.mode === "light"
@@ -71,6 +74,28 @@ export const DetallePublicacion = () => {
         {publicacion.parqueadero ? "Sí" : "No"} | Habitaciones:{" "}
         {publicacion.habitaciones} | Baños: {publicacion.banios}
       </Typography>
+      {/* Botón flotante de WhatsApp */}
+      {publicacion.contactoWhatsapp && (
+        <Fab
+          color="success"
+          aria-label="whatsapp"
+          href={`https://wa.me/${publicacion.contactoWhatsapp}?text=${encodeURIComponent(
+            `Hola, estoy interesado en la propiedad "${publicacion.tituloPublicacion}" publicada en Nido`
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={{
+            position: "fixed",
+            bottom: 16,
+            right: 16,
+            zIndex: 1000,
+          }}
+        >
+          <WhatsAppIcon sx={{ fontSize: 30 }} />
+        </Fab>
+      )}
+
+
 
       <Typography variant="caption" display="block" sx={{ mt: 1 }}>
         Publicado el{" "}

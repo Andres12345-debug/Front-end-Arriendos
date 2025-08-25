@@ -1,5 +1,5 @@
 export const URLS = {
-    URL_BASE: "http://localhost:3550",
+    URL_BASE: "https://incoming-disabilities-cove-continent.trycloudflare.com",
     INICIAR_SESION: "/public/accesos/signin",
     REGISTRO: "/public/registros/user",
 
