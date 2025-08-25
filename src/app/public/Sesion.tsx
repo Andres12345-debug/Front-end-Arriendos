@@ -129,12 +129,13 @@ export const Sesion = () => {
                 }}
             >
                 <Typography
-                    variant="h5"
+                    variant="h6"
+                    component="h1"
+                    color="text.primary"
                     align="center"
-                    gutterBottom
-                    sx={{ fontWeight: 600 }}
+                    fontWeight="bold"
                 >
-                    SISTEMA DE INFORMACIÓN
+                    INICIAR SESIÓN
                 </Typography>
                 <Form className="mt-4" validated={enProceso} onSubmit={enviarFormulario}>
                     <Form.Group controlId="nombreAcceso" className="mb-4">
@@ -180,11 +181,12 @@ export const Sesion = () => {
                 </Form>
                 <div className="d-flex justify-content-center align-items-center mt-4">
                     <span className="fw-normal">
-                        No tienes una cuenta perrit@? &nbsp;
-                        <Link to="/register" className="fw-bold text-primary">Clic Aqui</Link>
+                        ¿No tienes una cuenta? &nbsp;
+                        <Link to="/register"
+                        >Clic Aqui</Link>
                     </span>
                 </div>
+            </Box>
         </Box>
-    </Box>
     );
 };

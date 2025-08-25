@@ -10,7 +10,7 @@ import { ServicioGet } from "../../../services/ServicioGet";
 export const PublicacionRegistrar = () => {
   // Estado inicial del formulario
   const [formData, setFormData] = useState<Publicacion>(() =>
-    new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0) // Añadir codUsuario por defecto
+    new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0, "") // Añadir codUsuario por defecto
   );
 
   // Estado para almacenar los usuarios
@@ -107,6 +107,8 @@ export const PublicacionRegistrar = () => {
     formDataToSend.append("tipoPublicacion", formData.tipoPublicacion); // Añadir el tipo de publicación
     formDataToSend.append("periodoAlquiler", formData.periodoAlquiler.toString()); // Añadimos el valor de periodoAlquiler
     formDataToSend.append("precio", formData.precio.toString()); // Añadimos el valor de precio
+    formDataToSend.append("contacto", formData.contactoWhatsapp.toString()); // Añadimos el valor de contacto
+
 
 
     // URL del servicio
@@ -121,7 +123,7 @@ export const PublicacionRegistrar = () => {
         crearMensaje("success", resultado.message || "Publicación registrada con éxito.");
 
         // Resetear formulario
-        setFormData(new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0)); // Reiniciar el formulario
+        setFormData(new Publicacion(0, 1, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0, "")); // Reiniciar el formulario
         setImagenes([]); // Limpiar las imágenes
         setPreviewImages([]); // Limpiar las previews
       } else {
@@ -408,6 +410,7 @@ export const PublicacionRegistrar = () => {
                   </Form.Group>
                 </Col>
               </Row>
+
 
               {/* Múltiples imágenes */}
               <Col sm={12}>

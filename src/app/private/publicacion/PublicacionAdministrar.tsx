@@ -16,7 +16,7 @@ import {
 
 export const PublicacionAdministrar = () => {
     const [arrPublicacion, setArrPublicacion] = useState<Publicacion[]>([]);
-    const [rolSeleccionado, setRolSeleccionado] = useState<Publicacion>(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0));
+    const [rolSeleccionado, setRolSeleccionado] = useState<Publicacion>(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0, ""));
     const [show, setShow] = useState(false);
     const [showActualizar, setShowActualizar] = useState(false);
     const [showCrear, setShowCrear] = useState(false);
@@ -25,7 +25,7 @@ export const PublicacionAdministrar = () => {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [previewImages, setPreviewImages] = useState<string[]>([]);
 
-    const [nuevaPublicacion, setNuevaPublicacion] = useState<Publicacion>(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0));
+    const [nuevaPublicacion, setNuevaPublicacion] = useState<Publicacion>(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0, ""));
 
     const handleCloser = () => setShow(false);
     const handleCloseActualizar = () => {
@@ -37,7 +37,7 @@ export const PublicacionAdministrar = () => {
         setShowCrear(false);
         setSelectedFiles([]);
         setPreviewImages([]);
-        setNuevaPublicacion(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0));
+        setNuevaPublicacion(new Publicacion(0, 0, "", "", "", "", new Date(), 0, 0, 0, 0, "", 0, 0, TipoVivienda.CASA, TipoPublicacion.ARRIENDO, 0, "", 0, ""));
     };
 
     const consultarPublicacion = async () => {

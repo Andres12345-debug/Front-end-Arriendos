@@ -32,6 +32,8 @@ export class Publicacion {
   public periodoAlquiler: number;
   public direccion: string;
   public precio: number;
+  public contactoWhatsapp: string;
+
 
 
 
@@ -55,6 +57,7 @@ export class Publicacion {
     periodoAlquiler: number,
     direccion: string,
     precio: number,
+    contactoWhatsapp: string,
     imagenes: string[] = [] // ✅ Array para múltiples imágenes con valor por defecto
   ) {
     this.codPublicacion = codP;
@@ -76,5 +79,6 @@ export class Publicacion {
     this.periodoAlquiler = periodoAlquiler;
     this.direccion = direccion;
     this.precio = precio;
+    this.contactoWhatsapp = contactoWhatsapp;
   }
 }
