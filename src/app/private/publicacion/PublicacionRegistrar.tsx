@@ -418,14 +418,17 @@ export const PublicacionRegistrar = () => {
                   <Form.Control
                     type="text"
                     value={formData.contactoWhatsapp}
-                    onChange={(e) =>
-                      setFormData({ ...formData, contactoWhatsapp: e.target.value })
-                    }
+                    onChange={(e) => {
+                      // Limpieza automática: solo números
+                      const soloDigitos = e.target.value.replace(/\D/g, "");
+                      setFormData({ ...formData, contactoWhatsapp: soloDigitos });
+                    }}
+                    placeholder="Ej: 3001234567"
                   />
+                  <Form.Text className="text-muted">
+                    Ingrese solo dígitos (sin espacios, guiones ni +57).
+                  </Form.Text>
                 </Form.Group>
-                <Form.Text className="text-muted">
-                 Solo digitos sin el +57
-                </Form.Text>
               </Col>
 
 

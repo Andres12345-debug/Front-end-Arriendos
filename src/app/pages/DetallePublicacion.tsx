@@ -3,16 +3,8 @@ import { useEffect, useState } from "react";
 import { URLS } from "../../utilities/dominios/urls";
 import { ServicioGet } from "../../services/ServicioGet";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import { Fab } from "@mui/material";
-
-import {
-  Typography,
-  CircularProgress,
-  Container,
-  Box
-} from "@mui/material";
+import { Fab, Typography, CircularProgress, Container, Box } from "@mui/material";
 import { Publicacion } from "../../models/Publicacion";
-import Link from '@mui/material/Link';
 
 export const DetallePublicacion = () => {
   const { codPublicacion } = useParams<{ codPublicacion: string }>();
@@ -31,7 +23,6 @@ export const DetallePublicacion = () => {
 
     ServicioGet.peticionGetPublica(url)
       .then((data) => {
-        console.log("✅ Respuesta API:", data);
         setPublicacion(data); // guardamos el objeto plano que devuelve el backend
       })
       .catch((err) => {
@@ -40,18 +31,26 @@ export const DetallePublicacion = () => {
       .finally(() => setLoading(false));
   }, [codPublicacion]);
 
+  // 🟢 Función para limpiar y formatear el número
+  const formatPhoneNumber = (num: string) => {
+    if (!num) return "";
+    const soloDigitos = num.replace(/\D/g, ""); // quitar todo lo que no sea número
+    return soloDigitos.startsWith("57") ? soloDigitos : `57${soloDigitos}`;
+  };
+
   if (loading) return <CircularProgress />;
   if (!publicacion) return <Typography>No se encontró la publicación</Typography>;
 
   return (
     <Container sx={{ mt: 4 }}>
-      <Typography variant="h1"
-        color="text.secondary">
+      <Typography variant="h1" color="text.secondary">
         {publicacion.tituloPublicacion}
       </Typography>
+
       <Typography variant="body1" paragraph>
         {publicacion.contenidoPublicacion}
       </Typography>
+
       <Typography
         variant="body2"
         sx={{
@@ -74,12 +73,15 @@ export const DetallePublicacion = () => {
         {publicacion.parqueadero ? "Sí" : "No"} | Habitaciones:{" "}
         {publicacion.habitaciones} | Baños: {publicacion.banios}
       </Typography>
-      {/* Botón flotante de WhatsApp */}
+
+      {/* 🟢 Botón flotante de WhatsApp con número siempre en formato correcto */}
       {publicacion.contactoWhatsapp && (
         <Fab
           color="success"
           aria-label="whatsapp"
-          href={`https://wa.me/${publicacion.contactoWhatsapp}?text=${encodeURIComponent(
+          href={`https://wa.me/${formatPhoneNumber(
+            publicacion.contactoWhatsapp
+          )}?text=${encodeURIComponent(
             `Hola, estoy interesado en la propiedad "${publicacion.tituloPublicacion}" publicada en Nido`
           )}`}
           target="_blank"
@@ -95,8 +97,6 @@ export const DetallePublicacion = () => {
         </Fab>
       )}
 
-
-
       <Typography variant="caption" display="block" sx={{ mt: 1 }}>
         Publicado el{" "}
         {new Date(publicacion.fechaCreacionPublicacion).toLocaleDateString(
@@ -106,8 +106,7 @@ export const DetallePublicacion = () => {
       </Typography>
 
       {/* Galería de imágenes */}
-      <Box
-        sx={{ display: "flex", flexWrap: "wrap", gap: 2, mt: 3 }}>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mt: 3 }}>
         {publicacion.imagenesUrls?.map((url, idx) => (
           <Box
             className="pointer-hover"
@@ -118,7 +117,7 @@ export const DetallePublicacion = () => {
             sx={{
               maxWidth: "300px",
               borderRadius: 2,
-              boxShadow: 2
+              boxShadow: 2,
             }}
           />
         ))}

@@ -259,6 +259,22 @@ export const PublicacionAdministrar = () => {
                                 }
                             />
                         </Form.Group>
+                        <Form.Group controlId="formContacto">
+                            <Form.Label>Contacto WhatsApp</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={rolSeleccionado.contactoWhatsapp || ""}
+                                onChange={(e) => {
+                                    // limpiar todo lo que no sea número
+                                    const soloDigitos = e.target.value.replace(/\D/g, "");
+                                    setRolSeleccionado({ ...rolSeleccionado, contactoWhatsapp: soloDigitos });
+                                }}
+                                placeholder="Ej: 3001234567"
+                            />
+                            <Form.Text className="text-muted">
+                                Ingrese solo dígitos (sin +57, espacios o guiones).
+                            </Form.Text>
+                        </Form.Group>
                         <Form.Group controlId="formTipoVivienda">
                             <Form.Label>Tipo de Vivienda</Form.Label>
                             <Form.Control
@@ -275,7 +291,7 @@ export const PublicacionAdministrar = () => {
                                 ))}
                             </Form.Control>
                         </Form.Group>
-              {/* ... otros campos ... */}
+                        {/* ... otros campos ... */}
 
                         <Form.Group controlId="formImagenes">
                             <Form.Label>Imágenes (selecciona múltiples imágenes para reemplazar)</Form.Label>
@@ -483,7 +499,7 @@ export const PublicacionAdministrar = () => {
                             )}
                         </Form.Group>
                     </Form>
-                </Modal.Body>               
+                </Modal.Body>
             </Modal>
         </div>
     );
