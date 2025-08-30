@@ -1,5 +1,5 @@
 export const URLS = {
-    URL_BASE: "https://doors-harbor-telecharger-movements.trycloudflare.com",
+    URL_BASE: "http://localhost:3550",
     INICIAR_SESION: "/public/accesos/signin",
     REGISTRO: "/public/registros/user",
 

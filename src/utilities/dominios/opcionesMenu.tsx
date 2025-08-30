@@ -4,8 +4,8 @@ export const OPCIONES_MENU = [
         titulo: "Inicio",
         ruta: "/dash/welcome",
         icono: "fa fa-home text-muted"
-
     },
+    /* 
     {
         titulo: "Usuarios",
         ruta: "/dash/usuarios",
@@ -16,7 +16,7 @@ export const OPCIONES_MENU = [
                 titulo: "Listar",
                 ruta: "/dash/listUser"
             },
-            {/* 
+            {
             {
                 titulo: "Administrar",
                 ruta: "/dash/adminUser"
@@ -26,11 +26,12 @@ export const OPCIONES_MENU = [
                 titulo: "Registrar",
                 ruta: "/dash/addUser"
             }
-                */}
+                
 
         ]
 
     },
+    */
     {/*
     {
         titulo: "Roles",

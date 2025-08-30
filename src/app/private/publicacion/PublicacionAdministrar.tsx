@@ -221,7 +221,7 @@ export const PublicacionAdministrar = () => {
                 </Modal.Footer>
             </Modal>
 
-            {/* Modal para Actualizar Rol */}
+            {/* Modal para Actualizar Publicacion */}
             <Modal show={showActualizar} onHide={handleCloseActualizar} backdrop="static" keyboard={false}>
                 <Modal.Header closeButton className="bg-primary text-warning">
                     <Modal.Title>Actualizar Publicacion</Modal.Title>

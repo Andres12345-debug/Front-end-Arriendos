@@ -25,7 +25,7 @@ export const Bienvenida = () => {
         } catch (error) {
             console.error("Error al obtener publicaciones:", error);
         }
-    };
+    }; 
 
     useEffect(() => {
         consultarPublicaciones();

@@ -17,6 +17,7 @@ export const MenuLateral = () => {
 
     return (
         <div>
+            {/* Navbar superior solo visible en móvil */}
             <Navbar expand={false} collapseOnSelect variant="dark" className="navbar-theme-primary px-4 d-md-none">
                 <Navbar.Brand className="me-lg-5">
                     <img src={fotoAvatar} className="navbar-brand-light" width={"50px"} height={"50px"} />
@@ -25,8 +26,12 @@ export const MenuLateral = () => {
                     <span className="navbar-toggler-icon" />
                 </Navbar.Toggle>
             </Navbar>
+
+            {/* Sidebar lateral */}
             <SimpleBar className={`collapse ${showClass} sidebar d-md-block bg-primary text-white`}>
                 <div className="sidebar-inner px-4 pt-3">
+
+                    {/* Info usuario en móvil */}
                     <div className="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
                         <div className="d-flex align-items-center">
                             <div className="user-avatar lg-avatar me-4">
@@ -43,22 +48,31 @@ export const MenuLateral = () => {
                             <i className="fa fa-x"></i>
                         </Nav.Link>
                     </div>
+
+                    {/* Opciones del menú */}
                     <ul className="nav flex-column pt-3 pt-md-0">
+                        {/* Link principal Panel */}
                         <li className="nav-item">
-                            <Link to="/dash" className="nav-link d-flex align-items-center">
+                            <Link to="/dash" className="nav-link d-flex align-items-center" onClick={onCollapse}>
                                 <span className="sidebar-icon">
                                     <img src={logo} alt="" height={"50px"} />
                                 </span>
                                 <span className="fst-italic sidebar-text display-5">Panel</span>
                             </Link>
                         </li>
+
+                        {/* Opciones dinámicas */}
                         {arrOpciones.map((opcion, indice) => (
                             opcion.hijos?.length ? (
                                 /** LOGICA PARA LOS HIJOS */
                                 <NavItem className="nav-item" key={`opcion-${indice}`}>
-                                    <Link to={opcion.ruta} className="nav-link collapsed py-3"
+                                    <Link 
+                                        to={opcion.ruta} 
+                                        className="nav-link collapsed py-3"
                                         data-bs-toggle="collapse"
-                                        data-bs-target={"#menu_" + indice}>
+                                        data-bs-target={"#menu_" + indice}
+                                        onClick={onCollapse} // 👈 Cierra en responsive
+                                    >
                                         <span className="sidebar-icon">
                                             <i className={opcion.icono}></i>
                                         </span>
@@ -67,11 +81,14 @@ export const MenuLateral = () => {
                                     <ul id={"menu_" + indice} className="flex-column collapse" data-bs-parent="#sidebar-nav">
                                         {opcion.hijos.map((opcionHijo: any, subIndice: number) => (
                                             <NavItem className="nav-item" key={`opcion-${indice}-hijo-${subIndice}`}>
-                                                <Link to={opcionHijo.ruta} className={
-                                                    ubicacion.pathname === opcionHijo.ruta ?
+                                                <Link 
+                                                    to={opcionHijo.ruta} 
+                                                    className={ubicacion.pathname === opcionHijo.ruta ?
                                                         "nav-link active bg-secondary-app" :
                                                         "nav-link"
-                                                }>
+                                                    }
+                                                    onClick={onCollapse} // 👈 Cierra en responsive
+                                                >
                                                     <span className="sidebar-text">{opcionHijo.titulo}</span>
                                                 </Link>
                                             </NavItem>
@@ -81,11 +98,14 @@ export const MenuLateral = () => {
                             ) : (
                                 /** LOGICA PARA OPCIONES BASICAS */
                                 <NavItem className="nav-item" key={`opcion-${indice}`}>
-                                    <Link to={opcion.ruta} className={
-                                        ubicacion.pathname === opcion.ruta ?
+                                    <Link 
+                                        to={opcion.ruta} 
+                                        className={ubicacion.pathname === opcion.ruta ?
                                             "active bg-secondary-app nav-link text-primary" :
                                             "nav-link"
-                                    }>
+                                        }
+                                        onClick={onCollapse} // 👈 Cierra en responsive
+                                    >
                                         <span className="sidebar-icon">
                                             <i className={opcion.icono}></i>
                                         </span>

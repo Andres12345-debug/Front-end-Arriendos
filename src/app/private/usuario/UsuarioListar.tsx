@@ -3,6 +3,7 @@ import { URLS } from "../../../utilities/dominios/urls";
 import { ServicioGet } from "../../../services/ServicioGet";
 import { Usuario } from "../../../models/Usuario";
 import { Role } from "../../../models/Rol";
+import { Link } from "react-router-dom";
 
 export const UsuarioListar = () => {
     const [arrUsuario, setArrUsuario] = useState<any[]>([]);
@@ -79,6 +80,17 @@ export const UsuarioListar = () => {
 
     return (
         <div className="m-4">
+            <div className="row">
+                            <div className="col-4">
+                                <h4 className="fst-italic fw-bold display-4">Perfil</h4>
+                            </div>
+                            <div className="col-8 d-flex justify-content-end align-items-center">
+                                <ol className="breadcrumb breadcrumb-info breadcrumb-transparent fs-3 mb-0">
+                                    <li className="breadcrumb-item"><Link to="/dash"><i className="fa fa-home"></i></Link></li>
+                                    <li className="breadcrumb-item text-warning"><Link to="/dash/listUser"> Perfil</Link></li>
+                                </ol>
+                            </div>
+                        </div>
             {/* --- PERFIL USUARIO LOGUEADO --- */}
             
             {perfil && (
@@ -86,8 +98,7 @@ export const UsuarioListar = () => {
                     <h2>{perfil?.nombreUsuario}</h2>
                     <p>Rol: {perfil?.rolNombre}</p>
                     <p>Teléfono: {perfil?.telefonoUsuario}</p>
-                    <p>Email: {perfil?.codUsuario}</p>
-
+                    <p>Género: {perfil?.generoUsuario === 1 ? "Masculino" : perfil?.generoUsuario === 2 ? "Femenino" : "Otro"}</p>
                 </div>
             )}
         </div>

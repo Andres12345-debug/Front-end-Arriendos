@@ -22,7 +22,7 @@ export const PublicacionRegistrar = () => {
 
   // Obtener los usuarios desde el backend
   const obtenerUsuarios = async () => {
-    const urlServicio = URLS.URL_BASE + URLS.LISTAR_USUARIOS;
+    const urlServicio = URLS.URL_BASE + URLS.LISTAR_USUARIOS; 
     try {
       const resultado = await ServicioGet.peticionGet(urlServicio);
       setUsuarios(Array.isArray(resultado) ? resultado : []);
@@ -107,7 +107,7 @@ export const PublicacionRegistrar = () => {
     formDataToSend.append("tipoPublicacion", formData.tipoPublicacion); // Añadir el tipo de publicación
     formDataToSend.append("periodoAlquiler", formData.periodoAlquiler.toString()); // Añadimos el valor de periodoAlquiler
     formDataToSend.append("precio", formData.precio.toString()); // Añadimos el valor de precio
-    formDataToSend.append("contacto", formData.contactoWhatsapp.toString()); // Añadimos el valor de contacto
+    formDataToSend.append("contactoWhatsapp", formData.contactoWhatsapp.toString());
 
 
 
@@ -243,7 +243,7 @@ export const PublicacionRegistrar = () => {
 
 
 
-              {/* Metros de consstruccion */}
+              {/* Metros de construccion */}
               <Col sm={12} md={6}>
                 <Form.Group controlId="formMetros">
                   <Form.Label>Metros de Construccion</Form.Label>
@@ -362,7 +362,6 @@ export const PublicacionRegistrar = () => {
                   </Form.Select>
                 </Form.Group>
               </Col>
-
               {/* Baños */}
               <Col sm={12} md={6}>
                 <Form.Group controlId="formBanios">
@@ -386,9 +385,6 @@ export const PublicacionRegistrar = () => {
                   </Form.Select>
                 </Form.Group>
               </Col>
-
-
-
               <Row className="mb-3">
                 <Col sm={12} md={6}>
                   <Form.Group controlId="formRolUsuario">
@@ -410,8 +406,7 @@ export const PublicacionRegistrar = () => {
                   </Form.Group>
                 </Col>
               </Row>
-
-              {/* Metros de consstruccion */}
+              {/* Contacto de WhatsApp */}
               <Col sm={12} md={6}>
                 <Form.Group controlId="formContacto">
                   <Form.Label>Contacto WhatsApp</Form.Label>
