@@ -6,7 +6,7 @@ import { ServicioDelete } from "../../../services/ServicioDelete";
 import { crearMensaje } from "../../../utilities/funciones/mensaje";
 import { Link } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
-import { ServicioPut } from "../../../services/ServicioPut";
+import { ServicioPutUsuario } from "../../../services/ServicioPutUsuarios";
 import { Role } from "../../../models/Rol";
 
 export const UsuarioAdministrar = () => {
@@ -84,24 +84,33 @@ export const UsuarioAdministrar = () => {
         consultarUsuarios();
     }
 
-    const actualizarUsuario = async () => {
-        const urlServicio = URLS.URL_BASE + URLS.ACTUALIZAR_USUARIO + '/' + usuarioSeleccionado.codUsuario;
-        try {
-            const resultado = await ServicioPut.peticionPut(urlServicio, usuarioSeleccionado);
+   const actualizarUsuario = async () => {
+    try {
+        const resultado = await ServicioPutUsuario.actualizarUsuario(
+            usuarioSeleccionado.codUsuario, 
+            usuarioSeleccionado
+        );
 
-            // Verificar específicamente el mensaje de éxito
-            if (resultado?.mensaje === "Usuario actualizado") {
-                crearMensaje('success', "Usuario actualizado satisfactoriamente");
-            } else {
-                crearMensaje('error', "Fallo al actualizar el Usuario");
-            }
-        } catch (error) {
-            console.error("Error en la actualización", error);
-            crearMensaje('error', "Error en el servidor al intentar actualizar el usuario");
+        // Verificar diferentes posibles respuestas del backend
+        if (resultado?.mensaje?.includes("actualizado") || 
+            resultado?.message?.includes("success") ||
+            resultado?.status === "success") {
+            crearMensaje('success', "Usuario actualizado satisfactoriamente");
+        } else {
+            // Mostrar el mensaje específico del backend si existe
+            const mensajeError = resultado?.mensaje || resultado?.message || "Fallo al actualizar el Usuario";
+            crearMensaje('error', mensajeError);
         }
+    } catch (error: any) {
+        console.error("Error en la actualización", error);
+        
+        // Mensaje más específico del error
+        const mensajeError = error.message || "Error en el servidor al intentar actualizar el usuario";
+        crearMensaje('error', mensajeError);
+    } finally {
         consultarUsuarios();
     }
-
+}
     useEffect(() => {
         consultarUsuarios();
     }, []);

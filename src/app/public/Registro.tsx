@@ -36,7 +36,7 @@ export const Registro = () => {
         nombreAcceso,
         claveAcceso,
         dobleEnlace,
-        objeto } = useFormulario<RegistroSesion>(new RegistroSesion(0, "", new Date, "", 0, "", ""));
+        objeto } = useFormulario<RegistroSesion>(new RegistroSesion(1, "", new Date, "", 0, "", ""));
     let navegacion = useNavigate();
 
     const enviarFormulario = async (frm: formulario) => {
@@ -185,19 +185,23 @@ export const Registro = () => {
                                         autoFocus />
                                 </InputGroup>
                             </Form.Group>
-                            <Form.Group controlId="codRol" className="col-6">
-                                <Form.Label>Rol</Form.Label>
+                            <Form.Group
+                                controlId="generoUsuario" className=" col-6 ">
+                                <Form.Label>Genero</Form.Label>
                                 <InputGroup>
                                     <InputGroup.Text>
-                                        {/* <FontAwesomeIcon icon={faEnvelope} /> */}
+                                        <i className="fa fa-female"></i>
                                     </InputGroup.Text>
-                                    <Form.Control
-                                        name="codRol"
-                                        value={codRol}
+                                    <Form.Select
+                                        name="generoUsuario"
+                                        value={generoUsuario}
                                         onChange={dobleEnlace}
-                                        required
-                                        autoFocus />
-                                </InputGroup>
+                                    >
+                                        <option value="1">Selected</option>
+                                        <option value="2">Masculino</option>
+                                        <option value="3">Femenino</option>
+                                    </Form.Select>
+                                </InputGroup >
                             </Form.Group>
                         </div>
                     </div>
@@ -218,25 +222,6 @@ export const Registro = () => {
                                         required
                                         autoFocus />
                                 </InputGroup>
-                            </Form.Group>
-
-                            <Form.Group
-                                controlId="generoUsuario" className=" col-6 ">
-                                <Form.Label>Genero</Form.Label>
-                                <InputGroup>
-                                    <InputGroup.Text>
-                                        <i className="fa fa-female"></i>
-                                    </InputGroup.Text>
-                                    <Form.Select
-                                        name="generoUsuario"
-                                        value={generoUsuario}
-                                        onChange={dobleEnlace}
-                                    >
-                                        <option value="1">Selected</option>
-                                        <option value="2">Masculino</option>
-                                        <option value="3">Femenino</option>
-                                    </Form.Select>
-                                </InputGroup >
                             </Form.Group>
 
                             <Form.Group controlId="fechaNacimientoUsuario" className="col-6">

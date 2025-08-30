@@ -11,23 +11,27 @@ export const OPCIONES_MENU = [
         ruta: "/dash/usuarios",
         icono: "fa fa-user text-muted",
         hijos: [
-            {
-                titulo: "Administrar",
-                ruta: "/dash/adminUser"
-            },
+            
             {
                 titulo: "Listar",
                 ruta: "/dash/listUser"
             },
+            {/* 
+            {
+                titulo: "Administrar",
+                ruta: "/dash/adminUser"
+            },             
+
             {
                 titulo: "Registrar",
                 ruta: "/dash/addUser"
             }
-            
+                */}
+
         ]
 
-    }
-    ,
+    },
+    {/*
     {
         titulo: "Roles",
         ruta: "/dash/Role",
@@ -49,7 +53,8 @@ export const OPCIONES_MENU = [
         ]
 
     },
-    {
+    */}
+    , {
         titulo: "Publicaciones",
         ruta: "/dash/publicacion",
         icono: "fa fa-camera text-muted",
@@ -66,11 +71,11 @@ export const OPCIONES_MENU = [
                 titulo: "Registrar",
                 ruta: "/dash/addPublicacion"
             }
-            
+
         ]
 
     }
-   
+
 
 
 ]

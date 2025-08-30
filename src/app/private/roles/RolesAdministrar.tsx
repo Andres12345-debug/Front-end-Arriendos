@@ -4,7 +4,7 @@ import { URLS } from "../../../utilities/dominios/urls";
 import { ServicioGet } from "../../../services/ServicioGet";
 import { ServicioDelete } from "../../../services/ServicioDelete";
 import { crearMensaje } from "../../../utilities/funciones/mensaje";
-import { ServicioPut } from "../../../services/ServicioPut";
+import { ServicioPutRoles } from "../../../services/ServicioPutRoles";
 import { Link } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
 
@@ -51,8 +51,8 @@ export const RolAdministrar = () => {
     const actualizarRol = async () => {
         const urlServicio = URLS.URL_BASE + URLS.ACTUALIZAR_ROLES + '/' + rolSeleccionado.codRol;
         try {
-            const resultado = await ServicioPut.peticionPut(urlServicio, rolSeleccionado);
-    
+            const resultado = await ServicioPutRoles.putRol(rolSeleccionado.codRol, rolSeleccionado);
+
             if (resultado?.mensaje === "Rol actualizado") {
                 crearMensaje('success', "Rol actualizado satisfactoriamente");
     

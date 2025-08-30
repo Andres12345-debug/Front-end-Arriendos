@@ -12,7 +12,8 @@ export const UsuarioListar = () => {
 
     // Función para consultar el perfil
     // Función para consultar el perfil
-    const consultarPerfil = async () => {
+
+       const consultarPerfil = async () => {
         try {
             const urlPerfil = URLS.URL_BASE + URLS.LISTAR_PERFIL;
             const data = await ServicioGet.peticionGet(urlPerfil);
@@ -37,6 +38,7 @@ export const UsuarioListar = () => {
     };
 
 
+    {/* Listar de Roles y Usuarios 
 
     // Función para consultar los roles y usuarios
     const consultarDatos = async () => {
@@ -63,11 +65,13 @@ export const UsuarioListar = () => {
         }
     };
 
+    */}
+
+
     useEffect(() => {
         const cargarTodo = async () => {
             setLoading(true);
             await consultarPerfil();
-            await consultarDatos();
             setLoading(false);
         };
         cargarTodo();
@@ -76,6 +80,7 @@ export const UsuarioListar = () => {
     return (
         <div className="m-4">
             {/* --- PERFIL USUARIO LOGUEADO --- */}
+            
             {perfil && (
                 <div className="card shadow p-4 mb-4 col-md-6">
                     <h2>{perfil?.nombreUsuario}</h2>
@@ -83,55 +88,6 @@ export const UsuarioListar = () => {
                     <p>Teléfono: {perfil?.telefonoUsuario}</p>
                     <p>Email: {perfil?.codUsuario}</p>
 
-                </div>
-            )}
-
-
-            {/* --- LISTADO DE USUARIOS --- */}
-            <div className="row align-items-center mb-4">
-                <div className="col-lg-6">
-                    <h4 className="fst-italic fw-bold display-5">Listar Usuarios</h4>
-                </div>
-                <div className="col-lg-6 d-flex justify-content-lg-end">
-                    <ol className="breadcrumb breadcrumb-info breadcrumb-transparent fs-5">
-                        <li className="breadcrumb-item">
-                            <a href="#">Usuarios</a>
-                        </li>
-                        <li className="breadcrumb-item text-warning">Listar</li>
-                    </ol>
-                </div>
-            </div>
-
-            {loading ? (
-                <div className="text-center">Cargando...</div>
-            ) : (
-                <div className="d-flex justify-content-center mt-3">
-                    <div className="col-md-10">
-                        <table className="table table-hover text-center align-middle">
-                            <thead className="table-primary text-white fs-2">
-                                <tr>
-                                    <th style={{ width: "15%" }}>Código</th>
-                                    <th style={{ width: "35%" }}>Nombre</th>
-                                    <th style={{ width: "15%" }}>Fecha de Nacimiento</th>
-                                    <th style={{ width: "15%" }}>Teléfono</th>
-                                    <th style={{ width: "10%" }}>Género</th>
-                                    <th style={{ width: "10%" }}>Rol</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {arrUsuario.map((objUsuario, indice) => (
-                                    <tr key={indice}>
-                                        <td>{objUsuario.codUsuario}</td>
-                                        <td>{objUsuario.nombreUsuario}</td>
-                                        <td>{new Date(objUsuario.fechaNacimientoUsuario).toLocaleDateString()}</td>
-                                        <td>{objUsuario.telefonoUsuario}</td>
-                                        <td>{objUsuario.generoUsuario}</td>
-                                        <td>{objUsuario.rolNombre}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             )}
         </div>
