@@ -4,9 +4,6 @@ import { ServicioGet } from "../../../services/ServicioGet";
 import { Link } from "react-router-dom";
 import { Publicacion } from "../../../models/Publicacion";
 import { Modal, Button, Card } from "react-bootstrap";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { ServicioPost } from "../../../services/ServicioPost";
 
 export const PublicacionListar = () => {
     const [arrPubli, setArrPubli] = useState<Publicacion[]>([]);

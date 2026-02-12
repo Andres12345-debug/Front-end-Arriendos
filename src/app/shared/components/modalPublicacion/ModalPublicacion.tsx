@@ -1,13 +1,9 @@
 import { Modal } from "react-bootstrap";
 import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Publicacion } from "../../../../models/Publicacion";
 import { URLS } from "../../../../utilities/dominios/urls";
 import { useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
-import { IconButton } from "@mui/material";
-import FolderIcon from '@mui/icons-material/Person';
-import { Link, useLocation } from 'react-router-dom';
 
 
 

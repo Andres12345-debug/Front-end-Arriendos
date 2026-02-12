@@ -87,7 +87,7 @@ export const RolAdministrar = () => {
                 <div className="col-8 d-flex justify-content-end">
                     <ol className="breadcrumb breadcrumb-info breadcrumb-transparent fs-3">
                         <li className="breadcrumb-item"><Link to="/dash"><i className="fa fa-home"></i></Link></li>
-                        <li className="breadcrumb-item"><a href="#"> Roles</a></li>
+                        <li className="breadcrumb-item"><a> Roles</a></li>
                         <li className="breadcrumb-item text-warning">Administrar</li>
                     </ol>
                 </div>

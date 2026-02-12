@@ -5,7 +5,6 @@ import { ServicioGet } from "../../../services/ServicioGet";
 import { ServicioDelete } from "../../../services/ServicioDelete";
 import { crearMensaje } from "../../../utilities/funciones/mensaje";
 import { ServicioPut } from "../../../services/ServicioPut";
-import { ServicioPost } from "../../../services/ServicioPost"; // <-- IMPORTAR
 import { Link } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
 import { Publicacion, TipoPublicacion, TipoVivienda } from "../../../models/Publicacion";
@@ -143,7 +142,7 @@ export const PublicacionAdministrar = () => {
                 <div className="col-8 d-flex justify-content-end align-items-center">
                     <ol className="breadcrumb breadcrumb-info breadcrumb-transparent fs-3 mb-0">
                         <li className="breadcrumb-item"><Link to="/dash"><i className="fa fa-home"></i></Link></li>
-                        <li className="breadcrumb-item"><a href="#"> Publicacion</a></li>
+                        <li className="breadcrumb-item"><a> Publicacion</a></li>
                         <li className="breadcrumb-item text-warning">Administrar</li>
                     </ol>
                 </div>

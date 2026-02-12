@@ -131,7 +131,7 @@ export const UsuarioAdministrar = () => {
                             </Link>
                         </li>
                         <li className="breadcrumb-item">
-                            <a href="#">Usuarios</a>
+                            <a>Usuarios</a>
                         </li>
                         <li className="breadcrumb-item text-warning">Administrar</li>
                     </ol>

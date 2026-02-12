@@ -55,7 +55,7 @@ export const MenuLateral = () => {
                         <li className="nav-item">
                             <Link to="/dash" className="nav-link d-flex align-items-center" onClick={onCollapse}>
                                 <span className="sidebar-icon">
-                                    <img src={logo} alt="" height={"50px"} />
+                                    <img src={logo} alt="Imagen con texto panel" height={"50px"} />
                                 </span>
                                 <span className="fst-italic sidebar-text display-5">Panel</span>
                             </Link>
