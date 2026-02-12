@@ -1,4 +1,3 @@
-import { Acceso } from "../models/Acceso";
 import { RegistroSesion } from "../models/RegistroSesion";
 import { URLS } from "../utilities/dominios/urls";
 
