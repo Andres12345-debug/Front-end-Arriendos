@@ -1,5 +1,5 @@
 export const URLS = {
-    URL_BASE: "http://localhost:3550",
+    URL_BASE: "https://visionbot-backend-arriendos.t0y4lz.easypanel.host",
     INICIAR_SESION: "/public/accesos/signin",
     REGISTRO: "/public/registros/user",
 

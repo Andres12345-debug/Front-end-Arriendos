@@ -6,6 +6,9 @@
 
     npx create-react-app front_crud --template typescript
 
+        npx create-react-app alcaldia --template typescript
+
+
 
 
 

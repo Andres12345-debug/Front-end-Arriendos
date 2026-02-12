@@ -50,8 +50,6 @@ export const RuteoPrincipal = () => {
   return (
     <Routes>
       {/* Área pública */}
-
-
       <Route path="/land" element={<LazyTableroVistaPublica />}>
         <Route index element={<LazyViviendas />} />                {/* /land */}
         <Route path="welcome" element={<LazyViviendas />} />      {/* /land/welcome */}

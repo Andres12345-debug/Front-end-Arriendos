@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ThemeContextProvider } from '../src/app/shared/components/Theme/ThemeContext';
 import { RuteoPrincipal } from './routes/RuteoPrincipal';
+import CustomN8nChat from './utilities/funciones/CustomN8nChat';
 
 const cargarComponente = () => (
   <div className="d-flex justify-content-center">
@@ -21,6 +22,7 @@ function App() {
     <ThemeContextProvider>
       <BrowserRouter>
         <ToastContainer />
+        <CustomN8nChat />
         <Suspense fallback={cargarComponente()}>
           <RuteoPrincipal />
         </Suspense>
